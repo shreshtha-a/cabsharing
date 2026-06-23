@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 import {
   HiOutlineHome,
-  HiOutlineLocationMarker,
   HiOutlineChatAlt2,
   HiOutlineUser,
   HiOutlineBell,
@@ -40,11 +39,7 @@ export default function Sidebar() {
       path: "/",
       icon: <HiOutlineHome size={22} />,
     },
-    {
-      name: "Find a Ride",
-      path: "/search",
-      icon: <HiOutlineLocationMarker size={22} />,
-    },
+    
     {
       name: "My Rides",
       path: "/rides",
