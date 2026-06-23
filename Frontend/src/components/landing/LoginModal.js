@@ -9,6 +9,7 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
+import CreatePassengerModal from "./CreatePassengerModal";
 
 export default function LoginModal({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -16,15 +17,15 @@ export default function LoginModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
 
-  if (!isOpen) return null;
+  if (!isOpen && !showSignup) return null;
 
   const handleLogin = () => {
     if (!email || !password) {
       alert("Please enter email and password");
       return;
     }
-
     navigate("/home");
     onClose();
   };
@@ -33,6 +34,32 @@ export default function LoginModal({ isOpen, onClose }) {
     navigate("/home");
     onClose();
   };
+
+  const handleCreateAccount = () => {
+    setShowSignup(true);
+  };
+
+  const handleSignupClose = () => {
+    setShowSignup(false);
+    onClose();
+  };
+
+  const handleSignupDone = () => {
+    setShowSignup(false);
+    onClose();
+    navigate("/home");
+  };
+
+  // If signup modal is open, render it instead
+  if (showSignup) {
+    return (
+      <CreatePassengerModal
+        onClose={handleSignupClose}
+        onLogin={() => setShowSignup(false)} // go back to login
+        onDone={handleSignupDone}
+      />
+    );
+  }
 
   return (
     <>
@@ -126,21 +153,10 @@ export default function LoginModal({ isOpen, onClose }) {
         </p>
 
         {/* EMAIL */}
-        <div
-          style={{
-            position: "relative",
-            marginBottom: "14px",
-          }}
-        >
+        <div style={{ position: "relative", marginBottom: "14px" }}>
           <FaEnvelope
-            style={{
-              position: "absolute",
-              left: "14px",
-              top: "16px",
-              color: "#94A3B8",
-            }}
+            style={{ position: "absolute", left: "14px", top: "16px", color: "#94A3B8" }}
           />
-
           <input
             type="email"
             value={email}
@@ -161,21 +177,10 @@ export default function LoginModal({ isOpen, onClose }) {
         </div>
 
         {/* PASSWORD */}
-        <div
-          style={{
-            position: "relative",
-            marginBottom: "12px",
-          }}
-        >
+        <div style={{ position: "relative", marginBottom: "12px" }}>
           <FaLock
-            style={{
-              position: "absolute",
-              left: "14px",
-              top: "16px",
-              color: "#94A3B8",
-            }}
+            style={{ position: "absolute", left: "14px", top: "16px", color: "#94A3B8" }}
           />
-
           <input
             type={showPassword ? "text" : "password"}
             value={password}
@@ -193,7 +198,6 @@ export default function LoginModal({ isOpen, onClose }) {
               boxSizing: "border-box",
             }}
           />
-
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
@@ -213,16 +217,9 @@ export default function LoginModal({ isOpen, onClose }) {
         </div>
 
         {/* FORGOT PASSWORD */}
-        <div
-          style={{
-            textAlign: "right",
-            marginBottom: "20px",
-          }}
-        >
+        <div style={{ textAlign: "right", marginBottom: "20px" }}>
           <button
-            onClick={() =>
-              alert("Forgot Password feature will be added later")
-            }
+            onClick={() => alert("Forgot Password feature will be added later")}
             style={{
               border: "none",
               background: "none",
@@ -292,7 +289,7 @@ export default function LoginModal({ isOpen, onClose }) {
           Continue with Google
         </button>
 
-        {/* SIGNUP */}
+        {/* SIGNUP — now opens CreatePassengerModal */}
         <div
           style={{
             marginTop: "25px",
@@ -303,7 +300,7 @@ export default function LoginModal({ isOpen, onClose }) {
         >
           New to Hopin?{" "}
           <button
-            onClick={() => alert("Signup page coming soon")}
+            onClick={handleCreateAccount}
             style={{
               border: "none",
               background: "none",
