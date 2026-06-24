@@ -6,6 +6,7 @@ import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import RecurringRide from "./pages/RecurringRide";
+import HopinOfferRide from "./components/HopinOfferRide";
 import FindRide from "./pages/FindRide";
 
 function Placeholder({ title }) {
