@@ -1,217 +1,87 @@
 import { useState } from "react";
 
-export default function ScheduleCard() {
-  const [selectedDays, setSelectedDays] = useState([
-    "M",
-    "T",
-    "W",
-    "Th",
-    "F",
-  ]);
+const DAYS = ["M", "T", "W", "T", "F", "S", "S"];
+const DAY_KEYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-  const toggleDay = (day) => {
-    if (selectedDays.includes(day)) {
-      setSelectedDays(
-        selectedDays.filter((d) => d !== day)
-      );
-    } else {
-      setSelectedDays([...selectedDays, day]);
-    }
+export default function ScheduleCard() {
+  const [pickupTime, setPickupTime] = useState("08:15");
+  const [arriveTime, setArriveTime] = useState("09:00");
+  const [activeDays, setActiveDays] = useState([true, true, true, true, true, false, false]);
+  const [validUntil, setValidUntil] = useState("2026-06-23");
+
+  const toggleDay = (i) => {
+    setActiveDays(prev => prev.map((d, idx) => idx === i ? !d : d));
   };
 
-  const days = [
-    "M",
-    "T",
-    "W",
-    "Th",
-    "F",
-    "S",
-    "Su",
-  ];
-
   return (
-    <div
-      style={{
-        background: "#FFFFFF",
-        borderRadius: "24px",
-        padding: "20px",
-        width: "100%",
-        boxSizing: "border-box",
-        overflow: "hidden",
-        border: "1px solid #E5E7EB",
-        boxShadow:
-          "0 2px 10px rgba(0,0,0,0.03)",
-      }}
-    >
+    <div style={{ background: "#fff", borderRadius: "24px", padding: "24px", border: "1px solid #E5E7EB" }}>
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          marginBottom: "24px",
-        }}
-      >
-        <span style={{ fontSize: "22px" }}>
-          📅
-        </span>
-
-        <h3
-          style={{
-            margin: 0,
-            fontSize: "22px",
-            color: "#0F2D52",
-            fontWeight: "700",
-          }}
-        >
-          Schedule
-        </h3>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
+        <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: "#F0FDFA", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>📅</div>
+        <span style={{ fontSize: "15px", fontWeight: "700", color: "#0F2D52" }}>Schedule</span>
       </div>
 
-      {/* Time Inputs */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "18px",
-          marginBottom: "24px",
-          width: "100%",
-        }}
-      >
-        <div>
-          <label
-            style={{
-              display: "block",
-              marginBottom: "8px",
-              color: "#475569",
-              fontWeight: "600",
-            }}
-          >
-            Pickup Time
-          </label>
-
-          <input
-            type="time"
-            defaultValue="08:15"
-            style={{
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "14px",
-              borderRadius: "14px",
-              border: "1px solid #CBD5E1",
-              fontSize: "16px",
-              outline: "none",
-            }}
-          />
+      {/* Pickup + Arrive */}
+      <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: "11px", color: "#94A3B8", fontWeight: "600", marginBottom: "6px" }}>Pickup Time</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", border: "1px solid #E5E7EB", borderRadius: "12px", padding: "10px 12px" }}>
+            <input
+              type="time"
+              value={pickupTime}
+              onChange={e => setPickupTime(e.target.value)}
+              style={{ border: "none", outline: "none", fontSize: "18px", fontWeight: "700", color: "#0F2D52", background: "transparent", flex: 1, minWidth: 0 }}
+            />
+            <span style={{ fontSize: "16px", color: "#94A3B8" }}>🕐</span>
+          </div>
         </div>
-
-        <div>
-          <label
-            style={{
-              display: "block",
-              marginBottom: "8px",
-              color: "#475569",
-              fontWeight: "600",
-            }}
-          >
-            Arrive By (Optional)
-          </label>
-
-          <input
-            type="time"
-            defaultValue="09:00"
-            style={{
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "14px",
-              borderRadius: "14px",
-              border: "1px solid #CBD5E1",
-              fontSize: "16px",
-              outline: "none",
-            }}
-          />
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: "11px", color: "#94A3B8", fontWeight: "600", marginBottom: "6px" }}>Arrive by <span style={{ color: "#CBD5E1" }}>(optional)</span></div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", border: "1px solid #E5E7EB", borderRadius: "12px", padding: "10px 12px" }}>
+            <input
+              type="time"
+              value={arriveTime}
+              onChange={e => setArriveTime(e.target.value)}
+              style={{ border: "none", outline: "none", fontSize: "18px", fontWeight: "700", color: "#0F2D52", background: "transparent", flex: 1, minWidth: 0 }}
+            />
+            <span style={{ fontSize: "16px", color: "#94A3B8" }}>🕐</span>
+          </div>
         </div>
       </div>
 
-      {/* Repeat On */}
-      <div
-        style={{
-          marginBottom: "24px",
-        }}
-      >
-        <div
-          style={{
-            marginBottom: "12px",
-            fontWeight: "600",
-            color: "#475569",
-          }}
-        >
-          Repeat On
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            gap: "10px",
-            flexWrap: "wrap",
-          }}
-        >
-          {days.map((day) => (
+      {/* Repeat on */}
+      <div style={{ marginBottom: "20px" }}>
+        <div style={{ fontSize: "11px", color: "#94A3B8", fontWeight: "600", marginBottom: "10px" }}>Repeat on</div>
+        <div style={{ display: "flex", gap: "6px" }}>
+          {DAYS.map((d, i) => (
             <button
-              key={day}
-              onClick={() => toggleDay(day)}
+              key={i}
+              onClick={() => toggleDay(i)}
               style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                border: "none",
-                cursor: "pointer",
-                fontWeight: "600",
-                transition: "0.2s",
-                background:
-                  selectedDays.includes(day)
-                    ? "#14B8A6"
-                    : "#F1F5F9",
-                color:
-                  selectedDays.includes(day)
-                    ? "#fff"
-                    : "#64748B",
+                width: "36px", height: "36px", borderRadius: "50%", border: "none", cursor: "pointer",
+                background: activeDays[i] ? "#0F2D52" : "#F1F5F9",
+                color: activeDays[i] ? "#fff" : "#94A3B8",
+                fontSize: "13px", fontWeight: "700", transition: "all 0.2s", flexShrink: 0
               }}
             >
-              {day}
+              {d}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Valid Until */}
+      {/* Valid until */}
       <div>
-        <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            color: "#475569",
-            fontWeight: "600",
-          }}
-        >
-          Valid Until
-        </label>
-
-        <input
-          type="date"
-          defaultValue="2026-06-23"
-          style={{
-            width: "100%",
-            maxWidth: "260px",
-            boxSizing: "border-box",
-            padding: "14px",
-            borderRadius: "14px",
-            border: "1px solid #CBD5E1",
-            fontSize: "15px",
-            outline: "none",
-          }}
-        />
+        <div style={{ fontSize: "11px", color: "#94A3B8", fontWeight: "600", marginBottom: "6px" }}>Valid until <span style={{ color: "#CBD5E1" }}>(leave blank for indefinite)</span></div>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", border: "1px solid #E5E7EB", borderRadius: "12px", padding: "10px 12px" }}>
+          <input
+            type="date"
+            value={validUntil}
+            onChange={e => setValidUntil(e.target.value)}
+            style={{ border: "none", outline: "none", fontSize: "14px", fontWeight: "600", color: "#0F2D52", background: "transparent", flex: 1 }}
+          />
+          <span style={{ fontSize: "16px", color: "#94A3B8" }}>📅</span>
+        </div>
       </div>
     </div>
   );
