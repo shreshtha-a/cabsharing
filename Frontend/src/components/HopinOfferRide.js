@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // ─── SVG Icons ───────────────────────────────────────────────────────────────
 const PinIcon = ({ color = "#13C9B8", size = 20 }) => (
@@ -140,7 +141,6 @@ const LocationNavIcon = () => (
   </svg>
 );
 
-// ─── Scenic Road SVG (replaces the image placeholder) ────────────────────────
 const ScenicRoadImage = () => (
   <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "180px", objectFit: "cover", borderRadius: "12px" }}>
     <defs>
@@ -170,47 +170,32 @@ const ScenicRoadImage = () => (
         <stop offset="0%" stopColor="#3A7D44"/>
         <stop offset="100%" stopColor="#2E6338"/>
       </linearGradient>
-      <linearGradient id="forest2" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#4A8F55"/>
-        <stop offset="100%" stopColor="#3A7040"/>
-      </linearGradient>
     </defs>
-    {/* Sky */}
     <rect width="400" height="200" fill="url(#sky)"/>
-    {/* Snow caps */}
     <polygon points="60,20 90,70 30,70" fill="white" opacity="0.85"/>
     <polygon points="120,10 160,75 80,75" fill="white" opacity="0.7"/>
     <polygon points="270,5 310,70 230,70" fill="white" opacity="0.75"/>
     <polygon points="330,15 365,65 295,65" fill="white" opacity="0.65"/>
-    {/* Mountains back */}
     <polygon points="0,100 80,40 160,95 240,50 320,90 400,45 400,130 0,130" fill="url(#mountain2)"/>
-    {/* Mountains front */}
     <polygon points="0,120 60,60 130,110 200,65 270,105 340,60 400,90 400,150 0,150" fill="url(#mountain)"/>
-    {/* Water/Lake */}
     <ellipse cx="200" cy="135" rx="80" ry="15" fill="url(#water)" opacity="0.85"/>
-    {/* Forest left */}
     <rect x="0" y="120" width="120" height="80" fill="url(#forest)"/>
     <polygon points="0,120 20,80 40,120" fill="#3A7D44"/>
     <polygon points="20,120 40,75 60,120" fill="#4A8F55"/>
     <polygon points="40,120 60,78 80,120" fill="#3A7D44"/>
     <polygon points="60,120 80,82 100,120" fill="#4A8F55"/>
     <polygon points="80,120 100,76 120,120" fill="#3A7D44"/>
-    {/* Forest right */}
     <rect x="280" y="120" width="120" height="80" fill="url(#forest)"/>
     <polygon points="280,120 300,80 320,120" fill="#4A8F55"/>
     <polygon points="300,120 320,75 340,120" fill="#3A7D44"/>
     <polygon points="320,120 340,79 360,120" fill="#4A8F55"/>
     <polygon points="340,120 360,83 380,120" fill="#3A7D44"/>
     <polygon points="360,120 380,78 400,120" fill="#4A8F55"/>
-    {/* Road */}
     <path d="M160,200 Q185,145 195,130 Q200,125 205,130 Q215,145 240,200Z" fill="url(#road)"/>
-    {/* Road markings */}
     <path d="M200,145 L200,155" stroke="white" strokeWidth="2" opacity="0.7"/>
     <path d="M200,160 L200,170" stroke="white" strokeWidth="2" opacity="0.7"/>
     <path d="M200,175 L200,185" stroke="white" strokeWidth="2" opacity="0.7"/>
-    {/* Road guard rail */}
     <path d="M165,195 Q185,148 195,133" stroke="#AAA" strokeWidth="2" fill="none"/>
-    {/* White Car */}
     <g transform="translate(185,152) rotate(-5)">
       <rect x="0" y="6" width="32" height="14" rx="3" fill="white" stroke="#DDD" strokeWidth="0.5"/>
       <rect x="5" y="2" width="22" height="12" rx="3" fill="white" stroke="#DDD" strokeWidth="0.5"/>
@@ -223,13 +208,14 @@ const ScenicRoadImage = () => (
       <rect x="0" y="10" width="3" height="4" rx="1" fill="#FFE080"/>
       <rect x="29" y="10" width="3" height="4" rx="1" fill="#FF6060"/>
     </g>
-    {/* Teal path/route line on road */}
     <path d="M200,150 Q200,155 200,165 Q200,175 200,190" stroke="#13C9B8" strokeWidth="3" fill="none" strokeDasharray="5,4" opacity="0.8"/>
   </svg>
 );
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function HopinOfferRide() {
+  const navigate = useNavigate();
+
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
@@ -244,7 +230,6 @@ export default function HopinOfferRide() {
       {/* ── NAV ── */}
       <nav style={styles.nav}>
         <div style={styles.navInner}>
-          {/* Logo */}
           <div style={styles.logo}>
             <span style={styles.logoText}>
               Hop<span style={styles.logoTeal}>in</span>
@@ -252,8 +237,6 @@ export default function HopinOfferRide() {
             </span>
             <div style={styles.logoSub}>Going <span style={styles.teal}>your</span> way anyway.</div>
           </div>
-
-          {/* Desktop Nav Links */}
           <div style={styles.navLinks}>
             <a href="#" style={{ ...styles.navLink, ...styles.navLinkActive }}>Offer a Ride</a>
             <a href="#" style={styles.navLink}>Find a Ride</a>
@@ -262,22 +245,16 @@ export default function HopinOfferRide() {
             <a href="#" style={styles.navLink}>About Us</a>
             <a href="#" style={styles.navLink}>Blog</a>
           </div>
-
-          {/* Auth Buttons */}
           <div style={styles.authBtns}>
             <button style={styles.loginBtn}>Log In</button>
             <button style={styles.signupBtn}>Sign Up</button>
           </div>
-
-          {/* Hamburger */}
           <button style={styles.hamburger} onClick={() => setMenuOpen(o => !o)}>
             <span style={styles.hamburgerLine}/>
             <span style={styles.hamburgerLine}/>
             <span style={styles.hamburgerLine}/>
           </button>
         </div>
-
-        {/* Mobile Menu */}
         {menuOpen && (
           <div style={styles.mobileMenu}>
             {["Offer a Ride","Find a Ride","Safety","How It Works","About Us","Blog"].map(link => (
@@ -298,7 +275,6 @@ export default function HopinOfferRide() {
 
             {/* ── LEFT: FORM ── */}
             <div style={styles.formCard}>
-              {/* Header */}
               <div style={styles.formHeader}>
                 <div>
                   <h1 style={styles.heroTitle}>
@@ -462,7 +438,11 @@ export default function HopinOfferRide() {
                     More details help riders connect with you faster!
                   </p>
                 </div>
-                <button style={styles.saveBtn}>
+                {/* ── ONLY CHANGE: added onClick to navigate to seat selector ── */}
+                <button
+                  style={styles.saveBtn}
+                  onClick={() => navigate("/select-seat")}
+                >
                   Save &amp; Continue <span style={{ marginLeft: 8 }}><ArrowRight /></span>
                 </button>
               </div>
@@ -470,7 +450,6 @@ export default function HopinOfferRide() {
 
             {/* ── RIGHT: TRIP PREVIEW ── */}
             <div style={styles.rightCol}>
-              {/* Trip Preview Card */}
               <div style={styles.previewCard}>
                 <h3 style={styles.previewTitle}>Your Trip Preview</h3>
                 <div style={styles.previewImg}>
@@ -514,7 +493,6 @@ export default function HopinOfferRide() {
                 </div>
               </div>
 
-              {/* Why Offer a Ride */}
               <div style={styles.whyCard}>
                 <h3 style={styles.whyTitle}>Why Offer a Ride?</h3>
                 <div style={styles.whyList}>
@@ -567,7 +545,6 @@ export default function HopinOfferRide() {
         </div>
       </main>
 
-      {/* ── Responsive styles ── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -606,7 +583,6 @@ export default function HopinOfferRide() {
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const teal = "#13C9B8";
-const tealDark = "#0FA89F";
 const navy = "#1A2332";
 const gray = "#6B7280";
 const lightGray = "#F5F7FA";
@@ -615,8 +591,6 @@ const white = "#FFFFFF";
 
 const styles = {
   page: { minHeight: "100vh", background: lightGray, fontFamily: "'Inter', sans-serif" },
-
-  // NAV
   nav: { background: white, borderBottom: `1px solid ${borderColor}`, position: "sticky", top: 0, zIndex: 100, boxShadow: "0 1px 8px rgba(0,0,0,0.05)" },
   navInner: { maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", gap: 32, justifyContent: "space-between" },
   logo: { display: "flex", flexDirection: "column", gap: 0 },
@@ -625,89 +599,65 @@ const styles = {
   logoPin: { display: "inline-flex", marginLeft: 1, marginTop: -4 },
   logoSub: { fontSize: 11, color: gray, fontWeight: 400, letterSpacing: "0.01em", marginTop: -2 },
   teal: { color: teal },
-
-  navLinks: { display: "flex", gap: 28, flex: 1, justifyContent: "center", className: "navLinks" },
+  navLinks: { display: "flex", gap: 28, flex: 1, justifyContent: "center" },
   navLink: { fontSize: 14, fontWeight: 500, color: "#374151", textDecoration: "none", padding: "4px 0", borderBottom: "2px solid transparent", transition: "all 0.2s" },
   navLinkActive: { color: teal, borderBottom: `2px solid ${teal}` },
-
-  authBtns: { display: "flex", gap: 12, alignItems: "center", className: "authBtns" },
+  authBtns: { display: "flex", gap: 12, alignItems: "center" },
   loginBtn: { background: "none", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 500, color: navy, padding: "8px 16px" },
   signupBtn: { background: teal, border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, color: white, padding: "10px 22px", borderRadius: 8, transition: "background 0.2s" },
-
   hamburger: { display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 },
   hamburgerLine: { display: "block", width: 22, height: 2, background: navy, borderRadius: 2 },
   mobileMenu: { background: white, borderTop: `1px solid ${borderColor}`, padding: 16, display: "flex", flexDirection: "column", gap: 8 },
   mobileLink: { fontSize: 15, fontWeight: 500, color: "#374151", textDecoration: "none", padding: "10px 12px", borderRadius: 8 },
   mobileBtns: { display: "flex", gap: 12, padding: "8px 0" },
-
-  // MAIN
   main: { paddingBottom: 0 },
   container: { maxWidth: 1280, margin: "0 auto", padding: "32px 24px" },
-  grid: { display: "grid", gridTemplateColumns: "1fr 380px", gap: 24, alignItems: "start", className: "grid" },
-
-  // FORM CARD
+  grid: { display: "grid", gridTemplateColumns: "1fr 380px", gap: 24, alignItems: "start" },
   formCard: { background: white, borderRadius: 16, padding: 32, boxShadow: "0 2px 16px rgba(0,0,0,0.06)" },
-
-  formHeader: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16, className: "formHeader" },
-  heroTitle: { fontSize: 40, fontWeight: 800, color: navy, lineHeight: 1.1, className: "heroTitle" },
+  formHeader: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 },
+  heroTitle: { fontSize: 40, fontWeight: 800, color: navy, lineHeight: 1.1 },
   heroSubtitle: { fontSize: 14, color: gray, marginTop: 6, fontWeight: 400 },
-
-  verifiedBadge: { display: "flex", alignItems: "center", gap: 10, background: "#F0FFFE", border: `1px solid #B2EDEA`, borderRadius: 10, padding: "10px 14px", className: "verifiedBadge" },
+  verifiedBadge: { display: "flex", alignItems: "center", gap: 10, background: "#F0FFFE", border: `1px solid #B2EDEA`, borderRadius: 10, padding: "10px 14px" },
   verifiedTitle: { fontSize: 13, fontWeight: 700, color: navy },
   verifiedSub: { fontSize: 11, color: gray },
-
-  // STEPS
-  steps: { display: "flex", alignItems: "center", marginBottom: 28, className: "steps" },
+  steps: { display: "flex", alignItems: "center", marginBottom: 28 },
   stepWrapper: { display: "flex", alignItems: "center", flex: 1 },
   stepItem: { display: "flex", alignItems: "center", gap: 8, flexShrink: 0 },
   stepCircleActive: { width: 28, height: 28, borderRadius: "50%", background: teal, color: white, fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 },
   stepCircle: { width: 28, height: 28, borderRadius: "50%", background: "#E5E7EB", color: gray, fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 },
   stepLabelActive: { fontSize: 13, fontWeight: 600, color: navy, whiteSpace: "nowrap" },
   stepLabel: { fontSize: 12, fontWeight: 500, color: gray, whiteSpace: "nowrap" },
-  stepDivider: { flex: 1, height: 1.5, background: "#E5E7EB", margin: "0 8px", minWidth: 20, className: "stepDivider" },
-
-  // LOCATION INPUTS
+  stepDivider: { flex: 1, height: 1.5, background: "#E5E7EB", margin: "0 8px", minWidth: 20 },
   locationBlock: { display: "flex", gap: 12, marginBottom: 20 },
   routeLine: { display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 28, gap: 0 },
   routeDot: { display: "flex", alignItems: "center" },
   routeVLine: { width: 2, flex: 1, background: "#D1D5DB", minHeight: 28, margin: "4px 0" },
   routeDotBlue: { display: "flex", alignItems: "center" },
   inputsBlock: { flex: 1, display: "flex", flexDirection: "column", gap: 12 },
-
   fieldGroup: { display: "flex", flexDirection: "column", gap: 6 },
   label: { fontSize: 13, fontWeight: 600, color: "#374151" },
   inputWrapper: { position: "relative" },
   input: { width: "100%", padding: "11px 40px 11px 14px", border: `1.5px solid ${borderColor}`, borderRadius: 10, fontSize: 14, color: navy, background: white, transition: "border 0.2s" },
   inputIcon: { position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center" },
-
-  // ROW 3
-  row3: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20, className: "row3" },
+  row3: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 },
   selectWrapper: { position: "relative", display: "flex", alignItems: "center" },
   selectIcon: { position: "absolute", left: 12, display: "flex", alignItems: "center", pointerEvents: "none" },
   select: { width: "100%", padding: "11px 36px 11px 38px", border: `1.5px solid ${borderColor}`, borderRadius: 10, fontSize: 14, color: navy, background: white, cursor: "pointer" },
   selectChevron: { position: "absolute", right: 12, display: "flex", alignItems: "center", pointerEvents: "none" },
-
-  // ROW 2
-  row2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24, className: "row2" },
+  row2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 },
   toggleGroup: { display: "flex", background: "#F3F4F6", borderRadius: 10, padding: 4, gap: 0 },
   toggleActive: { flex: 1, padding: "10px 0", background: teal, color: white, border: "none", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer" },
   toggleInactive: { flex: 1, padding: "10px 0", background: "none", color: gray, border: "none", borderRadius: 8, fontSize: 14, fontWeight: 500, cursor: "pointer" },
-
   priceWrapper: { display: "flex", alignItems: "center", border: `1.5px solid ${borderColor}`, borderRadius: 10, overflow: "hidden", background: white },
   rupee: { padding: "11px 12px", fontSize: 16, color: "#374151", fontWeight: 600, borderRight: `1px solid ${borderColor}`, background: "#FAFAFA" },
   priceInput: { flex: 1, padding: "11px 14px", border: "none", fontSize: 14, color: navy, background: "transparent" },
   priceSub: { fontSize: 11, color: gray, marginTop: 4 },
-
-  // CTA
-  ctaRow: { display: "flex", alignItems: "center", gap: 16, justifyContent: "space-between", background: "#F0FFFE", border: `1px solid #B2EDEA`, borderRadius: 12, padding: "14px 20px", className: "ctaRow" },
+  ctaRow: { display: "flex", alignItems: "center", gap: 16, justifyContent: "space-between", background: "#F0FFFE", border: `1px solid #B2EDEA`, borderRadius: 12, padding: "14px 20px" },
   tipBox: { display: "flex", alignItems: "center", gap: 12 },
   tipText: { fontSize: 14, color: "#374151", fontWeight: 400 },
   tipLabel: { color: teal, fontWeight: 700 },
   saveBtn: { display: "flex", alignItems: "center", gap: 4, background: teal, color: white, border: "none", borderRadius: 10, padding: "13px 26px", fontSize: 15, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0, transition: "background 0.2s" },
-
-  // RIGHT
-  rightCol: { display: "flex", flexDirection: "column", gap: 16, className: "rightCol" },
-
+  rightCol: { display: "flex", flexDirection: "column", gap: 16 },
   previewCard: { background: white, borderRadius: 16, padding: 20, boxShadow: "0 2px 16px rgba(0,0,0,0.06)" },
   previewTitle: { fontSize: 16, fontWeight: 700, color: navy, marginBottom: 14 },
   previewImg: { borderRadius: 12, overflow: "hidden", marginBottom: 16 },
@@ -723,17 +673,14 @@ const styles = {
   previewMetaItem: { display: "flex", flexDirection: "column", alignItems: "center", gap: 3, flex: 1 },
   previewMetaLabel: { fontSize: 11, color: gray, fontWeight: 500 },
   previewMetaVal: { fontSize: 12, color: navy, fontWeight: 600 },
-
   whyCard: { background: white, borderRadius: 16, padding: 20, boxShadow: "0 2px 16px rgba(0,0,0,0.06)", position: "relative", overflow: "hidden" },
   whyTitle: { fontSize: 15, fontWeight: 700, color: navy, marginBottom: 14 },
   whyList: { display: "flex", flexDirection: "column", gap: 12 },
   whyItem: { display: "flex", alignItems: "center", gap: 12 },
   whyText: { fontSize: 14, color: "#374151", fontWeight: 500 },
   whyTreeDecor: { position: "absolute", bottom: -8, right: -8, opacity: 0.8 },
-
-  // TRUST
   trustBar: { background: white, borderTop: `1px solid ${borderColor}`, padding: "28px 24px", marginTop: 8 },
-  trustContainer: { maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24, className: "trustContainer" },
+  trustContainer: { maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24 },
   trustItem: { display: "flex", alignItems: "center", gap: 14 },
   trustTitle: { fontSize: 14, fontWeight: 700, color: navy, marginBottom: 3 },
   trustSub: { fontSize: 12, color: gray, lineHeight: 1.4 },
