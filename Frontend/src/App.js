@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import RecurringRide from "./pages/RecurringRide";
 import FindRide from "./pages/FindRide";
 
+
 function Placeholder({ title }) {
   return (
     <div style={{ padding: "40px" }}>
@@ -72,6 +73,7 @@ function AppLayout() {
             path="/profile"
             element={<Profile />}
           />
+
         </Routes>
       </div>
     </div>

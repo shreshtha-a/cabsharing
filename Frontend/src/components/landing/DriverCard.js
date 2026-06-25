@@ -1,10 +1,15 @@
+import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCarSide, FaCheckCircle } from "react-icons/fa";
+import CreateDriverModal from "./CreateDriverModal";
 
 export default function DriverCard() {
   const navigate = useNavigate();
+  const [showSignup, setShowSignup] = useState(false);
+
 
   return (
+    <>
     <div
       style={{
         width: "100%",
@@ -126,7 +131,7 @@ export default function DriverCard() {
 
       {/* Button */}
       <button
-        onClick={() => navigate("/offer-ride")}
+        onClick={() => setShowSignup(true)}
         style={{
           marginTop: "22px",
           height: "48px",
@@ -143,5 +148,17 @@ export default function DriverCard() {
         Offer a Ride
       </button>
     </div>
+  
+    {showSignup && (
+    <CreateDriverModal
+        onClose={() => setShowSignup(false)}
+        onLogin={() => setShowSignup(false)}
+        onDone={() => {
+            setShowSignup(false);
+            navigate("/home");   // or whatever page drivers should see
+        }}
+    />
+    )}
+    </>
   );
 }
