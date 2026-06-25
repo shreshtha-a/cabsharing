@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import RecurringRide from "./pages/RecurringRide";
 import HopinOfferRide from "./components/HopinOfferRide";
+import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
 
 function Placeholder({ title }) {
@@ -36,43 +37,16 @@ function AppLayout() {
       >
         <Routes>
           <Route path="/home" element={<Home />} />
-
           <Route path="/find-ride" element={<FindRide />} />
-
-          <Route
-            path="/search"
-            element={<FindRide />}
-          />
-
-          <Route
-            path="/rides"
-            element={<Placeholder title="My Rides" />}
-          />
-
-          <Route
-            path="/messages"
-            element={<Placeholder title="Messages" />}
-          />
-
-          <Route
-            path="/recurring-rides"
-            element={<RecurringRide />}
-          />
-
-          <Route
-            path="/notifications"
-            element={<Placeholder title="Notifications" />}
-          />
-
-          <Route
-            path="/settings"
-            element={<Placeholder title="Settings" />}
-          />
-
-          <Route
-            path="/profile"
-            element={<Profile />}
-          />
+          <Route path="/search" element={<FindRide />} />
+          <Route path="/offer-ride" element={<HopinOfferRide />} />
+          <Route path="/select-seat" element={<HopinSeatSelector />} />
+          <Route path="/rides" element={<Placeholder title="My Rides" />} />
+          <Route path="/messages" element={<Placeholder title="Messages" />} />
+          <Route path="/recurring-rides" element={<RecurringRide />} />
+          <Route path="/notifications" element={<Placeholder title="Notifications" />} />
+          <Route path="/settings" element={<Placeholder title="Settings" />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </div>
@@ -83,10 +57,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Landing Page */}
         <Route path="/" element={<Landing />} />
-
-        {/* Main App */}
         <Route path="/*" element={<AppLayout />} />
       </Routes>
     </BrowserRouter>
