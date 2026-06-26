@@ -9,6 +9,7 @@ import RecurringRide from "./pages/RecurringRide";
 import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
+import CreateRide from "./pages/CreateRide";
 
 
 function Placeholder({ title }) {
@@ -73,6 +74,10 @@ function AppLayout() {
           <Route
             path="/profile"
             element={<Profile />}
+          />
+          <Route
+            path="/create-ride"
+            element={<CreateRide />}
           />
 
           <Route path="/search" element={<FindRide />} />
