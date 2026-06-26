@@ -178,24 +178,6 @@ export default function RegistrationForm() {
           Register as Driver →
         </button>
 
-        <p
-          style={{
-            textAlign: "center",
-            marginTop: "15px",
-            color: "#64748B",
-          }}
-        >
-          Already have an account?{" "}
-          <span
-            style={{
-              color: "#14B8A6",
-              fontWeight: "600",
-              cursor: "pointer",
-            }}
-          >
-            Login
-          </span>
-        </p>
       </div>
 
       {showOtp && (
