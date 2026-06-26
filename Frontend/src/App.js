@@ -10,7 +10,6 @@ import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
 import DriverRegistration from "./pages/DriverRegistration";
-import CreateRide from "./pages/CreateRide";
 
 
 function Placeholder({ title }) {
@@ -76,11 +75,7 @@ function AppLayout() {
             path="/profile"
             element={<Profile />}
           />
-          <Route
-            path="/create-ride"
-            element={<CreateRide />}
-          />
-
+          
 
           <Route path="/search" element={<FindRide />} />
           <Route path="/offer-ride" element={<HopinOfferRide />} />

@@ -21,6 +21,7 @@ export default function DriverHero() {
         overflow: "hidden",
       }}
     >
+        
       {/* Background Video */}
       <video
         autoPlay
