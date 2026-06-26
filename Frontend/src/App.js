@@ -9,7 +9,7 @@ import RecurringRide from "./pages/RecurringRide";
 import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
-import CreateRide from "./pages/CreateRide";
+import DriverRegistration from "./pages/DriverRegistration";
 
 
 // Redirects to "/" if not logged in
@@ -63,6 +63,10 @@ export default function App() {
               <AppLayout />
             </ProtectedRoute>
           } />
+          <Route
+            path="/driver-registration"
+            element={<DriverRegistration />}
+          />  
         </Routes>
       </BrowserRouter>
     </AuthProvider>
