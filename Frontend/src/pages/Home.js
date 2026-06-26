@@ -166,7 +166,7 @@ export default function Home() {
         </div>
 
         {/* OFFER RIDE */}
-        <div style={styles.actionCard} onClick={() => navigate("/offer-ride")}>
+        <div style={styles.actionCard} onClick={() => navigate("/create-ride")}>
           {/* Icon */}
           <div
             style={{
@@ -188,7 +188,7 @@ export default function Home() {
           {/* Text */}
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: "15px", fontWeight: "700", color: "#0F2D52" }}>
-              Offer a Ride
+              Create Ride
             </div>
             <div style={{ fontSize: "12px", color: "#64748B", marginTop: "2px" }}>
               Publish your trip &amp; earn

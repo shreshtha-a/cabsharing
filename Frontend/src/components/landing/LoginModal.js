@@ -10,6 +10,7 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import CreatePassengerModal from "./CreatePassengerModal";
+import CreateDriverModal from "./CreateDriverModal";
 
 export default function LoginModal({ isOpen, onClose }) {
   const navigate = useNavigate();
