@@ -9,6 +9,7 @@ import RecurringRide from "./pages/RecurringRide";
 import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
+import DriverRegistration from "./pages/DriverRegistration";
 import CreateRide from "./pages/CreateRide";
 
 
@@ -80,6 +81,7 @@ function AppLayout() {
             element={<CreateRide />}
           />
 
+
           <Route path="/search" element={<FindRide />} />
           <Route path="/offer-ride" element={<HopinOfferRide />} />
           <Route path="/select-seat" element={<HopinSeatSelector />} />
@@ -101,6 +103,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/*" element={<AppLayout />} />
+      <Route
+        path="/driver-registration"
+        element={<DriverRegistration />}
+      />
       </Routes>
     </BrowserRouter>
   );

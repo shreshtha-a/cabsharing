@@ -2,7 +2,6 @@ import { useState } from "react";
 import heroVideo from "../../assets/videos/hero-video.mp4";
 import PassengerCard from "./PassengerCard";
 import DriverCard from "./DriverCard";
-import CreateDriverModal from "./CreateDriverModal";
 
 export default function HeroSection() {
   const mobile = window.innerWidth < 768;
@@ -157,11 +156,7 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-      {showDriverModal && (
-        <CreateDriverModal
-          onClose={() => setShowDriverModal(false)}
-        />
-      )}
+      
     </section>
   );
 }
