@@ -9,6 +9,8 @@ import RecurringRide from "./pages/RecurringRide";
 import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
+import CreateRide from "./pages/CreateRide";
+
 
 // Redirects to "/" if not logged in
 function ProtectedRoute({ children }) {
