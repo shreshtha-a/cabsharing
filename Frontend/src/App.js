@@ -9,10 +9,11 @@ import RecurringRide from "./pages/RecurringRide";
 import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
+import Settings from "./pages/HopinSettings";
+import BookingConfirmation from "./pages/BookingConfirmation";
+import Payment from "./pages/Payment";
 import DriverRegistration from "./pages/DriverRegistration";
 
-
-// Redirects to "/" if not logged in
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
   if (!token) return <Navigate to="/" replace />;
@@ -29,17 +30,18 @@ function AppLayout() {
       <Sidebar />
       <div style={{ flex: 1, overflowX: "hidden" }}>
         <Routes>
-          <Route path="/home"             element={<Home />} />
-          <Route path="/find-ride"        element={<FindRide />} />
-          <Route path="/search"           element={<FindRide />} />
-          <Route path="/offer-ride"       element={<HopinOfferRide />} />
-          <Route path="/select-seat"      element={<HopinSeatSelector />} />
-          <Route path="/rides"            element={<Placeholder title="My Rides" />} />
-          <Route path="/messages"         element={<Placeholder title="Messages" />} />
-          <Route path="/recurring-rides"  element={<RecurringRide />} />
-          <Route path="/notifications"    element={<Placeholder title="Notifications" />} />
-          <Route path="/settings"         element={<Placeholder title="Settings" />} />
-          <Route path="/profile"          element={<Profile />} />
+          <Route path="/home"                 element={<Home />} />
+          <Route path="/find-ride"            element={<FindRide />} />
+          <Route path="/search"               element={<FindRide />} />
+          <Route path="/offer-ride"           element={<HopinOfferRide />} />
+          <Route path="/select-seat"          element={<HopinSeatSelector />} />
+          <Route path="/rides"                element={<Placeholder title="My Rides" />} />
+          <Route path="/messages"             element={<Placeholder title="Messages" />} />
+          <Route path="/recurring-rides"      element={<RecurringRide />} />
+          <Route path="/settings"             element={<Settings />} />
+          <Route path="/profile"              element={<Profile />} />
+          <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+          <Route path="/payment"              element={<Payment />} />
         </Routes>
       </div>
     </div>
@@ -51,13 +53,8 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public */}
           <Route path="/" element={<Landing />} />
-
-          {/* Google OAuth success — saves token from URL and redirects to /home */}
           <Route path="/auth/success" element={<OAuthSuccess />} />
-
-          {/* Protected */}
           <Route path="/*" element={
             <ProtectedRoute>
               <AppLayout />
@@ -73,12 +70,9 @@ export default function App() {
   );
 }
 
-// Handles redirect from Google OAuth
 function OAuthSuccess() {
-  const params  = new URLSearchParams(window.location.search);
-  const token   = params.get("token");
-  if (token) {
-    localStorage.setItem("token", token);
-  }
+  const params = new URLSearchParams(window.location.search);
+  const token  = params.get("token");
+  if (token) localStorage.setItem("token", token);
   return <Navigate to="/home" replace />;
 }

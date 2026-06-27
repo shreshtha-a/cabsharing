@@ -12,19 +12,7 @@ const styles = {
     background: "#f8fafb",
     color: "#1a2332",
   },
-  sidebar: {
-    width: 210,
-    minWidth: 210,
-    background: "#fff",
-    borderRight: "1px solid #eef0f3",
-    display: "flex",
-    flexDirection: "column",
-    padding: "28px 0 20px 0",
-    position: "sticky",
-    top: 0,
-    height: "100vh",
-    overflowY: "auto",
-  },
+ 
   logo: {
     padding: "0 24px 28px 24px",
   },
@@ -73,11 +61,7 @@ const styles = {
     marginLeft: "auto",
     padding: "0 5px",
   },
-  sidebarBottom: {
-    padding: "16px 0",
-    borderTop: "1px solid #eef0f3",
-    marginTop: 8,
-  },
+
   inviteBanner: {
     margin: "20px 12px 8px 12px",
     borderRadius: 16,
@@ -477,7 +461,6 @@ export default function HopinSettings() {
   const [appearance, setAppearance] = useState("Light");
   const [language, setLanguage] = useState("English");
   const [location, setLocation] = useState("Always Allow");
-  const [mobileNav, setMobileNav] = useState(false);
 
   return (
     <div style={styles.root}>
@@ -486,13 +469,8 @@ export default function HopinSettings() {
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; }
-        .hopin-sidebar { display: flex !important; }
-        .hopin-hamburger { display: none !important; }
-        @media (max-width: 768px) {
-          .hopin-sidebar { display: none !important; }
-          .hopin-sidebar.open { display: flex !important; position: fixed; z-index: 100; top: 0; left: 0; height: 100vh; box-shadow: 4px 0 24px rgba(0,0,0,0.13); }
-          .hopin-hamburger { display: flex !important; }
-          .hopin-main { padding: 20px 14px 40px 14px !important; }
+        
+       
           .hopin-section-inner { flex-direction: column !important; }
           .hopin-promo { display: none !important; }
           .hopin-support-grid { grid-template-columns: 1fr !important; }
@@ -508,78 +486,16 @@ export default function HopinSettings() {
         .invite-btn:hover { background: ${tealDark} !important; }
       `}</style>
 
-      {/* Sidebar */}
-      <div
-        className={`hopin-sidebar${mobileNav ? " open" : ""}`}
-        style={styles.sidebar}
-      >
-        <div style={styles.logo}>
-          <div style={styles.logoText}>
-            Hop<span style={styles.logoAccent}>i</span>n
-            <span style={styles.logoPin}>📍</span>
-          </div>
-          <div style={styles.logoTagline}>Going <em style={{ color: teal, fontStyle: "normal", fontWeight: 600 }}>your</em> way, anyway.</div>
-        </div>
 
-        <ul style={styles.navList}>
-          {navItems.map((item) => (
-            <li
-              key={item.label}
-              className="nav-item-hover"
-              style={styles.navItem(item.active)}
-            >
-              <span style={{ fontSize: 18 }}>{item.icon}</span>
-              <span>{item.label}</span>
-              {item.badge && <span style={styles.badge}>{item.badge}</span>}
-            </li>
-          ))}
-        </ul>
+      
 
-        <div style={styles.sidebarBottom}>
-          <li className="nav-item-hover" style={{ ...styles.navItem(false), listStyle: "none" }}>
-            <span style={{ fontSize: 18 }}>↪️</span>
-            <span>Logout</span>
-          </li>
-          <li className="nav-item-hover" style={{ ...styles.navItem(false), color: "#ef4444", listStyle: "none" }}>
-            <span style={{ fontSize: 18 }}>🗑️</span>
-            <span style={{ color: "#ef4444" }}>Delete Account</span>
-          </li>
-        </div>
-
-        {/* Invite banner */}
-        <div style={styles.inviteBanner}>
-          <div style={styles.inviteTitle}>
-            Better Rides<br />When <span style={styles.inviteAccent}>Shared</span>
-          </div>
-          <div style={styles.inviteDesc}>Together, we go further and create a better tomorrow.</div>
-          <RoadSVG />
-        </div>
-        <button className="invite-btn" style={styles.inviteBtn}>
-          Invite Friends &nbsp;→
-        </button>
-      </div>
-
-      {/* Overlay for mobile nav */}
-      {mobileNav && (
-        <div
-          onClick={() => setMobileNav(false)}
-          style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.25)", zIndex: 99 }}
-        />
-      )}
 
       {/* Main */}
       <div className="hopin-main" style={styles.main}>
         {/* Topbar */}
         <div className="hopin-topbar" style={styles.topbar}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            {/* Hamburger for mobile */}
-            <button
-              className="hopin-hamburger"
-              onClick={() => setMobileNav(!mobileNav)}
-              style={{ ...styles.iconBtn, display: "none" }}
-            >
-              ☰
-            </button>
+            
             <div>
               <div style={styles.pageTitle}>Settings</div>
               <div style={styles.pageSubtitle}>Manage your preferences and account settings</div>
