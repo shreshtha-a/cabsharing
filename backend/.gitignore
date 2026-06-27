@@ -1,5 +1,8 @@
 node_modules/
-.env
 *.log
 dist/
 .DS_Store
+.env
+backend/.env
+backend/node_modules/
+Frontend/node_modules/
