@@ -10,6 +10,7 @@ import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
 import DriverRegistration from "./pages/DriverRegistration";
+import Settings from "./pages/Settings";
 
 
 // Redirects to "/" if not logged in
@@ -18,7 +19,6 @@ function ProtectedRoute({ children }) {
   if (!token) return <Navigate to="/" replace />;
   return children;
 }
-
 function Placeholder({ title }) {
   return <div style={{ padding: "40px" }}><h1>{title}</h1></div>;
 }
@@ -38,7 +38,7 @@ function AppLayout() {
           <Route path="/messages"         element={<Placeholder title="Messages" />} />
           <Route path="/recurring-rides"  element={<RecurringRide />} />
           <Route path="/notifications"    element={<Placeholder title="Notifications" />} />
-          <Route path="/settings"         element={<Placeholder title="Settings" />} />
+          <Route path="/settings"         element={<Settings />} />
           <Route path="/profile"          element={<Profile />} />
         </Routes>
       </div>
