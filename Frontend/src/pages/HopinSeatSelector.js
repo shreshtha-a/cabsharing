@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // ── Design tokens (matching app theme) ────────────────────────────────────
 const teal = "#0B9E8E";
@@ -118,10 +119,11 @@ function LegendItem({ color, label }) {
     </div>
   );
 }
+// ── Main export ───────────────────────────────────────────
 
-// ── Main export ────────────────────────────────────────────────────────────
 export default function SeatSelector() {
   const [selected, setSelected] = useState("rearLeft");
+  const navigate = useNavigate();
 
   const seatFare  = selected ? SEATS[selected].price : 0;
   const totalFare = BASE_FARE + seatFare;
@@ -290,18 +292,26 @@ export default function SeatSelector() {
               <div style={{ fontSize: 11, color: textSecondary }}>Total Fare</div>
               <div style={{ fontSize: 20, fontWeight: 800, color: textPrimary }}>₹{totalFare}</div>
             </div>
-            <button style={{
-              marginLeft: "auto",
-              background: `linear-gradient(90deg, ${teal}, ${tealDark})`,
-              color: white, border: "none", borderRadius: 12,
-              padding: "13px 24px", fontSize: 14, fontWeight: 700,
-              cursor: "pointer", letterSpacing: 0.2, whiteSpace: "nowrap",
-            }}>
-              Confirm &amp; Continue →
-            </button>
+            <button
+  onClick={() => navigate("/booking-confirmation")}
+  style={{
+    marginLeft: "auto",
+    background: `linear-gradient(90deg, ${teal}, ${tealDark})`,
+    color: white,
+    border: "none",
+    borderRadius: 12,
+    padding: "13px 24px",
+    fontSize: 14,
+    fontWeight: 700,
+    cursor: "pointer",
+    letterSpacing: 0.2,
+    whiteSpace: "nowrap",
+  }}
+>
+  Confirm & Continue →
+</button>
           </div>
         </div>
       </div>
     </div>
-  );
-}
+  );}

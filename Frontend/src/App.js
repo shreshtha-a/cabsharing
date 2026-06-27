@@ -9,14 +9,10 @@ import RecurringRide from "./pages/RecurringRide";
 import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
-<<<<<<< HEAD
-import Notifications from "./pages/Notifications";
 import Settings from "./pages/HopinSettings";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment from "./pages/Payment";
-=======
 import DriverRegistration from "./pages/DriverRegistration";
->>>>>>> dd34568a2be4d7c75522a2186fa45b7e70c5376b
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -42,7 +38,6 @@ function AppLayout() {
           <Route path="/rides"                element={<Placeholder title="My Rides" />} />
           <Route path="/messages"             element={<Placeholder title="Messages" />} />
           <Route path="/recurring-rides"      element={<RecurringRide />} />
-          <Route path="/notifications"        element={<Notifications />} />
           <Route path="/settings"             element={<Settings />} />
           <Route path="/profile"              element={<Profile />} />
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
