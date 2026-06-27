@@ -13,13 +13,13 @@ import Settings from "./pages/HopinSettings";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment from "./pages/Payment";
 import DriverRegistration from "./pages/DriverRegistration";
+import Settings from "./pages/Settings";
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
   if (!token) return <Navigate to="/" replace />;
   return children;
 }
-
 function Placeholder({ title }) {
   return <div style={{ padding: "40px" }}><h1>{title}</h1></div>;
 }
@@ -37,7 +37,8 @@ function AppLayout() {
           <Route path="/select-seat"          element={<HopinSeatSelector />} />
           <Route path="/rides"                element={<Placeholder title="My Rides" />} />
           <Route path="/messages"             element={<Placeholder title="Messages" />} />
-          <Route path="/recurring-rides"      element={<RecurringRide />} />
+          <Route path="/recurring-rides"      element={<RecurringRide />} />  
+          <Route path="/notifications"    element={<Placeholder title="Notifications" />} />
           <Route path="/settings"             element={<Settings />} />
           <Route path="/profile"              element={<Profile />} />
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
