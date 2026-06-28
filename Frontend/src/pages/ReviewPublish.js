@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, HelpCircle, MapPin, Calendar, Clock, Users, Shield, CheckCircle, MessageSquare, Car, Wind, Music, Send, Lock, ArrowRight, RefreshCw, Settings } from 'lucide-react';
 import { saveLocalRide } from '../utils/localRides';
+// adding on to it
 
 const colors = { teal:'#13C9B8', navy:'#1A2332', gray:'#6B7280', lightGray:'#F5F7FA', white:'#FFFFFF', border:'#E5E7EB', bgLight:'#F3F4F6', bgTeal:'#E8FAF9', borderTeal:'#B2EDEA' };
 
