@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
 
 import Sidebar             from "./components/Sidebar";
 import Landing             from "./pages/Landing";
@@ -8,106 +7,77 @@ import Profile             from "./pages/Profile";
 import RecurringRide       from "./pages/RecurringRide";
 import FindRide            from "./pages/FindRide";
 import HopinOfferRide      from "./components/HopinOfferRide";
+import HopinSeatSelector   from "./components/HopinSeatSelector";
 import RidePreferences     from "./pages/RidePreferences";
 import HopinSettings       from "./pages/HopinSettings";
 import DriverRegistration  from "./pages/DriverRegistration";
 import Notifications       from "./pages/Notifications";
+import AuthSuccess         from "./pages/AuthSuccess";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment             from "./pages/Payment";
-import PaymentSuccess      from "./pages/PaymentSuccess";
+import VehicleDetails      from "./pages/VehicleDetails";
 
-// ── Auth guard ────────────────────────────────────────────
+// ─── Auth guard ───────────────────────────────────────────
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
   if (!token) return <Navigate to="/" replace />;
   return children;
 }
 
-// ── Google OAuth callback ─────────────────────────────────
-function OAuthSuccess() {
-  const params = new URLSearchParams(window.location.search);
-  const token  = params.get("token");
-  if (token) localStorage.setItem("token", token);
-  return <Navigate to="/home" replace />;
-}
-
-// ── Placeholder ───────────────────────────────────────────
+// ─── Placeholder ──────────────────────────────────────────
 function Placeholder({ title }) {
-  return <div style={{ padding: "40px" }}><h1>{title}</h1></div>;
-}
-
-// ── Sidebar wrapper ───────────────────────────────────────
-function WithSidebar({ children }) {
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#F8FAFC" }}>
-      <Sidebar />
-      <div style={{ flex: 1, overflowX: "hidden" }}>{children}</div>
+    <div style={{ padding: "40px" }}>
+      <h1>{title}</h1>
     </div>
   );
 }
 
-// ── App ───────────────────────────────────────────────────
+// ─── Main layout (with sidebar) ───────────────────────────
+function AppLayout() {
+  return (
+    <div style={{ display: "flex", minHeight: "100vh", background: "#F8FAFC" }}>
+      <Sidebar />
+      <div style={{ flex: 1, overflowX: "hidden" }}>
+        <Routes>
+          <Route path="/home"                 element={<Home />} />
+          <Route path="/find-ride"            element={<FindRide />} />
+          <Route path="/search"               element={<FindRide />} />
+          <Route path="/offer-ride"           element={<HopinOfferRide />} />
+          <Route path="/select-seat"          element={<HopinSeatSelector />} />
+          <Route path="/ride-preferences"     element={<RidePreferences />} />
+          <Route path="/rides"                element={<Placeholder title="My Rides" />} />
+          <Route path="/messages"             element={<Placeholder title="Messages" />} />
+          <Route path="/recurring-rides"      element={<RecurringRide />} />
+          <Route path="/notifications"        element={<Notifications />} />
+          <Route path="/profile"              element={<Profile />} />
+          <Route path="/settings"             element={<HopinSettings />} />
+          <Route path="/driver-registration"  element={<DriverRegistration />} />
+          <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+          <Route path="/payment"              element={<Payment />} />
+          <Route path="/vehicle-details"      element={<VehicleDetails />} />
+        </Routes>
+      </div>
+    </div>
+  );
+}
+
+// ─── Root ─────────────────────────────────────────────────
 export default function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
+    <BrowserRouter>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/"             element={<Landing />} />
+        <Route path="/auth/success" element={<AuthSuccess />} />
 
-          {/* ── Public ── */}
-          <Route path="/"             element={<Landing />} />
-          <Route path="/auth/success" element={<OAuthSuccess />} />
-
-          {/* ── With sidebar ── */}
-          <Route path="/home" element={
-            <ProtectedRoute><WithSidebar><Home /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/find-ride" element={
-            <ProtectedRoute><WithSidebar><FindRide /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/search" element={
-            <ProtectedRoute><WithSidebar><FindRide /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/offer-ride" element={
-            <ProtectedRoute><WithSidebar><HopinOfferRide /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/ride-preferences" element={
-            <ProtectedRoute><WithSidebar><RidePreferences /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/rides" element={
-            <ProtectedRoute><WithSidebar><Placeholder title="My Rides" /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/messages" element={
-            <ProtectedRoute><WithSidebar><Placeholder title="Messages" /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/recurring-rides" element={
-            <ProtectedRoute><WithSidebar><RecurringRide /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/notifications" element={
-            <ProtectedRoute><WithSidebar><Notifications /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/settings" element={
-            <ProtectedRoute><WithSidebar><HopinSettings /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/profile" element={
-            <ProtectedRoute><WithSidebar><Profile /></WithSidebar></ProtectedRoute>
-          } />
-          <Route path="/driver-registration" element={
-            <ProtectedRoute><WithSidebar><DriverRegistration /></WithSidebar></ProtectedRoute>
-          } />
-
-          {/* ── Full page (no sidebar) ── */}
-          <Route path="/booking-confirmation" element={
-            <ProtectedRoute><BookingConfirmation /></ProtectedRoute>
-          } />
-          <Route path="/payment" element={
-            <ProtectedRoute><Payment /></ProtectedRoute>
-          } />
-          <Route path="/payment-success" element={
-            <ProtectedRoute><PaymentSuccess /></ProtectedRoute>
-          } />
-
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+        {/* Protected app (with sidebar) */}
+        <Route path="/*" element={
+          <ProtectedRoute>
+            <AppLayout />
+          </ProtectedRoute>
+        } />
+      </Routes>
+    </BrowserRouter>
   );
 }
