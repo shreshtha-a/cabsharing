@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import scenicRoadImg from "./scenic-road.png";
 
 // ─── SVG Icons ───────────────────────────────────────────────────────────────
 const PinIcon = ({ color = "#13C9B8", size = 20 }) => (
@@ -132,77 +133,6 @@ const CommunityIcon = ({ size = 40 }) => (
     <circle cx="26" cy="16" r="4" fill="#E8FAF9" stroke="#13C9B8" strokeWidth="1.5"/>
     <path d="M8 30c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="#13C9B8" strokeWidth="1.5" strokeLinecap="round"/>
     <path d="M24 24c1.2-.63 2.56-1 4-1 3.314 0 6 2.686 6 6" stroke="#13C9B8" strokeWidth="1.5" strokeLinecap="round"/>
-  </svg>
-);
-
-const ScenicRoadImage = () => (
-  <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "180px", objectFit: "cover", borderRadius: "12px" }}>
-    <defs>
-      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#B8D4F0"/>
-        <stop offset="60%" stopColor="#D4E8F8"/>
-        <stop offset="100%" stopColor="#E8F4FC"/>
-      </linearGradient>
-      <linearGradient id="mountain" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#7A9BB5"/>
-        <stop offset="100%" stopColor="#5E7A8F"/>
-      </linearGradient>
-      <linearGradient id="mountain2" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#8BAEC4"/>
-        <stop offset="100%" stopColor="#6B8DA3"/>
-      </linearGradient>
-      <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#C8C8C8"/>
-        <stop offset="100%" stopColor="#888"/>
-      </linearGradient>
-      <linearGradient id="water" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stopColor="#5AAFD6"/>
-        <stop offset="50%" stopColor="#7BC4E2"/>
-        <stop offset="100%" stopColor="#5AAFD6"/>
-      </linearGradient>
-      <linearGradient id="forest" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#3A7D44"/>
-        <stop offset="100%" stopColor="#2E6338"/>
-      </linearGradient>
-    </defs>
-    <rect width="400" height="200" fill="url(#sky)"/>
-    <polygon points="60,20 90,70 30,70" fill="white" opacity="0.85"/>
-    <polygon points="120,10 160,75 80,75" fill="white" opacity="0.7"/>
-    <polygon points="270,5 310,70 230,70" fill="white" opacity="0.75"/>
-    <polygon points="330,15 365,65 295,65" fill="white" opacity="0.65"/>
-    <polygon points="0,100 80,40 160,95 240,50 320,90 400,45 400,130 0,130" fill="url(#mountain2)"/>
-    <polygon points="0,120 60,60 130,110 200,65 270,105 340,60 400,90 400,150 0,150" fill="url(#mountain)"/>
-    <ellipse cx="200" cy="135" rx="80" ry="15" fill="url(#water)" opacity="0.85"/>
-    <rect x="0" y="120" width="120" height="80" fill="url(#forest)"/>
-    <polygon points="0,120 20,80 40,120" fill="#3A7D44"/>
-    <polygon points="20,120 40,75 60,120" fill="#4A8F55"/>
-    <polygon points="40,120 60,78 80,120" fill="#3A7D44"/>
-    <polygon points="60,120 80,82 100,120" fill="#4A8F55"/>
-    <polygon points="80,120 100,76 120,120" fill="#3A7D44"/>
-    <rect x="280" y="120" width="120" height="80" fill="url(#forest)"/>
-    <polygon points="280,120 300,80 320,120" fill="#4A8F55"/>
-    <polygon points="300,120 320,75 340,120" fill="#3A7D44"/>
-    <polygon points="320,120 340,79 360,120" fill="#4A8F55"/>
-    <polygon points="340,120 360,83 380,120" fill="#3A7D44"/>
-    <polygon points="360,120 380,78 400,120" fill="#4A8F55"/>
-    <path d="M160,200 Q185,145 195,130 Q200,125 205,130 Q215,145 240,200Z" fill="url(#road)"/>
-    <path d="M200,145 L200,155" stroke="white" strokeWidth="2" opacity="0.7"/>
-    <path d="M200,160 L200,170" stroke="white" strokeWidth="2" opacity="0.7"/>
-    <path d="M200,175 L200,185" stroke="white" strokeWidth="2" opacity="0.7"/>
-    <path d="M165,195 Q185,148 195,133" stroke="#AAA" strokeWidth="2" fill="none"/>
-    <g transform="translate(185,152) rotate(-5)">
-      <rect x="0" y="6" width="32" height="14" rx="3" fill="white" stroke="#DDD" strokeWidth="0.5"/>
-      <rect x="5" y="2" width="22" height="12" rx="3" fill="white" stroke="#DDD" strokeWidth="0.5"/>
-      <rect x="8" y="3" width="8" height="8" rx="1" fill="#A8D4E8" opacity="0.8"/>
-      <rect x="18" y="3" width="7" height="8" rx="1" fill="#A8D4E8" opacity="0.8"/>
-      <circle cx="6" cy="20" r="3.5" fill="#444"/>
-      <circle cx="6" cy="20" r="2" fill="#888"/>
-      <circle cx="26" cy="20" r="3.5" fill="#444"/>
-      <circle cx="26" cy="20" r="2" fill="#888"/>
-      <rect x="0" y="10" width="3" height="4" rx="1" fill="#FFE080"/>
-      <rect x="29" y="10" width="3" height="4" rx="1" fill="#FF6060"/>
-    </g>
-    <path d="M200,150 Q200,155 200,165 Q200,175 200,190" stroke="#13C9B8" strokeWidth="3" fill="none" strokeDasharray="5,4" opacity="0.8"/>
   </svg>
 );
 
@@ -402,9 +332,12 @@ export default function HopinOfferRide() {
             {/* ── RIGHT: TRIP PREVIEW ── */}
             <div style={styles.rightCol}>
               <div style={styles.previewCard}>
-                <h3 style={styles.previewTitle}>Your Trip Preview</h3>
                 <div style={styles.previewImg}>
-                  <ScenicRoadImage />
+                  <img
+                    src={scenicRoadImg}
+                    alt="Scenic road preview"
+                    style={{ width: "100%", height: "180px", objectFit: "cover", borderRadius: "12px", display: "block" }}
+                  />
                 </div>
                 <div style={styles.previewRoute}>
                   <div style={styles.previewRouteLeft}>
@@ -538,12 +471,12 @@ const borderColor = "#E5E7EB";
 const white = "#FFFFFF";
 
 const styles = {
-  page: { minHeight: "100vh", background: lightGray, fontFamily: "'Inter', sans-serif" },
+  page: { minHeight: "100vh", background: lightGray, fontFamily: "'Inter', sans-serif", overflowX: "hidden" },
   teal: { color: teal },
-  main: { paddingBottom: 0 },
-  container: { maxWidth: 1280, margin: "0 auto", padding: "32px 24px" },
-  grid: { display: "grid", gridTemplateColumns: "1fr 380px", gap: 24, alignItems: "start" },
-  formCard: { background: white, borderRadius: 16, padding: 32, boxShadow: "0 2px 16px rgba(0,0,0,0.06)" },
+  main: { paddingBottom: 0, width: "100%", overflowX: "hidden" },
+  container: { width: "100%", padding: "32px 24px", boxSizing: "border-box" },
+  grid: { display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 320px)", gap: 20, alignItems: "start" },
+  formCard: { background: white, borderRadius: 16, padding: 32, boxShadow: "0 2px 16px rgba(0,0,0,0.06)", minWidth: 0, overflow: "hidden" },
   formHeader: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, flexWrap: "wrap", gap: 16 },
   heroTitle: { fontSize: 40, fontWeight: 800, color: navy, lineHeight: 1.1 },
   heroSubtitle: { fontSize: 14, color: gray, marginTop: 6, fontWeight: 400 },
@@ -587,9 +520,8 @@ const styles = {
   tipText: { fontSize: 14, color: "#374151", fontWeight: 400 },
   tipLabel: { color: teal, fontWeight: 700 },
   saveBtn: { display: "flex", alignItems: "center", gap: 4, background: teal, color: white, border: "none", borderRadius: 10, padding: "13px 26px", fontSize: 15, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0, transition: "background 0.2s" },
-  rightCol: { display: "flex", flexDirection: "column", gap: 16 },
-  previewCard: { background: white, borderRadius: 16, padding: 20, boxShadow: "0 2px 16px rgba(0,0,0,0.06)" },
-  previewTitle: { fontSize: 16, fontWeight: 700, color: navy, marginBottom: 14 },
+  rightCol: { display: "flex", flexDirection: "column", gap: 16, minWidth: 0, overflow: "hidden" },
+  previewCard: { background: white, borderRadius: 16, padding: 20, boxShadow: "0 2px 16px rgba(0,0,0,0.06)", overflow: "hidden" },
   previewImg: { borderRadius: 12, overflow: "hidden", marginBottom: 16 },
   previewRoute: { marginBottom: 14 },
   previewRouteLeft: { display: "flex", flexDirection: "column", gap: 0 },
@@ -610,7 +542,7 @@ const styles = {
   whyText: { fontSize: 14, color: "#374151", fontWeight: 500 },
   whyTreeDecor: { position: "absolute", bottom: -8, right: -8, opacity: 0.8 },
   trustBar: { background: white, borderTop: `1px solid ${borderColor}`, padding: "28px 24px", marginTop: 8 },
-  trustContainer: { maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24 },
+  trustContainer: { width: "100%", display: "grid", gridTemplateColumns: "repeat(4,minmax(0,1fr))", gap: 24 },
   trustItem: { display: "flex", alignItems: "center", gap: 14 },
   trustTitle: { fontSize: 14, fontWeight: 700, color: navy, marginBottom: 3 },
   trustSub: { fontSize: 12, color: gray, lineHeight: 1.4 },

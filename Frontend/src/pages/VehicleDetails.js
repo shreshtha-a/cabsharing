@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import hondaCityImg from './honda-city.png';
+import hyundaiI20Img from './hyundai-i20.png';
 import {
   ChevronLeft, ChevronRight, HelpCircle, Shield, CheckCircle,
   Wind, Zap, Usb, Music, Droplets, Baby, Briefcase, PawPrint,
   Car, Users, Fuel
 } from 'lucide-react';
 
-// ─── Color Scheme (matches RidePreferences) ──────────────────
+// ─── Color Scheme ──────────────────────────────────────────────
 const colors = {
   teal: '#13C9B8',
   navy: '#1A2332',
@@ -20,7 +22,7 @@ const colors = {
   green: '#10B981',
 };
 
-// ─── Mock vehicle data ────────────────────────────────────────
+// ─── Vehicle data with local images ───────────────────────────
 const vehicles = [
   {
     id: 1,
@@ -31,7 +33,7 @@ const vehicles = [
     seats: 4,
     transmission: 'Automatic',
     year: 2022,
-    image: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.jpeg?isig=0&q=75',
+    image: hondaCityImg,
   },
   {
     id: 2,
@@ -42,7 +44,7 @@ const vehicles = [
     seats: 4,
     transmission: 'Manual',
     year: 2021,
-    image: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/41564/i20-exterior-right-front-three-quarter-3.jpeg?isig=0&q=75',
+    image: hyundaiI20Img,
   },
 ];
 
@@ -65,7 +67,6 @@ const safetyFeatures = [
   { id: 'fire',    label: 'Fire Extinguisher' },
 ];
 
-// ─── Safety feature icons (SVG inline since lucide lacks these) ──
 function SafetyIcon({ id }) {
   const style = { width: 28, height: 28, color: colors.navy };
   switch (id) {
@@ -145,8 +146,6 @@ export default function VehicleDetails() {
         boxShadow: '0 1px 8px rgba(0,0,0,0.05)',
       }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px' }}>
-
-          {/* Top row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <button
               onClick={() => navigate('/ride-preferences')}
@@ -219,7 +218,11 @@ export default function VehicleDetails() {
               {vehicles.map(v => (
                 <div
                   key={v.id}
-                  onClick={() => { setSelectedVehicle(v.id); setEditingVehicleInfo(false); setVehicleInfo({ name: v.name, color: v.color, plate: v.plate, seats: v.seats, fuel: v.fuel, transmission: v.transmission, year: v.year }); }}
+                  onClick={() => {
+                    setSelectedVehicle(v.id);
+                    setEditingVehicleInfo(false);
+                    setVehicleInfo({ name: v.name, color: v.color, plate: v.plate, seats: v.seats, fuel: v.fuel, transmission: v.transmission, year: v.year });
+                  }}
                   style={{
                     backgroundColor: colors.white,
                     border: `2px solid ${selectedVehicle === v.id ? colors.teal : colors.border}`,
@@ -236,8 +239,14 @@ export default function VehicleDetails() {
                   <img
                     src={v.image}
                     alt={v.name}
-                    style={{ width: 120, height: 72, objectFit: 'cover', borderRadius: 8, flexShrink: 0 }}
-                    onError={(e) => { e.target.style.background = '#eee'; e.target.src = ''; }}
+                    style={{
+                      width: 120,
+                      height: 72,
+                      objectFit: 'contain',
+                      borderRadius: 8,
+                      flexShrink: 0,
+                      backgroundColor: '#F8F9FA',
+                    }}
                   />
                   <div>
                     <div style={{ fontSize: 16, fontWeight: 700, color: colors.navy, marginBottom: 4 }}>{v.name}</div>
@@ -252,7 +261,6 @@ export default function VehicleDetails() {
                     </div>
                   </div>
 
-                  {/* Checkmark */}
                   {selectedVehicle === v.id && (
                     <div style={{
                       position: 'absolute', top: 12, right: 12,
@@ -342,7 +350,6 @@ export default function VehicleDetails() {
                           borderRadius: 6, padding: '4px 8px',
                           backgroundColor: colors.bgTeal,
                           cursor: 'pointer', outline: 'none',
-                          accentColor: colors.teal,
                         }}
                       >
                         {row.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
@@ -421,30 +428,23 @@ export default function VehicleDetails() {
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-
-            {/* Amenity checkboxes */}
             <div style={{
               backgroundColor: colors.white,
               border: `1px solid ${colors.border}`,
               borderRadius: 12,
               padding: '16px 20px',
             }}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 12,
-              }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 {amenitiesList.map(({ id, label, icon: Icon }) => (
                   <label
                     key={id}
                     style={{
                       display: 'flex', alignItems: 'center', gap: 12,
                       padding: '10px 14px',
-                      border: `1px solid ${colors.border}`,
+                      border: `1px solid ${amenities[id] ? colors.borderTeal : colors.border}`,
                       borderRadius: 10,
                       cursor: 'pointer',
                       backgroundColor: amenities[id] ? colors.bgTeal : colors.white,
-                      borderColor: amenities[id] ? colors.borderTeal : colors.border,
                       transition: 'all 0.2s',
                       userSelect: 'none',
                     }}
@@ -462,7 +462,6 @@ export default function VehicleDetails() {
               </div>
             </div>
 
-            {/* Additional Safety Features */}
             <div style={{
               backgroundColor: colors.white,
               border: `1px solid ${colors.border}`,
