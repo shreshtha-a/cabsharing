@@ -6,7 +6,6 @@ export default function OtpModal({ onClose }) {
   const [otp, setOtp] = useState("");
 
   const handleVerify = () => {
-    // Later this will call the backend
     if (otp.length === 6) {
       onClose();
       navigate("/home");

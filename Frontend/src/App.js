@@ -11,9 +11,13 @@ import HopinOfferRide     from "./components/HopinOfferRide";
 import HopinSeatSelector  from "./components/HopinSeatSelector";
 import AuthSuccess        from "./pages/AuthSuccess";
 import Settings           from "./pages/HopinSettings";
+import FindRide from "./pages/FindRide";
+// import Settings from "./pages/HopinSettings";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment            from "./pages/Payment";
 import DriverRegistration from "./pages/DriverRegistration";
+import Settings from "./pages/Settings/Settings";
+import HelpCenter from "./pages/Settings/InnerPages/HelpCenter"
 
 // ─── Auth guard ───────────────────────────────────────────
 function ProtectedRoute({ children }) {
@@ -53,13 +57,15 @@ function AppLayout() {
           <Route path="/select-seat"          element={<HopinSeatSelector />} />
           <Route path="/rides"                element={<Placeholder title="My Rides" />} />
           <Route path="/messages"             element={<Placeholder title="Messages" />} />
-          <Route path="/recurring-rides"      element={<RecurringRide />} />
-          <Route path="/notifications"        element={<Placeholder title="Notifications" />} />
+          <Route path="/recurring-rides"      element={<RecurringRide />} />  
+          <Route path="/notifications"    element={<Placeholder title="Notifications" />} />
           <Route path="/profile"              element={<Profile />} />
           <Route path="/settings"             element={<Settings />} />
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
           <Route path="/payment"              element={<Payment />} />
           <Route path="/driver-registration"  element={<DriverRegistration />} />
+          <Route path="/help-center"
+          element={<HelpCenter />}/>
         </Routes>
       </div>
     </div>
