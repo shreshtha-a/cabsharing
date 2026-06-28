@@ -438,12 +438,12 @@ export default function HopinOfferRide() {
                     More details help riders connect with you faster!
                   </p>
                 </div>
-                {/* ── ONLY CHANGE: added onClick to navigate to seat selector ── */}
+                {/* Navigate to Ride Preferences */}
                 <button
                   style={styles.saveBtn}
-                  onClick={() => navigate("/select-seat")}
+                  onClick={() => navigate("/ride-preferences")}
                 >
-                  Save &amp; Continue <span style={{ marginLeft: 8 }}><ArrowRight /></span>
+                  Ride Preferences <span style={{ marginLeft: 8 }}><ArrowRight /></span>
                 </button>
               </div>
             </div>

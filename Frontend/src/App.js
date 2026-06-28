@@ -1,33 +1,27 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Sidebar from "./components/Sidebar";
-
-import Landing            from "./pages/Landing";
-import Home               from "./pages/Home";
-import Profile            from "./pages/Profile";
-import RecurringRide      from "./pages/RecurringRide";
-import FindRide           from "./pages/FindRide";
-import HopinOfferRide     from "./components/HopinOfferRide";
-import HopinSeatSelector  from "./components/HopinSeatSelector";
-import AuthSuccess        from "./pages/AuthSuccess";
-import Settings           from "./pages/HopinSettings";
+import Sidebar             from "./components/Sidebar";
+import Landing             from "./pages/Landing";
+import Home                from "./pages/Home";
+import Profile             from "./pages/Profile";
+import RecurringRide       from "./pages/RecurringRide";
+import FindRide            from "./pages/FindRide";
+import HopinOfferRide      from "./components/HopinOfferRide";
+import HopinSeatSelector   from "./components/HopinSeatSelector";
+import RidePreferences     from "./pages/RidePreferences";
+import HopinSettings       from "./pages/HopinSettings";
+import DriverRegistration  from "./pages/DriverRegistration";
+import Notifications       from "./pages/Notifications";
+import AuthSuccess         from "./pages/AuthSuccess";
 import BookingConfirmation from "./pages/BookingConfirmation";
-import Payment            from "./pages/Payment";
-import DriverRegistration from "./pages/DriverRegistration";
+import Payment             from "./pages/Payment";
+import VehicleDetails      from "./pages/VehicleDetails";
 
 // ─── Auth guard ───────────────────────────────────────────
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
   if (!token) return <Navigate to="/" replace />;
   return children;
-}
-
-// ─── Google OAuth callback ────────────────────────────────
-function OAuthSuccess() {
-  const params = new URLSearchParams(window.location.search);
-  const token  = params.get("token");
-  if (token) localStorage.setItem("token", token);
-  return <Navigate to="/home" replace />;
 }
 
 // ─── Placeholder ──────────────────────────────────────────
@@ -51,15 +45,17 @@ function AppLayout() {
           <Route path="/search"               element={<FindRide />} />
           <Route path="/offer-ride"           element={<HopinOfferRide />} />
           <Route path="/select-seat"          element={<HopinSeatSelector />} />
+          <Route path="/ride-preferences"     element={<RidePreferences />} />
           <Route path="/rides"                element={<Placeholder title="My Rides" />} />
           <Route path="/messages"             element={<Placeholder title="Messages" />} />
           <Route path="/recurring-rides"      element={<RecurringRide />} />
-          <Route path="/notifications"        element={<Placeholder title="Notifications" />} />
+          <Route path="/notifications"        element={<Notifications />} />
           <Route path="/profile"              element={<Profile />} />
-          <Route path="/settings"             element={<Settings />} />
+          <Route path="/settings"             element={<HopinSettings />} />
+          <Route path="/driver-registration"  element={<DriverRegistration />} />
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
           <Route path="/payment"              element={<Payment />} />
-          <Route path="/driver-registration"  element={<DriverRegistration />} />
+          <Route path="/vehicle-details"      element={<VehicleDetails />} />
         </Routes>
       </div>
     </div>
@@ -74,9 +70,8 @@ export default function App() {
         {/* Public routes */}
         <Route path="/"             element={<Landing />} />
         <Route path="/auth/success" element={<AuthSuccess />} />
-        <Route path="/oauth-success" element={<OAuthSuccess />} />
 
-        {/* Protected app */}
+        {/* Protected app (with sidebar) */}
         <Route path="/*" element={
           <ProtectedRoute>
             <AppLayout />
