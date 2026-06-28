@@ -8,7 +8,7 @@ import Profile             from "./pages/Profile";
 import RecurringRide       from "./pages/RecurringRide";
 import FindRide            from "./pages/FindRide";
 import HopinOfferRide      from "./components/HopinOfferRide";
-import HopinSeatSelector   from "./pages/HopinSeatSelector";
+import RidePreferences     from "./pages/RidePreferences";
 import HopinSettings       from "./pages/HopinSettings";
 import DriverRegistration  from "./pages/DriverRegistration";
 import Notifications       from "./pages/Notifications";
@@ -70,8 +70,8 @@ export default function App() {
           <Route path="/offer-ride" element={
             <ProtectedRoute><WithSidebar><HopinOfferRide /></WithSidebar></ProtectedRoute>
           } />
-          <Route path="/select-seat" element={
-            <ProtectedRoute><WithSidebar><HopinSeatSelector /></WithSidebar></ProtectedRoute>
+          <Route path="/ride-preferences" element={
+            <ProtectedRoute><WithSidebar><RidePreferences /></WithSidebar></ProtectedRoute>
           } />
           <Route path="/rides" element={
             <ProtectedRoute><WithSidebar><Placeholder title="My Rides" /></WithSidebar></ProtectedRoute>
