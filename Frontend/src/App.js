@@ -14,6 +14,7 @@ import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment from "./pages/Payment";
 import DriverRegistration from "./pages/DriverRegistration";
 import Settings from "./pages/Settings/Settings";
+import HelpCenter from "./pages/Settings/InnerPages/HelpCenter"
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -43,6 +44,8 @@ function AppLayout() {
           <Route path="/profile"              element={<Profile />} />
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
           <Route path="/payment"              element={<Payment />} />
+          <Route path="/help-center"
+          element={<HelpCenter />}/>
         </Routes>
       </div>
     </div>

@@ -6,6 +6,7 @@ import {
   FaEnvelope,
   FaShieldAlt,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function Support() {
   const rowStyle = {
@@ -16,6 +17,7 @@ export default function Support() {
     borderBottom: "1px solid #E5E7EB",
     cursor: "pointer",
   };
+  const navigate = useNavigate();
 
   const leftStyle = {
     display: "flex",
@@ -76,7 +78,9 @@ export default function Support() {
 
       {/* Help Center */}
 
-      <div style={rowStyle}>
+      <div style={rowStyle}
+      onClick={() => navigate("/help-center")}
+      >
         <div style={leftStyle}>
           <FaQuestionCircle color="#14B8A6" />
           <span>Help Center</span>
