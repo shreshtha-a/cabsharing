@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import scenicRoadImg from "./scenic-road.png";
+//added the publish feature//
 
 const PinIcon = ({ color = "#13C9B8", size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
