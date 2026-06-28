@@ -135,12 +135,6 @@ const CommunityIcon = ({ size = 40 }) => (
   </svg>
 );
 
-const LocationNavIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="#13C9B8">
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-  </svg>
-);
-
 const ScenicRoadImage = () => (
   <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "180px", objectFit: "cover", borderRadius: "12px" }}>
     <defs>
@@ -223,51 +217,9 @@ export default function HopinOfferRide() {
   const [seats, setSeats] = useState("");
   const [rideType, setRideType] = useState("oneWay");
   const [price, setPrice] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div style={styles.page}>
-      {/* ── NAV ── */}
-      <nav style={styles.nav}>
-        <div style={styles.navInner}>
-          <div style={styles.logo}>
-            <span style={styles.logoText}>
-              Hop<span style={styles.logoTeal}>in</span>
-              <span style={styles.logoPin}><LocationNavIcon /></span>
-            </span>
-            <div style={styles.logoSub}>Going <span style={styles.teal}>your</span> way anyway.</div>
-          </div>
-          <div style={styles.navLinks}>
-            <a href="#" style={{ ...styles.navLink, ...styles.navLinkActive }}>Offer a Ride</a>
-            <a href="#" style={styles.navLink}>Find a Ride</a>
-            <a href="#" style={styles.navLink}>Safety</a>
-            <a href="#" style={styles.navLink}>How It Works</a>
-            <a href="#" style={styles.navLink}>About Us</a>
-            <a href="#" style={styles.navLink}>Blog</a>
-          </div>
-          <div style={styles.authBtns}>
-            <button style={styles.loginBtn}>Log In</button>
-            <button style={styles.signupBtn}>Sign Up</button>
-          </div>
-          <button style={styles.hamburger} onClick={() => setMenuOpen(o => !o)}>
-            <span style={styles.hamburgerLine}/>
-            <span style={styles.hamburgerLine}/>
-            <span style={styles.hamburgerLine}/>
-          </button>
-        </div>
-        {menuOpen && (
-          <div style={styles.mobileMenu}>
-            {["Offer a Ride","Find a Ride","Safety","How It Works","About Us","Blog"].map(link => (
-              <a key={link} href="#" style={styles.mobileLink}>{link}</a>
-            ))}
-            <div style={styles.mobileBtns}>
-              <button style={styles.loginBtn}>Log In</button>
-              <button style={styles.signupBtn}>Sign Up</button>
-            </div>
-          </div>
-        )}
-      </nav>
-
       {/* ── HERO SECTION ── */}
       <main style={styles.main}>
         <div style={styles.container}>
@@ -438,7 +390,6 @@ export default function HopinOfferRide() {
                     More details help riders connect with you faster!
                   </p>
                 </div>
-                {/* Navigate to Ride Preferences */}
                 <button
                   style={styles.saveBtn}
                   onClick={() => navigate("/ride-preferences")}
@@ -557,9 +508,6 @@ export default function HopinOfferRide() {
           .rightCol { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
         }
         @media (max-width: 768px) {
-          .navLinks { display: none !important; }
-          .authBtns { display: none !important; }
-          .hamburger { display: flex !important; }
           .row3 { grid-template-columns: 1fr !important; }
           .row2 { grid-template-columns: 1fr !important; }
           .rightCol { grid-template-columns: 1fr !important; }
@@ -591,25 +539,7 @@ const white = "#FFFFFF";
 
 const styles = {
   page: { minHeight: "100vh", background: lightGray, fontFamily: "'Inter', sans-serif" },
-  nav: { background: white, borderBottom: `1px solid ${borderColor}`, position: "sticky", top: 0, zIndex: 100, boxShadow: "0 1px 8px rgba(0,0,0,0.05)" },
-  navInner: { maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", gap: 32, justifyContent: "space-between" },
-  logo: { display: "flex", flexDirection: "column", gap: 0 },
-  logoText: { fontSize: 26, fontWeight: 800, color: navy, letterSpacing: "-0.5px", display: "flex", alignItems: "center", gap: 1 },
-  logoTeal: { color: teal },
-  logoPin: { display: "inline-flex", marginLeft: 1, marginTop: -4 },
-  logoSub: { fontSize: 11, color: gray, fontWeight: 400, letterSpacing: "0.01em", marginTop: -2 },
   teal: { color: teal },
-  navLinks: { display: "flex", gap: 28, flex: 1, justifyContent: "center" },
-  navLink: { fontSize: 14, fontWeight: 500, color: "#374151", textDecoration: "none", padding: "4px 0", borderBottom: "2px solid transparent", transition: "all 0.2s" },
-  navLinkActive: { color: teal, borderBottom: `2px solid ${teal}` },
-  authBtns: { display: "flex", gap: 12, alignItems: "center" },
-  loginBtn: { background: "none", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 500, color: navy, padding: "8px 16px" },
-  signupBtn: { background: teal, border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, color: white, padding: "10px 22px", borderRadius: 8, transition: "background 0.2s" },
-  hamburger: { display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 },
-  hamburgerLine: { display: "block", width: 22, height: 2, background: navy, borderRadius: 2 },
-  mobileMenu: { background: white, borderTop: `1px solid ${borderColor}`, padding: 16, display: "flex", flexDirection: "column", gap: 8 },
-  mobileLink: { fontSize: 15, fontWeight: 500, color: "#374151", textDecoration: "none", padding: "10px 12px", borderRadius: 8 },
-  mobileBtns: { display: "flex", gap: 12, padding: "8px 0" },
   main: { paddingBottom: 0 },
   container: { maxWidth: 1280, margin: "0 auto", padding: "32px 24px" },
   grid: { display: "grid", gridTemplateColumns: "1fr 380px", gap: 24, alignItems: "start" },
