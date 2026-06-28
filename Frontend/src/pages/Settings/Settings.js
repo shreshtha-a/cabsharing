@@ -1,12 +1,12 @@
-import Security from "../components/settings/Security";
-import Notifications from "../components/settings/Notifications";
-import Safety from "../components/settings/Safety";
-import AppPreferences from "../components/settings/AppPreferences";
-import PaymentsWallets from "../components/settings/PaymentsWallets";
-import Rewards from "../components/settings/Rewards";
-import Support from "../components/settings/Support";
-import Sustainability from "../components/settings/Sustainability";
-import Header from "../components/settings/Header";
+import Security from "../../components/settings/Security";
+import Notifications from "../../components/settings/Notifications";
+import Safety from "../../components/settings/Safety";
+import AppPreferences from "../../components/settings/AppPreferences";
+import PaymentsWallets from "../../components/settings/PaymentsWallets";
+import Rewards from "../../components/settings/Rewards";
+import Support from "../../components/settings/Support";
+import Sustainability from "../../components/settings/Sustainability";
+import Header from "../../components/settings/Header";
 
 export default function settings(){
     return (
