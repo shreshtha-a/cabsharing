@@ -9,11 +9,11 @@ import RecurringRide from "./pages/RecurringRide";
 import HopinOfferRide from "./components/HopinOfferRide";
 import HopinSeatSelector from "./components/HopinSeatSelector";
 import FindRide from "./pages/FindRide";
-import Settings from "./pages/HopinSettings";
+// import Settings from "./pages/HopinSettings";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment from "./pages/Payment";
 import DriverRegistration from "./pages/DriverRegistration";
-import Settings from "./pages/Settings";
+import Settings from "./pages/Settings/Settings";
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");

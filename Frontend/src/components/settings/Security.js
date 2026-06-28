@@ -1,4 +1,7 @@
 import { FaLock, FaHistory, FaUserShield, FaChevronRight } from "react-icons/fa";
+import ChangePassword from "./PopUps/ChangePassword";
+import TwoFactorAuthentication from "./PopUps/TwoFactorAuthentication"
+import { useState } from "react";
 
 export default function Security() {
   const itemStyle = {
@@ -12,6 +15,10 @@ export default function Security() {
     background: "#fff",
     transition: "0.3s"
   };
+
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showTwoFactorModal, setShowTwoFactorModal] = useState(false);
+  const [twoFactorStatus, setTwoFactorStatus] = useState("Enabled");
 
   return (
     <div
@@ -64,15 +71,24 @@ export default function Security() {
         }}
       >
         {/* Change Password */}
+        <>
+            <div style={itemStyle}
+            onClick={() => setShowPasswordModal(true)}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}
+            >
+                <FaLock color="#14B8A6" />
+                <span>Change Password</span>
+            </div>
+            <FaChevronRight color="#9CA3AF" />
 
-        <div style={itemStyle}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <FaLock color="#14B8A6" />
-            <span>Change Password</span>
-          </div>
+            </div>
 
-          <FaChevronRight color="#9CA3AF" />
-        </div>
+            {showPasswordModal && (
+            <ChangePassword
+            onClose={() => setShowPasswordModal(false)}
+            />
+            )}
+        </>
 
         {/* Login Activity */}
 
@@ -86,8 +102,10 @@ export default function Security() {
         </div>
 
         {/* Two Factor */}
-
-        <div style={itemStyle}>
+        <>
+        <div style={itemStyle}
+        onClick={() => setShowTwoFactorModal(true)}
+        >
           <div
             style={{
               display: "flex",
@@ -101,19 +119,27 @@ export default function Security() {
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-            <span
+            <span id="TwoFactorButton"
               style={{
                 color: "#14B8A6",
                 fontWeight: "600",
                 fontSize: "14px"
               }}
             >
-              Enabled
+              {twoFactorStatus}
             </span>
 
             <FaChevronRight color="#9CA3AF" />
           </div>
         </div>
+
+      {showTwoFactorModal && (
+        <TwoFactorAuthentication
+          onClose={() => setShowTwoFactorModal(false)}
+          setTwoFactorStatus={setTwoFactorStatus}
+        />
+      )}
+        </>
 
         {/* Blocked Users */}
 
