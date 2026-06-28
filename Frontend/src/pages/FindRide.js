@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { rideService, bookingService } from "../services/rideService";
+import { getLocalRides } from "../utils/localRides";
 
 const CITIES = ["Agra", "Delhi", "Jaipur", "Mathura", "Noida", "Gurgaon", "Lucknow", "Mumbai", "Pune", "Bangalore"];
 
 const POPULAR_ROUTES = [
-  { from: "Delhi",     to: "Jaipur",  count: 128 },
-  { from: "Bangalore", to: "Mysore",  count: 96  },
-  { from: "Mumbai",    to: "Pune",    count: 74  },
+  { from: "Delhi",     to: "Jaipur", count: 128 },
+  { from: "Bangalore", to: "Mysore", count: 96  },
+  { from: "Mumbai",    to: "Pune",   count: 74  },
 ];
 
 const WHY_ITEMS = [
@@ -49,46 +50,108 @@ function getRidePreferenceTags(ride) {
   return tags.slice(0, 3);
 }
 
+// ─── Local ride row (matches the same card style) ─────────
+function LocalRideRow({ ride, isMobile }) {
+  const navigate = useNavigate();
+  const tags = [];
+  const p = ride?.preferences || {};
+  if (p.petsAllowed)     tags.push("Pet Friendly");
+  if (!p.smokingAllowed) tags.push("Non Smoker");
+  if (p.musicAllowed)    tags.push("Music Lover");
+
+  return (
+    <div style={{ background: "#fff", borderRadius: "16px", border: "1px solid #E5E7EB", padding: "16px 20px", display: "flex", gap: "16px", alignItems: "center", flexWrap: isMobile ? "wrap" : "nowrap", boxShadow: "0 2px 8px rgba(15,45,82,0.04)" }}>
+      {/* Avatar */}
+      <div style={{ position: "relative", flexShrink: 0 }}>
+        <div style={{ width: "56px", height: "56px", borderRadius: "50%", background: "#14B8A6", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px", fontWeight: "700", color: "#fff" }}>
+          {(ride.driverName || "D")[0].toUpperCase()}
+        </div>
+        <div style={{ position: "absolute", bottom: 0, right: 0, background: "#14B8A6", borderRadius: "50%", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", border: "2px solid #fff", color: "#fff" }}>✓</div>
+      </div>
+
+      {/* Driver info */}
+      <div style={{ minWidth: "130px", flexShrink: 0 }}>
+        <div style={{ fontSize: "15px", fontWeight: "700", color: "#0F2D52" }}>{ride.driverName || "Driver"}</div>
+        <div style={{ fontSize: "12px", color: "#64748B", marginTop: "2px" }}>🚘 {ride.vehicle?.name || "Car"} · {ride.vehicle?.plate || ""}</div>
+        <div style={{ marginTop: "6px", background: "#F0FDFA", color: "#0F6E56", fontSize: "11px", fontWeight: "600", padding: "2px 8px", borderRadius: "20px", display: "inline-block" }}>✓ Driver</div>
+      </div>
+
+      {/* Route */}
+      <div style={{ flex: "1", minWidth: "120px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+          <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#14B8A6", flexShrink: 0 }}></div>
+          <span style={{ fontSize: "13px", fontWeight: "600", color: "#0F2D52" }}>{ride.from}</span>
+          <span style={{ fontSize: "12px", color: "#94A3B8" }}>{ride.time}</span>
+        </div>
+        <div style={{ width: "1.5px", height: "16px", background: "#E5E7EB", marginLeft: "4px" }}></div>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
+          <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#0F2D52", flexShrink: 0 }}></div>
+          <span style={{ fontSize: "13px", fontWeight: "600", color: "#0F2D52" }}>{ride.to}</span>
+          <span style={{ fontSize: "12px", color: "#94A3B8" }}>{ride.date}</span>
+        </div>
+      </div>
+
+      {/* Tags */}
+      <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", minWidth: isMobile ? "auto" : "180px" }}>
+        {tags.map(t => <span key={t} style={{ background: "#F8FAFC", border: "1px solid #E5E7EB", color: "#475569", fontSize: "11px", padding: "3px 10px", borderRadius: "20px" }}>{t}</span>)}
+        <span style={{ background: "#F8FAFC", border: "1px solid #E5E7EB", color: "#475569", fontSize: "11px", padding: "3px 10px", borderRadius: "20px" }}>🧍 {ride.seats} seats</span>
+      </div>
+
+      {/* Price */}
+      <div style={{ textAlign: "right", flexShrink: 0, minWidth: "100px" }}>
+        <div style={{ fontSize: "20px", fontWeight: "700", color: "#0F2D52" }}>₹{ride.price}</div>
+        <div style={{ fontSize: "11px", color: "#64748B", marginBottom: "10px" }}>per seat</div>
+        <button
+          onClick={() => navigate("/offer-ride")}
+          style={{ background: "#fff", color: "#14B8A6", border: "1.5px solid #14B8A6", borderRadius: "10px", padding: "8px 18px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}
+        >
+          Contact
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────
 export default function FindRide() {
   const navigate = useNavigate();
 
-  // Search state
   const [from,  setFrom]  = useState("Agra");
   const [to,    setTo]    = useState("Delhi");
   const [date,  setDate]  = useState("");
   const [seats, setSeats] = useState(1);
 
-  // UI state
   const [activeFilter, setActiveFilter] = useState("All");
   const [sortBy,       setSortBy]       = useState("Recommended");
   const [showAll,      setShowAll]      = useState(false);
 
-  // Data state
-  const [rides,   setRides]   = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error,   setError]   = useState(null);
-
-  // Booking state: { [rideId]: 'loading' | 'done' | null }
+  const [apiRides,    setApiRides]    = useState([]);
+  const [localRides,  setLocalRides]  = useState([]);
+  const [loading,     setLoading]     = useState(false);
+  const [error,       setError]       = useState(null);
   const [bookingState, setBookingState] = useState({});
 
   const [windowWidth] = useState(() => window.innerWidth);
-  const isMobile  = windowWidth < 768;
-  const isTablet  = windowWidth >= 768 && windowWidth < 1100;
+  const isMobile   = windowWidth < 768;
+  const isTablet   = windowWidth >= 768 && windowWidth < 1100;
   const showSidebar = !isMobile && !isTablet;
 
-  // ─── Fetch rides ────────────────────────────────────────
+  // Load local rides on mount
+  useEffect(() => {
+    setLocalRides(getLocalRides());
+  }, []);
+
+  // ─── Fetch API rides ──────────────────────────────────
   const fetchRides = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const params = { seats };
-      if (from)  params.source      = from;
-      if (to)    params.destination = to;
-      if (date)  params.date        = date;
-
+      if (from) params.source      = from;
+      if (to)   params.destination = to;
+      if (date) params.date        = date;
       const res = await rideService.getRides(params);
-      setRides(res.data.rides || []);
+      setApiRides(res.data.rides || []);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load rides. Please try again.");
     } finally {
@@ -96,43 +159,42 @@ export default function FindRide() {
     }
   }, [from, to, date, seats]);
 
-  // Fetch on mount
   useEffect(() => { fetchRides(); }, []); // eslint-disable-line
 
-  // ─── Sort & filter ──────────────────────────────────────
-  const getSortedRides = () => {
-    let r = [...rides];
+  // ─── Filter local rides by search criteria ────────────
+  const filteredLocal = localRides.filter(ride => {
+    const matchFrom = !from || ride.from?.toLowerCase().includes(from.toLowerCase());
+    const matchTo   = !to   || ride.to?.toLowerCase().includes(to.toLowerCase());
+    const matchDate = !date || ride.date === date;
+    return matchFrom && matchTo && matchDate;
+  });
+
+  // ─── Sort & filter API rides ──────────────────────────
+  const getSortedApiRides = () => {
+    let r = [...apiRides];
     if (activeFilter === "Cheapest")  r.sort((a, b) => a.farePerSeat - b.farePerSeat);
     if (activeFilter === "Top Rated") r.sort((a, b) => (b.driver?.averageRating || 0) - (a.driver?.averageRating || 0));
     if (activeFilter === "Earliest")  r.sort((a, b) => new Date(a.date) - new Date(b.date));
-    if (sortBy === "Price: Low to High")  r.sort((a, b) => a.farePerSeat - b.farePerSeat);
-    if (sortBy === "Price: High to Low")  r.sort((a, b) => b.farePerSeat - a.farePerSeat);
+    if (sortBy === "Price: Low to High") r.sort((a, b) => a.farePerSeat - b.farePerSeat);
+    if (sortBy === "Price: High to Low") r.sort((a, b) => b.farePerSeat - a.farePerSeat);
     return r;
   };
 
-  const sorted      = getSortedRides();
-  const visible     = showAll ? sorted : sorted.slice(0, 3);
-  const hiddenCount = sorted.length - 3;
+  const sortedApi   = getSortedApiRides();
+  const allRides    = [...filteredLocal, ...sortedApi];
+  const totalCount  = allRides.length;
+  const visible     = showAll ? allRides : allRides.slice(0, 3);
+  const hiddenCount = totalCount - 3;
 
-  // ─── Book a seat ────────────────────────────────────────
+  // ─── Book a seat (API rides only) ─────────────────────
   const handleBook = async (ride) => {
     const token = localStorage.getItem("token");
     if (!token) { navigate("/"); return; }
-
     setBookingState(prev => ({ ...prev, [ride._id]: "loading" }));
     try {
-      await bookingService.create({
-        ride:        ride._id,
-        seatsBooked: 1,
-        totalAmount: ride.farePerSeat,
-        farePerSeat: ride.farePerSeat,
-      });
+      await bookingService.create({ ride: ride._id, seatsBooked: 1, totalAmount: ride.farePerSeat, farePerSeat: ride.farePerSeat });
       setBookingState(prev => ({ ...prev, [ride._id]: "done" }));
-      // Refresh ride list so seat count updates
-      setTimeout(() => {
-        setBookingState(prev => ({ ...prev, [ride._id]: null }));
-        fetchRides();
-      }, 2000);
+      setTimeout(() => { setBookingState(prev => ({ ...prev, [ride._id]: null })); fetchRides(); }, 2000);
     } catch (err) {
       setBookingState(prev => ({ ...prev, [ride._id]: null }));
       alert(err.response?.data?.message || "Booking failed. Please try again.");
@@ -142,7 +204,6 @@ export default function FindRide() {
   const swapLocations = () => { setFrom(to); setTo(from); };
   const filters = ["All", "Cheapest", "Earliest", "Top Rated"];
 
-  // ─── Render ─────────────────────────────────────────────
   return (
     <div style={{ background: "#F8FAFC", minHeight: "100vh", fontFamily: "Inter, sans-serif" }}>
 
@@ -167,8 +228,6 @@ export default function FindRide() {
       {/* SEARCH BAR */}
       <div style={{ background: "#fff", borderBottom: "1px solid #E5E7EB", padding: isMobile ? "12px 16px" : "16px 32px" }}>
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "flex-end" }}>
-
-          {/* FROM */}
           <div style={{ flex: "1 1 120px", minWidth: "100px" }}>
             <label style={{ fontSize: "11px", color: "#64748B", display: "block", marginBottom: "4px" }}>From</label>
             <div style={{ display: "flex", alignItems: "center", gap: "6px", border: "1px solid #E5E7EB", borderRadius: "10px", padding: "8px 10px", background: "#fff" }}>
@@ -179,10 +238,8 @@ export default function FindRide() {
             </div>
           </div>
 
-          {/* SWAP */}
           <button onClick={swapLocations} style={{ background: "#F0FDFA", border: "1px solid #99F6E4", borderRadius: "50%", width: "34px", height: "34px", cursor: "pointer", fontSize: "16px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginBottom: "2px" }}>⇄</button>
 
-          {/* TO */}
           <div style={{ flex: "1 1 120px", minWidth: "100px" }}>
             <label style={{ fontSize: "11px", color: "#64748B", display: "block", marginBottom: "4px" }}>To</label>
             <div style={{ display: "flex", alignItems: "center", gap: "6px", border: "1px solid #E5E7EB", borderRadius: "10px", padding: "8px 10px", background: "#fff" }}>
@@ -193,21 +250,14 @@ export default function FindRide() {
             </div>
           </div>
 
-          {/* DATE */}
           <div style={{ flex: "1 1 130px", minWidth: "110px" }}>
             <label style={{ fontSize: "11px", color: "#64748B", display: "block", marginBottom: "4px" }}>Date</label>
             <div style={{ display: "flex", alignItems: "center", gap: "6px", border: "1px solid #E5E7EB", borderRadius: "10px", padding: "8px 10px", background: "#fff" }}>
               <span style={{ fontSize: "14px" }}>📅</span>
-              <input
-                type="date"
-                value={date}
-                onChange={e => setDate(e.target.value)}
-                style={{ border: "none", outline: "none", fontSize: "13px", fontWeight: "600", color: "#0F2D52", background: "transparent", cursor: "pointer", flex: 1 }}
-              />
+              <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ border: "none", outline: "none", fontSize: "13px", fontWeight: "600", color: "#0F2D52", background: "transparent", cursor: "pointer", flex: 1 }} />
             </div>
           </div>
 
-          {/* SEATS */}
           <div style={{ flex: "1 1 100px", minWidth: "90px" }}>
             <label style={{ fontSize: "11px", color: "#64748B", display: "block", marginBottom: "4px" }}>Seats</label>
             <div style={{ display: "flex", alignItems: "center", gap: "6px", border: "1px solid #E5E7EB", borderRadius: "10px", padding: "8px 10px", background: "#fff" }}>
@@ -218,12 +268,7 @@ export default function FindRide() {
             </div>
           </div>
 
-          {/* SEARCH BUTTON */}
-          <button
-            onClick={fetchRides}
-            disabled={loading}
-            style={{ background: loading ? "#94A3B8" : "linear-gradient(135deg,#14B8A6,#2DD4BF)", border: "none", borderRadius: "10px", padding: "10px 20px", color: "#fff", fontSize: "14px", fontWeight: "600", cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", gap: "6px", height: "40px", flexShrink: 0 }}
-          >
+          <button onClick={fetchRides} disabled={loading} style={{ background: loading ? "#94A3B8" : "linear-gradient(135deg,#14B8A6,#2DD4BF)", border: "none", borderRadius: "10px", padding: "10px 20px", color: "#fff", fontSize: "14px", fontWeight: "600", cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", gap: "6px", height: "40px", flexShrink: 0 }}>
             {loading ? "⏳ Searching…" : "🔍 Search"}
           </button>
         </div>
@@ -234,16 +279,12 @@ export default function FindRide() {
 
         {/* LEFT: Results */}
         <div style={{ flex: 1, minWidth: 0 }}>
-
-          {/* Filter pills */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
             {filters.map(f => (
-              <button key={f} onClick={() => setActiveFilter(f)} style={{ background: activeFilter === f ? "#0F2D52" : "#fff", color: activeFilter === f ? "#fff" : "#64748B", border: activeFilter === f ? "none" : "1px solid #E5E7EB", borderRadius: "20px", padding: "6px 16px", fontSize: "13px", fontWeight: "500", cursor: "pointer", transition: "all 0.2s" }}>
-                {f}
-              </button>
+              <button key={f} onClick={() => setActiveFilter(f)} style={{ background: activeFilter === f ? "#0F2D52" : "#fff", color: activeFilter === f ? "#fff" : "#64748B", border: activeFilter === f ? "none" : "1px solid #E5E7EB", borderRadius: "20px", padding: "6px 16px", fontSize: "13px", fontWeight: "500", cursor: "pointer", transition: "all 0.2s" }}>{f}</button>
             ))}
             <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "8px" }}>
-              <span style={{ fontSize: "13px", color: "#64748B" }}>{rides.length} ride{rides.length !== 1 ? "s" : ""} found</span>
+              <span style={{ fontSize: "13px", color: "#64748B" }}>{totalCount} ride{totalCount !== 1 ? "s" : ""} found</span>
               <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ border: "1px solid #E5E7EB", borderRadius: "8px", padding: "5px 10px", fontSize: "13px", color: "#0F2D52", background: "#fff", cursor: "pointer", outline: "none" }}>
                 <option>Recommended</option>
                 <option>Price: Low to High</option>
@@ -252,7 +293,6 @@ export default function FindRide() {
             </div>
           </div>
 
-          {/* States: loading / error / empty / results */}
           {loading && (
             <div style={{ textAlign: "center", padding: "60px 20px", color: "#64748B" }}>
               <div style={{ fontSize: "36px", marginBottom: "12px" }}>🔍</div>
@@ -260,7 +300,7 @@ export default function FindRide() {
             </div>
           )}
 
-          {!loading && error && (
+          {!loading && error && filteredLocal.length === 0 && (
             <div style={{ textAlign: "center", padding: "60px 20px", color: "#EF4444" }}>
               <div style={{ fontSize: "36px", marginBottom: "12px" }}>⚠️</div>
               <div style={{ fontSize: "15px", fontWeight: "600" }}>{error}</div>
@@ -268,7 +308,7 @@ export default function FindRide() {
             </div>
           )}
 
-          {!loading && !error && rides.length === 0 && (
+          {!loading && allRides.length === 0 && (
             <div style={{ textAlign: "center", padding: "60px 20px", color: "#64748B" }}>
               <div style={{ fontSize: "48px", marginBottom: "12px" }}>🚗</div>
               <div style={{ fontSize: "16px", fontWeight: "700", color: "#0F2D52", marginBottom: "6px" }}>No rides found</div>
@@ -276,11 +316,17 @@ export default function FindRide() {
             </div>
           )}
 
-          {!loading && !error && rides.length > 0 && (
+          {!loading && allRides.length > 0 && (
             <>
               <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                {visible.map(ride => {
-                  const driverName  = ride.driver?.user?.name  || "Driver";
+                {visible.map((ride, idx) => {
+                  // Local ride
+                  if (ride.id && !ride._id) {
+                    return <LocalRideRow key={ride.id} ride={ride} isMobile={isMobile} />;
+                  }
+
+                  // API ride
+                  const driverName  = ride.driver?.user?.name || "Driver";
                   const driverPhoto = getDriverPhoto(ride);
                   const rating      = ride.driver?.averageRating || 0;
                   const totalRides  = ride.driver?.totalRides || 0;
@@ -288,29 +334,16 @@ export default function FindRide() {
                   const bState      = bookingState[ride._id];
 
                   return (
-                    <div key={ride._id} style={{ background: "#fff", borderRadius: "16px", border: "1px solid #E5E7EB", padding: "16px 20px", display: "flex", gap: "16px", alignItems: "center", flexWrap: isMobile ? "wrap" : "nowrap", boxShadow: "0 2px 8px rgba(15,45,82,0.04)", transition: "box-shadow 0.2s" }}>
-
-                      {/* Avatar */}
+                    <div key={ride._id} style={{ background: "#fff", borderRadius: "16px", border: "1px solid #E5E7EB", padding: "16px 20px", display: "flex", gap: "16px", alignItems: "center", flexWrap: isMobile ? "wrap" : "nowrap", boxShadow: "0 2px 8px rgba(15,45,82,0.04)" }}>
                       <div style={{ position: "relative", flexShrink: 0 }}>
-                        <img
-                          src={driverPhoto}
-                          alt={driverName}
-                          style={{ width: "56px", height: "56px", borderRadius: "50%", objectFit: "cover" }}
-                          onError={e => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(driverName)}&background=14B8A6&color=fff`; }}
-                        />
+                        <img src={driverPhoto} alt={driverName} style={{ width: "56px", height: "56px", borderRadius: "50%", objectFit: "cover" }} onError={e => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(driverName)}&background=14B8A6&color=fff`; }} />
                         <div style={{ position: "absolute", bottom: 0, right: 0, background: "#14B8A6", borderRadius: "50%", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", border: "2px solid #fff", color: "#fff" }}>✓</div>
                       </div>
-
-                      {/* Driver info */}
                       <div style={{ minWidth: "130px", flexShrink: 0 }}>
                         <div style={{ fontSize: "15px", fontWeight: "700", color: "#0F2D52" }}>{driverName}</div>
-                        <div style={{ fontSize: "12px", color: "#64748B", marginTop: "2px" }}>
-                          ⭐ {rating > 0 ? rating.toFixed(1) : "New"} {totalRides > 0 ? `(${totalRides} rides)` : ""}
-                        </div>
+                        <div style={{ fontSize: "12px", color: "#64748B", marginTop: "2px" }}>⭐ {rating > 0 ? rating.toFixed(1) : "New"} {totalRides > 0 ? `(${totalRides} rides)` : ""}</div>
                         <div style={{ marginTop: "6px", background: "#F0FDFA", color: "#0F6E56", fontSize: "11px", fontWeight: "600", padding: "2px 8px", borderRadius: "20px", display: "inline-block" }}>✓ Verified</div>
                       </div>
-
-                      {/* Route */}
                       <div style={{ flex: "1", minWidth: "120px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
                           <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#14B8A6", flexShrink: 0 }}></div>
@@ -324,30 +357,17 @@ export default function FindRide() {
                           <span style={{ fontSize: "12px", color: "#94A3B8" }}>{formatDate(ride.date)}</span>
                         </div>
                       </div>
-
-                      {/* Tags */}
                       <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", minWidth: isMobile ? "auto" : "180px" }}>
-                        {tags.map(t => (
-                          <span key={t} style={{ background: "#F8FAFC", border: "1px solid #E5E7EB", color: "#475569", fontSize: "11px", padding: "3px 10px", borderRadius: "20px" }}>{t}</span>
-                        ))}
+                        {tags.map(t => <span key={t} style={{ background: "#F8FAFC", border: "1px solid #E5E7EB", color: "#475569", fontSize: "11px", padding: "3px 10px", borderRadius: "20px" }}>{t}</span>)}
                         <span style={{ background: "#F8FAFC", border: "1px solid #E5E7EB", color: "#475569", fontSize: "11px", padding: "3px 10px", borderRadius: "20px" }}>🧍 {ride.availableSeats} left</span>
                       </div>
-
-                      {/* Price + Book */}
                       <div style={{ textAlign: "right", flexShrink: 0, minWidth: "100px" }}>
                         <div style={{ fontSize: "20px", fontWeight: "700", color: "#0F2D52" }}>₹{ride.farePerSeat}</div>
                         <div style={{ fontSize: "11px", color: "#64748B", marginBottom: "10px" }}>per seat</div>
                         <button
                           onClick={() => handleBook(ride)}
                           disabled={bState === "loading" || bState === "done" || ride.availableSeats < 1}
-                          style={{
-                            background: bState === "done" ? "#14B8A6" : "#fff",
-                            color: bState === "done" ? "#fff" : ride.availableSeats < 1 ? "#94A3B8" : "#14B8A6",
-                            border: `1.5px solid ${ride.availableSeats < 1 ? "#E5E7EB" : "#14B8A6"}`,
-                            borderRadius: "10px", padding: "8px 18px", fontSize: "13px", fontWeight: "600",
-                            cursor: bState || ride.availableSeats < 1 ? "not-allowed" : "pointer",
-                            transition: "all 0.2s", whiteSpace: "nowrap",
-                          }}
+                          style={{ background: bState === "done" ? "#14B8A6" : "#fff", color: bState === "done" ? "#fff" : ride.availableSeats < 1 ? "#94A3B8" : "#14B8A6", border: `1.5px solid ${ride.availableSeats < 1 ? "#E5E7EB" : "#14B8A6"}`, borderRadius: "10px", padding: "8px 18px", fontSize: "13px", fontWeight: "600", cursor: bState || ride.availableSeats < 1 ? "not-allowed" : "pointer", transition: "all 0.2s", whiteSpace: "nowrap" }}
                         >
                           {bState === "loading" ? "Booking…" : bState === "done" ? "✓ Booked!" : ride.availableSeats < 1 ? "Full" : "Book Seat"}
                         </button>
@@ -357,16 +377,13 @@ export default function FindRide() {
                 })}
               </div>
 
-              {/* Show more / less */}
-              {sorted.length > 3 && !showAll && (
+              {totalCount > 3 && !showAll && (
                 <button onClick={() => setShowAll(true)} style={{ display: "flex", alignItems: "center", gap: "8px", margin: "20px auto 0", background: "none", border: "none", cursor: "pointer", color: "#0F2D52", fontSize: "14px", fontWeight: "600" }}>
                   ↓ {hiddenCount} more ride{hiddenCount !== 1 ? "s" : ""} available
                 </button>
               )}
               {showAll && (
-                <button onClick={() => setShowAll(false)} style={{ display: "flex", alignItems: "center", gap: "8px", margin: "20px auto 0", background: "none", border: "none", cursor: "pointer", color: "#64748B", fontSize: "13px" }}>
-                  ↑ Show less
-                </button>
+                <button onClick={() => setShowAll(false)} style={{ display: "flex", alignItems: "center", gap: "8px", margin: "20px auto 0", background: "none", border: "none", cursor: "pointer", color: "#64748B", fontSize: "13px" }}>↑ Show less</button>
               )}
             </>
           )}
@@ -375,8 +392,6 @@ export default function FindRide() {
         {/* RIGHT SIDEBAR */}
         {showSidebar && (
           <div style={{ width: "280px", flexShrink: 0, display: "flex", flexDirection: "column", gap: "20px" }}>
-
-            {/* Popular Routes */}
             <div style={{ background: "#fff", borderRadius: "16px", border: "1px solid #E5E7EB", overflow: "hidden" }}>
               <div style={{ padding: "16px 16px 0" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
@@ -400,7 +415,6 @@ export default function FindRide() {
               </div>
             </div>
 
-            {/* Why Find a Ride */}
             <div style={{ background: "#fff", borderRadius: "16px", border: "1px solid #E5E7EB", padding: "16px" }}>
               <div style={{ fontSize: "15px", fontWeight: "700", color: "#0F2D52", marginBottom: "14px" }}>Why Find a Ride?</div>
               {WHY_ITEMS.map((w, i) => (
