@@ -237,13 +237,14 @@ export default function HopinOfferRide() {
             </span>
             <div style={styles.logoSub}>Going <span style={styles.teal}>your</span> way anyway.</div>
           </div>
+      import { useNavigate, NavLink } from "react-router-dom";
           <div style={styles.navLinks}>
-            <a href="#" style={{ ...styles.navLink, ...styles.navLinkActive }}>Offer a Ride</a>
-            <a href="#" style={styles.navLink}>Find a Ride</a>
-            <a href="#" style={styles.navLink}>Safety</a>
-            <a href="#" style={styles.navLink}>How It Works</a>
-            <a href="#" style={styles.navLink}>About Us</a>
-            <a href="#" style={styles.navLink}>Blog</a>
+            <NavLink to="/offer-ride" style={({ isActive }) => ({ ...styles.navLink, ...(isActive ? styles.navLinkActive : {}) })}>Offer a Ride</NavLink>
+            <NavLink to="/find-ride" style={({ isActive }) => ({ ...styles.navLink, ...(isActive ? styles.navLinkActive : {}) })}>Find a Ride</NavLink>
+            <button type="button" onClick={() => navigate('/safety')} style={styles.navLink}>Safety</button>
+            <button type="button" onClick={() => navigate('/how-it-works')} style={styles.navLink}>How It Works</button>
+            <button type="button" onClick={() => navigate('/about')} style={styles.navLink}>About Us</button>
+            <button type="button" onClick={() => navigate('/blog')} style={styles.navLink}>Blog</button>
           </div>
           <div style={styles.authBtns}>
             <button style={styles.loginBtn}>Log In</button>
@@ -259,6 +260,12 @@ export default function HopinOfferRide() {
           <div style={styles.mobileMenu}>
             {["Offer a Ride","Find a Ride","Safety","How It Works","About Us","Blog"].map(link => (
               <a key={link} href="#" style={styles.mobileLink}>{link}</a>
+            {["Offer a Ride","Find a Ride","Safety","How It Works","About Us","Blog"].map(link => (
+              <button key={link} type="button" style={styles.mobileLink} onClick={() => {
+                // navigate to matching path when available
+                const slug = link.toLowerCase().replace(/\s+/g, '-');
+                navigate(`/${slug}`);
+              }}>{link}</button>
             ))}
             <div style={styles.mobileBtns}>
               <button style={styles.loginBtn}>Log In</button>
