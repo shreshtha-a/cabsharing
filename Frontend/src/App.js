@@ -19,6 +19,7 @@ import AuthSuccess         from "./pages/AuthSuccess";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment             from "./pages/Payment";
 import VehicleDetails      from "./pages/VehicleDetails";
+import ReviewPublish       from "./pages/ReviewPublish";
 
 // ─── Auth guard ───────────────────────────────────────────
 function ProtectedRoute({ children }) {
@@ -60,6 +61,7 @@ function AppLayout() {
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
           <Route path="/payment"              element={<Payment />} />
           <Route path="/vehicle-details"      element={<VehicleDetails />} />
+          <Route path="/review-publish"       element={<ReviewPublish />} />
         </Routes>
       </div>
     </div>
