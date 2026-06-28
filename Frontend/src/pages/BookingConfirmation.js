@@ -13,44 +13,9 @@ const white = "#FFFFFF";
 const red = "#EF4444";
 
 // ── Inline SVG Icons ───────────────────────────────────────────────────────
-const IconHome = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-    <path d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/><path d="M9 22V12h6v10"/>
-  </svg>
-);
-const IconPin = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-    <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2.25"/>
-  </svg>
-);
-const IconCar = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-    <path d="M5 11l1.5-4.5h11L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/>
-  </svg>
-);
-const IconMsg = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-  </svg>
-);
-const IconWallet = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-    <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 14a1 1 0 110-2 1 1 0 010 2z" fill="currentColor"/><path d="M2 11h20M6 7V5a2 2 0 012-2h8a2 2 0 012 2v2"/>
-  </svg>
-);
-const IconGift = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-    <rect x="3" y="8" width="18" height="4" rx="1"/><rect x="5" y="12" width="14" height="9" rx="1"/><path d="M12 8v13M8 8c0-2 1.5-4 4-4s4 2 4 4"/>
-  </svg>
-);
-const IconHelp = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/>
-  </svg>
-);
-const IconUser = () => (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-    <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.582-7 8-7s8 3 8 7"/>
+const IconSearch = () => (
+  <svg width="18" height="18" fill="none" stroke="#9CA3AF" strokeWidth="1.8" viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
   </svg>
 );
 const IconSun = () => (
@@ -79,21 +44,6 @@ const IconChevron = () => (
 const IconChevronRight = () => (
   <svg width="16" height="16" fill="none" stroke={textSecondary} strokeWidth="2" viewBox="0 0 24 24">
     <polyline points="9 18 15 12 9 6"/>
-  </svg>
-);
-const IconSearch = () => (
-  <svg width="18" height="18" fill="none" stroke="#9CA3AF" strokeWidth="1.8" viewBox="0 0 24 24">
-    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-  </svg>
-);
-const IconArrow = () => (
-  <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2.2" viewBox="0 0 24 24">
-    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-  </svg>
-);
-const IconArrowLeft = () => (
-  <svg width="18" height="18" fill="none" stroke={textPrimary} strokeWidth="2.2" viewBox="0 0 24 24">
-    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
   </svg>
 );
 const IconCheck = () => (
@@ -146,83 +96,16 @@ const IconLock = () => (
     <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
   </svg>
 );
-
-const navItems = [
-  { label: "Home", icon: <IconHome /> },
-  { label: "Find a Ride", icon: <IconPin /> },
-  { label: "My Rides", icon: <IconCar /> },
-  { label: "Messages", icon: <IconMsg />, badge: 2 },
-  { label: "Wallet", icon: <IconWallet /> },
-  { label: "Offers", icon: <IconGift /> },
-  { label: "Help & Support", icon: <IconHelp /> },
-  { label: "Profile", icon: <IconUser /> },
-];
-
-function Sidebar() {
-  return (
-    <aside style={{
-      width: 210, minWidth: 210, background: white, borderRight: `1px solid ${borderColor}`,
-      display: "flex", flexDirection: "column", padding: "24px 0 16px",
-      position: "sticky", top: 0, height: "100vh", overflowY: "auto",
-    }}>
-      <div style={{ padding: "0 24px 24px" }}>
-        <div style={{ fontSize: 28, fontWeight: 800, color: textPrimary, lineHeight: 1 }}>
-          Hop<span style={{ color: teal }}>in</span>
-        </div>
-        <div style={{ fontSize: 11, color: textSecondary, marginTop: 4 }}>Together. Every Mile.</div>
-      </div>
-      <nav style={{ flex: 1 }}>
-        {navItems.map((item) => (
-          <div key={item.label} style={{
-            display: "flex", alignItems: "center", gap: 12,
-            padding: "11px 24px", cursor: "pointer",
-            color: textSecondary, fontSize: 14.5, fontWeight: 400,
-            transition: "background 0.15s",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.background = tealLight; e.currentTarget.style.color = teal; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = textSecondary; }}
-          >
-            {item.icon}
-            <span style={{ flex: 1 }}>{item.label}</span>
-            {item.badge && (
-              <span style={{
-                background: teal, color: white, borderRadius: 99, fontSize: 11,
-                fontWeight: 700, minWidth: 19, height: 19, display: "inline-flex",
-                alignItems: "center", justifyContent: "center", padding: "0 5px",
-              }}>{item.badge}</span>
-            )}
-          </div>
-        ))}
-      </nav>
-      <div style={{
-        margin: "16px 14px 0", background: "linear-gradient(135deg, #E6F7F6, #d0f0ed)",
-        borderRadius: 16, padding: "16px 16px 0", overflow: "hidden",
-      }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: textPrimary, lineHeight: 1.4 }}>
-          Share rides,<br />Save money,<br />Make friends.
-        </div>
-        <div style={{ fontSize: 11, color: textSecondary, marginTop: 5, lineHeight: 1.5 }}>
-          The more you ride together,<br />the better it gets!
-        </div>
-        <div style={{ marginTop: 10, display: "flex", justifyContent: "center" }}>
-          <svg width="110" height="55" viewBox="0 0 110 55" fill="none">
-            <rect x="5" y="28" width="100" height="20" rx="10" fill={teal} opacity="0.12"/>
-            <circle cx="35" cy="22" r="8" fill="#FCD9BD"/>
-            <circle cx="55" cy="20" r="9" fill="#F9A8D4"/>
-            <circle cx="75" cy="22" r="8" fill="#93C5FD"/>
-          </svg>
-        </div>
-        <button style={{
-          marginTop: 8, width: "100%", background: teal, color: white, border: "none",
-          borderRadius: 10, padding: "9px 0", fontWeight: 600, fontSize: 13, cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-        }}>
-          Invite Friends <IconArrow />
-        </button>
-      </div>
-    </aside>
-  );
-}
+const IconArrow = () => (
+  <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2.2" viewBox="0 0 24 24">
+    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+  </svg>
+);
+const IconArrowLeft = () => (
+  <svg width="18" height="18" fill="none" stroke={textPrimary} strokeWidth="2.2" viewBox="0 0 24 24">
+    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+  </svg>
+);
 
 function TopBar() {
   return (
@@ -375,8 +258,7 @@ function ProgressSteps() {
 }
 
 export default function BookingConfirmation() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const navigate = useNavigate(); // ← added
+  const navigate = useNavigate();
 
   return (
     <>
@@ -386,221 +268,208 @@ export default function BookingConfirmation() {
         body { font-family: 'Inter', sans-serif; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 4px; }
-        @media (max-width: 900px) {
-          .bc-sidebar { display: none !important; }
-          .bc-sidebar.open { display: flex !important; position: fixed; z-index: 100; top: 0; left: 0; height: 100vh; }
-          .bc-hamburger { display: flex !important; }
+        @media (max-width: 768px) {
           .bc-content { padding: 16px !important; }
           .bc-body-grid { flex-direction: column !important; }
         }
-        @media (min-width: 901px) { .bc-hamburger { display: none !important; } }
       `}</style>
 
-      <div style={{ display: "flex", height: "100vh", fontFamily: "'Inter', sans-serif", background: bgPage, overflow: "hidden" }}>
-        <div className={`bc-sidebar${sidebarOpen ? " open" : ""}`} style={{ display: "flex" }}>
-          <Sidebar />
-        </div>
-        {sidebarOpen && (
-          <div onClick={() => setSidebarOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 99 }}/>
-        )}
+      <div style={{ display: "flex", flexDirection: "column", height: "100vh", fontFamily: "'Inter', sans-serif", background: bgPage, overflow: "hidden" }}>
+        <TopBar />
+        <div className="bc-content" style={{ flex: 1, overflowY: "auto", padding: "24px 28px 32px" }}>
+          <HeroBanner />
+          <ProgressSteps />
 
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-          <TopBar />
-          <div className="bc-content" style={{ flex: 1, overflowY: "auto", padding: "24px 28px 32px" }}>
-            <HeroBanner />
-            <ProgressSteps />
-
-            <div className="bc-body-grid" style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-              {/* LEFT column */}
-              <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 20 }}>
-                {/* Trip Details */}
-                <div style={{ background: white, borderRadius: 16, padding: "22px 24px", border: `1px solid ${borderColor}` }}>
-                  <h2 style={{ fontSize: 17, fontWeight: 700, color: textPrimary, marginBottom: 18 }}>Trip Details</h2>
-                  <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
-                    <div style={{ flex: 1, minWidth: 200 }}>
-                      <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 16 }}>
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 3 }}>
-                          <div style={{ width: 14, height: 14, borderRadius: "50%", background: teal, border: `3px solid ${tealLight}` }}/>
-                          <div style={{ width: 2, height: 32, background: borderColor, margin: "2px 0" }}/>
-                          <div style={{ width: 14, height: 14, borderRadius: "50%", background: red, border: "3px solid #FEE2E2" }}/>
+          <div className="bc-body-grid" style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            {/* LEFT column */}
+            <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 20 }}>
+              {/* Trip Details */}
+              <div style={{ background: white, borderRadius: 16, padding: "22px 24px", border: `1px solid ${borderColor}` }}>
+                <h2 style={{ fontSize: 17, fontWeight: 700, color: textPrimary, marginBottom: 18 }}>Trip Details</h2>
+                <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
+                  <div style={{ flex: 1, minWidth: 200 }}>
+                    <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 16 }}>
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 3 }}>
+                        <div style={{ width: 14, height: 14, borderRadius: "50%", background: teal, border: `3px solid ${tealLight}` }}/>
+                        <div style={{ width: 2, height: 32, background: borderColor, margin: "2px 0" }}/>
+                        <div style={{ width: 14, height: 14, borderRadius: "50%", background: red, border: "3px solid #FEE2E2" }}/>
+                      </div>
+                      <div>
+                        <div style={{ marginBottom: 16 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span style={{ fontSize: 14.5, fontWeight: 600, color: textPrimary }}>Sharda University, Greater Noida</span>
+                            <span style={{ fontSize: 11, fontWeight: 600, color: teal, background: tealLight, borderRadius: 6, padding: "2px 8px" }}>Pickup</span>
+                          </div>
+                          <div style={{ fontSize: 12, color: textSecondary, marginTop: 2 }}>Knowledge Park III, Greater Noida, UP</div>
                         </div>
                         <div>
-                          <div style={{ marginBottom: 16 }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                              <span style={{ fontSize: 14.5, fontWeight: 600, color: textPrimary }}>Sharda University, Greater Noida</span>
-                              <span style={{ fontSize: 11, fontWeight: 600, color: teal, background: tealLight, borderRadius: 6, padding: "2px 8px" }}>Pickup</span>
-                            </div>
-                            <div style={{ fontSize: 12, color: textSecondary, marginTop: 2 }}>Knowledge Park III, Greater Noida, UP</div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span style={{ fontSize: 14.5, fontWeight: 600, color: textPrimary }}>Noida Sector 62</span>
+                            <span style={{ fontSize: 11, fontWeight: 600, color: red, background: "#FEE2E2", borderRadius: 6, padding: "2px 8px" }}>Drop</span>
                           </div>
-                          <div>
-                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                              <span style={{ fontSize: 14.5, fontWeight: 600, color: textPrimary }}>Noida Sector 62</span>
-                              <span style={{ fontSize: 11, fontWeight: 600, color: red, background: "#FEE2E2", borderRadius: 6, padding: "2px 8px" }}>Drop</span>
-                            </div>
-                            <div style={{ fontSize: 12, color: textSecondary, marginTop: 2 }}>Noida, Uttar Pradesh</div>
-                          </div>
+                          <div style={{ fontSize: 12, color: textSecondary, marginTop: 2 }}>Noida, Uttar Pradesh</div>
                         </div>
-                      </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, background: tealLight, borderRadius: 10, padding: "10px 14px" }}>
-                        <IconClock />
-                        <span style={{ fontSize: 13, color: tealDark, fontWeight: 500 }}>Estimated travel time: 45 min (32.4 km)</span>
                       </div>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: 170 }}>
-                      {[
-                        { icon: <IconCalendar/>, label: "Date", value: "12 May 2025, Monday" },
-                        { icon: <IconClock/>, label: "Time", value: "09:30 AM" },
-                        { icon: <IconSeat/>, label: "Seats", value: "1 Seat" },
-                        { icon: <IconDistance/>, label: "Distance", value: "32.4 km" },
-                      ].map(item => (
-                        <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                          <div style={{ width: 32, height: 32, borderRadius: 8, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{item.icon}</div>
-                          <div>
-                            <div style={{ fontSize: 11, color: textSecondary }}>{item.label}</div>
-                            <div style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>{item.value}</div>
-                          </div>
-                        </div>
-                      ))}
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, background: tealLight, borderRadius: 10, padding: "10px 14px" }}>
+                      <IconClock />
+                      <span style={{ fontSize: 13, color: tealDark, fontWeight: 500 }}>Estimated travel time: 45 min (32.4 km)</span>
                     </div>
                   </div>
-                </div>
-
-                {/* Fare Breakdown */}
-                <div style={{ background: white, borderRadius: 16, padding: "22px 24px", border: `1px solid ${borderColor}` }}>
-                  <h2 style={{ fontSize: 17, fontWeight: 700, color: textPrimary, marginBottom: 18 }}>Fare Breakdown</h2>
-                  <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-                    <div style={{ flex: 1, minWidth: 180 }}>
-                      {[
-                        { label: "Base Fare", value: "₹210.00", color: teal },
-                        { label: "Platform Fee", value: "₹20.00", color: teal },
-                        { label: "Discount Applied (HOPIN10)", value: "-₹23.00", color: red },
-                      ].map((row) => (
-                        <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: `1px solid ${borderColor}` }}>
-                          <span style={{ fontSize: 13.5, color: row.label.includes("Discount") ? red : textSecondary }}>{row.label}</span>
-                          <span style={{ fontSize: 13.5, fontWeight: 600, color: row.color }}>{row.value}</span>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: 170 }}>
+                    {[
+                      { icon: <IconCalendar/>, label: "Date", value: "12 May 2025, Monday" },
+                      { icon: <IconClock/>, label: "Time", value: "09:30 AM" },
+                      { icon: <IconSeat/>, label: "Seats", value: "1 Seat" },
+                      { icon: <IconDistance/>, label: "Distance", value: "32.4 km" },
+                    ].map(item => (
+                      <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <div style={{ width: 32, height: 32, borderRadius: 8, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{item.icon}</div>
+                        <div>
+                          <div style={{ fontSize: 11, color: textSecondary }}>{item.label}</div>
+                          <div style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>{item.value}</div>
                         </div>
-                      ))}
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 12 }}>
-                        <span style={{ fontSize: 15, fontWeight: 700, color: textPrimary }}>Total Payable</span>
-                        <span style={{ fontSize: 16, fontWeight: 800, color: textPrimary }}>₹207.00</span>
                       </div>
-                    </div>
-                    <div style={{ background: tealLight, borderRadius: 14, padding: "16px 18px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10, minWidth: 160, textAlign: "center" }}>
-                      <div style={{ width: 40, height: 40, borderRadius: "50%", background: white, display: "flex", alignItems: "center", justifyContent: "center" }}><IconShield /></div>
-                      <div style={{ fontSize: 12.5, fontWeight: 600, color: tealDark, lineHeight: 1.4 }}>Your payment is secure and encrypted</div>
-                      <div style={{ fontSize: 11, color: textSecondary, lineHeight: 1.4 }}>We do not store your card or UPI details.</div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, background: white, borderRadius: 8, padding: "6px 12px", border: `1px solid ${borderColor}` }}>
-                        <IconShield /><span style={{ fontSize: 12, fontWeight: 600, color: tealDark }}>100% Safe &amp; Secure</span>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* RIGHT column */}
-              <div style={{ width: 300, minWidth: 260, display: "flex", flexDirection: "column", gap: 16 }}>
-                {/* Driver & Vehicle */}
-                <div style={{ background: white, borderRadius: 16, padding: "20px", border: `1px solid ${borderColor}` }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, color: textPrimary, marginBottom: 14 }}>Driver &amp; Vehicle</h3>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                    <div style={{ width: 48, height: 48, borderRadius: "50%", background: "linear-gradient(135deg, #a8edea, #fed6e3)", border: `2px solid ${borderColor}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: tealDark, flexShrink: 0 }}>RK</div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 14.5, fontWeight: 700, color: textPrimary }}>Rohit Kumar</div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 3 }}>
-                        <span style={{ fontSize: 14, color: "#F59E0B" }}>★</span>
-                        <span style={{ fontSize: 12.5, fontWeight: 600, color: textPrimary }}>4.8</span>
-                        <span style={{ fontSize: 12, color: textSecondary }}>(120 rides)</span>
+              {/* Fare Breakdown */}
+              <div style={{ background: white, borderRadius: 16, padding: "22px 24px", border: `1px solid ${borderColor}` }}>
+                <h2 style={{ fontSize: 17, fontWeight: 700, color: textPrimary, marginBottom: 18 }}>Fare Breakdown</h2>
+                <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+                  <div style={{ flex: 1, minWidth: 180 }}>
+                    {[
+                      { label: "Base Fare", value: "₹210.00", color: teal },
+                      { label: "Platform Fee", value: "₹20.00", color: teal },
+                      { label: "Discount Applied (HOPIN10)", value: "-₹23.00", color: red },
+                    ].map((row) => (
+                      <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: `1px solid ${borderColor}` }}>
+                        <span style={{ fontSize: 13.5, color: row.label.includes("Discount") ? red : textSecondary }}>{row.label}</span>
+                        <span style={{ fontSize: 13.5, fontWeight: 600, color: row.color }}>{row.value}</span>
                       </div>
-                    </div>
-                    <button style={{ width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${borderColor}`, background: white, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><IconPhone /></button>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, background: bgPage, borderRadius: 12, padding: "12px" }}>
-                    <div style={{ width: 56, height: 40, borderRadius: 8, background: "#E0F2F1", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <svg width="44" height="22" viewBox="0 0 44 22" fill="none">
-                        <rect x="2" y="8" width="40" height="10" rx="5" fill="#B2DFDB"/>
-                        <rect x="8" y="3" width="28" height="8" rx="4" fill="#E0F2F1"/>
-                        <circle cx="11" cy="18" r="4" fill="#37474F"/><circle cx="33" cy="18" r="4" fill="#37474F"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>White Honda City</div>
-                      <div style={{ fontSize: 12, color: textSecondary, marginTop: 2, fontWeight: 500, letterSpacing: 0.5 }}>UP16 AB 1234</div>
+                    ))}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 12 }}>
+                      <span style={{ fontSize: 15, fontWeight: 700, color: textPrimary }}>Total Payable</span>
+                      <span style={{ fontSize: 16, fontWeight: 800, color: textPrimary }}>₹207.00</span>
                     </div>
                   </div>
-                </div>
-
-                {/* Your Seat */}
-                <div style={{ background: white, borderRadius: 16, padding: "20px", border: `1px solid ${borderColor}` }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, color: textPrimary, marginBottom: 14 }}>Your Seat</h3>
-                  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <div style={{ width: 60, height: 60, borderRadius: 12, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
-                        <rect x="6" y="2" width="24" height="22" rx="6" fill="#80CBC4"/>
-                        <rect x="4" y="24" width="28" height="14" rx="5" fill="#4DB6AC"/>
-                        <rect x="2" y="35" width="8" height="9" rx="3" fill="#00897B"/>
-                        <rect x="26" y="35" width="8" height="9" rx="3" fill="#00897B"/>
-                        <rect x="8" y="5" width="20" height="14" rx="4" fill="#B2DFDB"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 14.5, fontWeight: 700, color: textPrimary }}>Front Seat</div>
-                      <div style={{ fontSize: 12.5, color: textSecondary, marginTop: 2 }}>Seat next to driver</div>
-                      <span style={{ display: "inline-block", marginTop: 6, fontSize: 11, fontWeight: 700, color: teal, background: tealLight, borderRadius: 6, padding: "3px 10px", border: `1px solid ${teal}33` }}>Confirmed</span>
+                  <div style={{ background: tealLight, borderRadius: 14, padding: "16px 18px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10, minWidth: 160, textAlign: "center" }}>
+                    <div style={{ width: 40, height: 40, borderRadius: "50%", background: white, display: "flex", alignItems: "center", justifyContent: "center" }}><IconShield /></div>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: tealDark, lineHeight: 1.4 }}>Your payment is secure and encrypted</div>
+                    <div style={{ fontSize: 11, color: textSecondary, lineHeight: 1.4 }}>We do not store your card or UPI details.</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, background: white, borderRadius: 8, padding: "6px 12px", border: `1px solid ${borderColor}` }}>
+                      <IconShield /><span style={{ fontSize: 12, fontWeight: 600, color: tealDark }}>100% Safe &amp; Secure</span>
                     </div>
                   </div>
-                </div>
-
-                {/* Policies */}
-                <div style={{ background: white, borderRadius: 16, padding: "16px 20px", border: `1px solid ${borderColor}` }}>
-                  {[
-                    { icon: <IconShield />, title: "Free Cancellation", desc: "Cancel up to 10 min before pickup" },
-                    { icon: <IconHeadphones />, title: "24x7 Support", desc: "We're here to help you anytime" },
-                    { icon: <IconShield />, title: "Ride Insurance", desc: "Your ride is insured for your safety" },
-                  ].map((item, i, arr) => (
-                    <div key={item.title} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 0", borderBottom: i < arr.length - 1 ? `1px solid ${borderColor}` : "none" }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{item.icon}</div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: textPrimary }}>{item.title}</div>
-                        <div style={{ fontSize: 11.5, color: textSecondary, marginTop: 1 }}>{item.desc}</div>
-                      </div>
-                      <IconChevronRight />
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
 
-            {/* ── Bottom action bar ── */}
-            <div style={{ background: white, borderRadius: 16, marginTop: 24, border: `1px solid ${borderColor}`, overflow: "hidden" }}>
-              <div style={{ display: "flex" }}>
-                <button
-                  onClick={() => navigate(-1)}
-                  style={{
-                    flex: 1, padding: "18px 0", border: "none", background: white,
-                    fontSize: 15, fontWeight: 600, color: textPrimary, cursor: "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                    borderRight: `1px solid ${borderColor}`,
-                  }}
-                >
-                  <IconArrowLeft /> Back
-                </button>
-                <button
-                  onClick={() => navigate("/payment")}   // ← navigate to payment page
-                  style={{
-                    flex: 2, padding: "18px 0", border: "none",
-                    background: `linear-gradient(90deg, ${teal}, ${tealDark})`,
-                    fontSize: 15, fontWeight: 700, color: white, cursor: "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
-                    letterSpacing: 0.2,
-                  }}
-                >
-                  Proceed to Payment <IconArrow />
-                </button>
+            {/* RIGHT column */}
+            <div style={{ width: 300, minWidth: 260, display: "flex", flexDirection: "column", gap: 16 }}>
+              {/* Driver & Vehicle */}
+              <div style={{ background: white, borderRadius: 16, padding: "20px", border: `1px solid ${borderColor}` }}>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: textPrimary, marginBottom: 14 }}>Driver &amp; Vehicle</h3>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: "50%", background: "linear-gradient(135deg, #a8edea, #fed6e3)", border: `2px solid ${borderColor}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: tealDark, flexShrink: 0 }}>RK</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14.5, fontWeight: 700, color: textPrimary }}>Rohit Kumar</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 3 }}>
+                      <span style={{ fontSize: 14, color: "#F59E0B" }}>★</span>
+                      <span style={{ fontSize: 12.5, fontWeight: 600, color: textPrimary }}>4.8</span>
+                      <span style={{ fontSize: 12, color: textSecondary }}>(120 rides)</span>
+                    </div>
+                  </div>
+                  <button style={{ width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${borderColor}`, background: white, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><IconPhone /></button>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, background: bgPage, borderRadius: 12, padding: "12px" }}>
+                  <div style={{ width: 56, height: 40, borderRadius: 8, background: "#E0F2F1", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="44" height="22" viewBox="0 0 44 22" fill="none">
+                      <rect x="2" y="8" width="40" height="10" rx="5" fill="#B2DFDB"/>
+                      <rect x="8" y="3" width="28" height="8" rx="4" fill="#E0F2F1"/>
+                      <circle cx="11" cy="18" r="4" fill="#37474F"/><circle cx="33" cy="18" r="4" fill="#37474F"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>White Honda City</div>
+                    <div style={{ fontSize: 12, color: textSecondary, marginTop: 2, fontWeight: 500, letterSpacing: 0.5 }}>UP16 AB 1234</div>
+                  </div>
+                </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "10px 0", background: "#FAFAFA", borderTop: `1px solid ${borderColor}` }}>
-                <IconLock />
-                <span style={{ fontSize: 12, color: textSecondary }}>Secure checkout &bull; Multiple payment options</span>
+
+              {/* Your Seat */}
+              <div style={{ background: white, borderRadius: 16, padding: "20px", border: `1px solid ${borderColor}` }}>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: textPrimary, marginBottom: 14 }}>Your Seat</h3>
+                <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                  <div style={{ width: 60, height: 60, borderRadius: 12, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
+                      <rect x="6" y="2" width="24" height="22" rx="6" fill="#80CBC4"/>
+                      <rect x="4" y="24" width="28" height="14" rx="5" fill="#4DB6AC"/>
+                      <rect x="2" y="35" width="8" height="9" rx="3" fill="#00897B"/>
+                      <rect x="26" y="35" width="8" height="9" rx="3" fill="#00897B"/>
+                      <rect x="8" y="5" width="20" height="14" rx="4" fill="#B2DFDB"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14.5, fontWeight: 700, color: textPrimary }}>Front Seat</div>
+                    <div style={{ fontSize: 12.5, color: textSecondary, marginTop: 2 }}>Seat next to driver</div>
+                    <span style={{ display: "inline-block", marginTop: 6, fontSize: 11, fontWeight: 700, color: teal, background: tealLight, borderRadius: 6, padding: "3px 10px", border: `1px solid ${teal}33` }}>Confirmed</span>
+                  </div>
+                </div>
               </div>
+
+              {/* Policies */}
+              <div style={{ background: white, borderRadius: 16, padding: "16px 20px", border: `1px solid ${borderColor}` }}>
+                {[
+                  { icon: <IconShield />, title: "Free Cancellation", desc: "Cancel up to 10 min before pickup" },
+                  { icon: <IconHeadphones />, title: "24x7 Support", desc: "We're here to help you anytime" },
+                  { icon: <IconShield />, title: "Ride Insurance", desc: "Your ride is insured for your safety" },
+                ].map((item, i, arr) => (
+                  <div key={item.title} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 0", borderBottom: i < arr.length - 1 ? `1px solid ${borderColor}` : "none" }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{item.icon}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: textPrimary }}>{item.title}</div>
+                      <div style={{ fontSize: 11.5, color: textSecondary, marginTop: 1 }}>{item.desc}</div>
+                    </div>
+                    <IconChevronRight />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── Bottom action bar ── */}
+          <div style={{ background: white, borderRadius: 16, marginTop: 24, border: `1px solid ${borderColor}`, overflow: "hidden" }}>
+            <div style={{ display: "flex" }}>
+              <button
+                onClick={() => navigate(-1)}
+                style={{
+                  flex: 1, padding: "18px 0", border: "none", background: white,
+                  fontSize: 15, fontWeight: 600, color: textPrimary, cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                  borderRight: `1px solid ${borderColor}`,
+                }}
+              >
+                <IconArrowLeft /> Back
+              </button>
+              <button
+                onClick={() => navigate("/payment")}
+                style={{
+                  flex: 2, padding: "18px 0", border: "none",
+                  background: `linear-gradient(90deg, ${teal}, ${tealDark})`,
+                  fontSize: 15, fontWeight: 700, color: white, cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                  letterSpacing: 0.2,
+                }}
+              >
+                Proceed to Payment <IconArrow />
+              </button>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "10px 0", background: "#FAFAFA", borderTop: `1px solid ${borderColor}` }}>
+              <IconLock />
+              <span style={{ fontSize: 12, color: textSecondary }}>Secure checkout &bull; Multiple payment options</span>
             </div>
           </div>
         </div>
