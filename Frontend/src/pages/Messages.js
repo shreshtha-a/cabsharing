@@ -11,12 +11,74 @@ export default function Messages() {
         <div className="conversation-panel">
 
           <div className="conversation-header">
-            <h2>Messages</h2>
-            <p>Your conversations</p>
-          </div>
+  <h2>Messages</h2>
+  <p>Your conversations</p>
 
-        </div>
+  <input
+    className="search-box"
+    type="text"
+    placeholder="Search conversations..."
+  />
 
+  <div className="filter-tabs">
+    <button className="active-tab">All</button>
+    <button>Rides</button>
+    <button>Requests</button>
+  </div>
+</div>
+
+<div className="conversation-list">
+
+  <div className="conversation-card active">
+
+    <div className="avatar">R</div>
+
+    <div className="conversation-info">
+
+      <h4>Rahul Sharma</h4>
+
+      <p>Hey! I'll reach in 10 mins.</p>
+
+    </div>
+
+    <span>2m</span>
+
+  </div>
+
+  <div className="conversation-card">
+
+    <div className="avatar">P</div>
+
+    <div className="conversation-info">
+
+      <h4>Priya Singh</h4>
+
+      <p>See you at the pickup point.</p>
+
+    </div>
+
+    <span>5m</span>
+
+  </div>
+
+  <div className="conversation-card">
+
+    <div className="avatar">A</div>
+
+    <div className="conversation-info">
+
+      <h4>Aman Verma</h4>
+
+      <p>Thanks for the ride!</p>
+
+    </div>
+
+    <span>Yesterday</span>
+
+  </div>
+
+</div>
+</div> 
         {/* RIGHT PANEL */}
 
         <div className="chat-panel">
