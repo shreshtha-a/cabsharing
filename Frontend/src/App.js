@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Sidebar             from "./components/Sidebar";
 import Landing             from "./pages/Landing";
+import ForgotPassword      from "./pages/ForgotPassword";
+import ResetPassword       from "./pages/ResetPassword";
+import Header              from "./components/Header";
 import Home                from "./pages/Home";
 import Profile             from "./pages/Profile";
 import RecurringRide       from "./pages/RecurringRide";
@@ -85,6 +88,8 @@ export default function App() {
       <Routes>
         {/* Public routes */}
         <Route path="/"             element={<Landing />} />
+        <Route path="/auth/forgot" element={<ForgotPassword />} />
+        <Route path="/auth/reset"  element={<ResetPassword />} />
         <Route path="/auth/success" element={<AuthSuccess />} />
 
         {/* Protected app (all routes with sidebar) */}

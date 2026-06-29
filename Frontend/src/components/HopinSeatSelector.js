@@ -5,8 +5,6 @@ const SEATS = {
   rearRight: { id: "rearRight", label: "Rear Right Seat", price: 150, position: "right" },
 };
 
-const OCCUPIED = { driver: true, frontPassenger: true };
-
 export default function HopinSeatSelector() {
   const [selected, setSelected] = useState("rearLeft");
 
