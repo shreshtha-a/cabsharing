@@ -10,6 +10,7 @@ import HopinOfferRide      from "./components/HopinOfferRide";
 import HopinSeatSelector   from "./components/HopinSeatSelector";
 import RidePreferences     from "./pages/RidePreferences";
 import HopinSettings       from "./pages/HopinSettings";
+import Accessibility       from "./pages/Accessibility"; // NEW IMPORT
 import DriverRegistration  from "./pages/DriverRegistration";
 import Notifications       from "./pages/Notifications";
 import AuthSuccess         from "./pages/AuthSuccess";
@@ -17,10 +18,7 @@ import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment             from "./pages/Payment";
 import VehicleDetails      from "./pages/VehicleDetails";
 import ReviewPublish       from "./pages/ReviewPublish";
-import ChangePassword from "./pages/ChangePassword";
-
-// Inside <AppLayout> Routes:
-<Route path="/settings/change-password" element={<ChangePassword />} />
+import ChangePassword      from "./pages/ChangePassword";
 
 // ─── Auth guard ───────────────────────────────────────────
 function ProtectedRoute({ children }) {
@@ -57,12 +55,13 @@ function AppLayout() {
           <Route path="/notifications"        element={<Notifications />} />
           <Route path="/profile"              element={<Profile />} />
           <Route path="/settings"             element={<HopinSettings />} />
+          <Route path="/settings/accessibility" element={<Accessibility />} />
+          <Route path="/settings/change-password" element={<ChangePassword />} />
           <Route path="/driver-registration"  element={<DriverRegistration />} />
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
           <Route path="/payment"              element={<Payment />} />
           <Route path="/vehicle-details"      element={<VehicleDetails />} />
           <Route path="/review-publish"       element={<ReviewPublish />} />
-          <Route path="/settings/change-password" element={<ChangePassword />} />
         </Routes>
       </div>
     </div>
