@@ -1,3 +1,4 @@
+import backdrop from "../assets/hopin-backdrop.png";
 import {
   HiMagnifyingGlass,
   HiAdjustmentsHorizontal,
@@ -132,7 +133,7 @@ export default function Messages() {
                 RS
 
             </div>
-
+         
             <div className="chat-user-info">
 
                 <h3>Rahul Sharma</h3>
@@ -169,7 +170,21 @@ export default function Messages() {
         </div>
 
     </div>
+<div className="ride-banner">
 
+        <img src={backdrop} alt="Ride Banner" />
+
+        <div className="banner-fade"></div>
+
+        <div className="today-pill">
+            Today
+        </div>
+
+    </div>
+
+    <div className="chat-body">
+
+    </div>
 </div>
 
       </div>

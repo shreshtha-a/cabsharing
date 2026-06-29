@@ -57,21 +57,18 @@
 
 /* RIGHT */
 
-.chat-panel {
-  flex: 1;
+.chat-panel{
 
-  display: flex;
+    flex:1;
 
-  justify-content: center;
+    display:flex;
 
-  align-items: center;
+    flex-direction:column;
 
-  background: #fafbfc;
+    background:#FBFCFD;
+
 }
 
-.chat-placeholder {
-  text-align: center;
-}
 
 .chat-placeholder h2 {
   color: #0f172a;
@@ -367,9 +364,11 @@
 
     align-items:center;
 
-    padding:0 24px;
+    padding:0 28px;
 
-    border-bottom:1px solid #E5E7EB;
+    border-bottom:1px solid #ECECEC;
+
+    flex-shrink:0;
 
 }
 
@@ -494,5 +493,58 @@
 .chat-actions button:hover{
 
     background:#E2E8F0;
+
+}
+
+/* ------------------ Ride Banner ------------------ */
+
+.ride-banner{
+    position: relative;
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.ride-banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.banner-fade{
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(
+        to bottom,
+        rgba(255,255,255,.05),
+        rgba(255,255,255,.15)
+    );
+
+}
+
+.today-pill{
+
+    position:absolute;
+
+    bottom:18px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:white;
+
+    padding:10px 28px;
+
+    border-radius:999px;
+
+    font-weight:600;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.18);
 
 }
