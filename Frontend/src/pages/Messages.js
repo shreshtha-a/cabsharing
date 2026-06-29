@@ -1,6 +1,10 @@
 import {
   HiMagnifyingGlass,
   HiAdjustmentsHorizontal,
+  HiPhone,
+  HiVideoCamera,
+  HiEllipsisVertical,
+  HiArrowLeft,
 } from "react-icons/hi2";
 import "./Messages.css";
 
@@ -113,17 +117,60 @@ export default function Messages() {
 
         <div className="chat-panel">
 
-          <div className="chat-placeholder">
+    <div className="chat-header">
 
-            <h2>Select a Conversation</h2>
+        <div className="chat-user">
 
-            <p>
-              Choose a conversation from the left to start chatting.
-            </p>
+            <button className="back-btn">
 
-          </div>
+                <HiArrowLeft />
+
+            </button>
+
+            <div className="chat-avatar">
+
+                RS
+
+            </div>
+
+            <div className="chat-user-info">
+
+                <h3>Rahul Sharma</h3>
+
+                <p>
+                    <span className="status-dot"></span>
+                    Online
+                </p>
+
+            </div>
 
         </div>
+
+        <div className="chat-actions">
+
+            <button>
+
+                <HiPhone />
+
+            </button>
+
+            <button>
+
+                <HiVideoCamera />
+
+            </button>
+
+            <button>
+
+                <HiEllipsisVertical />
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
       </div>
 

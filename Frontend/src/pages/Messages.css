@@ -342,3 +342,157 @@
 .filter-tabs button:hover {
   transform: translateY(-2px);
 }
+
+/* -------- CHAT HEADER ---------- */
+
+.chat-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:#FAFBFC;
+
+}
+
+.chat-header{
+
+    height:82px;
+
+    background:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 24px;
+
+    border-bottom:1px solid #E5E7EB;
+
+}
+
+.chat-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+}
+
+.back-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    background:#F1F5F9;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+}
+
+.chat-avatar{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:#14B8A6;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:bold;
+
+}
+
+.chat-user-info h3{
+
+    margin:0;
+
+    font-size:18px;
+
+}
+
+.chat-user-info p{
+
+    margin-top:6px;
+
+    color:#64748B;
+
+    font-size:14px;
+
+}
+
+.status-dot{
+
+    display:inline-block;
+
+    width:10px;
+
+    height:10px;
+
+    background:#22C55E;
+
+    border-radius:50%;
+
+    margin-right:8px;
+
+}
+
+.chat-actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.chat-actions button{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#F8FAFC;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.25s;
+
+}
+
+.chat-actions button:hover{
+
+    background:#E2E8F0;
+
+}
