@@ -1,4 +1,7 @@
-import React from "react";
+import {
+  HiMagnifyingGlass,
+  HiAdjustmentsHorizontal,
+} from "react-icons/hi2";
 import "./Messages.css";
 
 export default function Messages() {
@@ -14,16 +17,29 @@ export default function Messages() {
   <h2>Messages</h2>
   <p>Your conversations</p>
 
-  <input
-    className="search-box"
-    type="text"
-    placeholder="Search conversations..."
-  />
+  <div className="search-container">
+
+    <HiMagnifyingGlass className="search-icon" />
+
+    <input
+        className="search-box"
+        type="text"
+        placeholder="Search messages, users or rides..."
+    />
+
+    <button className="filter-btn">
+
+        <HiAdjustmentsHorizontal />
+
+    </button>
+
+</div>
 
   <div className="filter-tabs">
     <button className="active-tab">All</button>
     <button>Rides</button>
     <button>Requests</button>
+    <button>Updates</button>
   </div>
 </div>
 

@@ -314,3 +314,100 @@
     box-shadow:0 8px 20px rgba(20,184,166,.12);
 
 }
+/* ---------- Search ---------- */
+
+.search-container{
+
+    margin-top:22px;
+
+    display:flex;
+
+    align-items:center;
+
+    background:white;
+
+    border:1px solid #E2E8F0;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 2px 12px rgba(15,23,42,.05);
+
+}
+
+.search-icon{
+
+    margin-left:18px;
+
+    color:#94A3B8;
+
+    font-size:20px;
+
+}
+
+.search-box{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    padding:15px 14px;
+
+    font-size:15px;
+
+    background:transparent;
+
+}
+
+.filter-btn{
+
+    width:52px;
+
+    height:52px;
+
+    border:none;
+
+    border-left:1px solid #E2E8F0;
+
+    background:white;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:.25s;
+
+    font-size:18px;
+
+}
+
+.filter-btn:hover{
+
+    background:#F8FAFC;
+
+}
+
+.filter-tabs{
+
+    margin-top:20px;
+
+}
+
+.filter-tabs button{
+
+    transition:.25s;
+
+}
+
+.filter-tabs button:hover{
+
+    transform:translateY(-2px);
+
+}
