@@ -184,11 +184,72 @@ export default function Messages() {
 
     <div className="chat-body">
 
+    <div className="message received">
+
+        <div className="bubble">
+
+            Hi there! 👋
+
+            <span>5:28 PM</span>
+
+        </div>
+
+    </div>
+
+    <div className="message sent">
+
+        <div className="bubble">
+
+            Hi Rahul! 👋
+
+            <span>5:29 PM ✓✓</span>
+
+        </div>
+
+    </div>
+
+    <div className="message sent">
+
+        <div className="bubble">
+
+            Are we still meeting at 6 PM near City Mall?
+
+            <span>5:29 PM ✓✓</span>
+
+        </div>
+
+    </div>
+
+    <div className="message received">
+
+        <div className="bubble">
+
+            Yes, I'm already on my way.
+
+            <span>5:30 PM</span>
+
+        </div>
+
+    </div>
+
+    <div className="message sent">
+
+        <div className="bubble">
+
+            Great! See you soon.
+
+            <span>5:30 PM ✓✓</span>
+
+        </div>
+
+    </div>
+
+</div>
+
     </div>
 </div>
 
       </div>
 
-    </div>
   );
 }
