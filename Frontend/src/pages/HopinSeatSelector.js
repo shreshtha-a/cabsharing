@@ -1,28 +1,51 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-// ── Design tokens (matching app theme) ────────────────────────────────────
-const teal = "#0B9E8E";
-const tealLight = "#E6F7F6";
-const tealDark = "#097A6D";
+// ── Design tokens ──────────────────────────────────────────────────────────────
+const teal        = "#0B9E8E";
+const tealLight   = "#E6F7F6";
+const tealDark    = "#097A6D";
 const textPrimary = "#1A1A2E";
 const textSecondary = "#6B7280";
 const borderColor = "#E5E7EB";
-const bgPage = "#F8FAFA";
-const white = "#FFFFFF";
-const red = "#EF4444";
+const bgPage      = "#F8FAFA";
+const white       = "#FFFFFF";
+const red         = "#EF4444";
 
-// ── Seat data ──────────────────────────────────────────────────────────────
+// ── Seat data ──────────────────────────────────────────────────────────────────
 const SEATS = {
-  rearLeft:  { id: "rearLeft",  label: "Rear Left Seat",  price: 150 },
-  rearRight: { id: "rearRight", label: "Rear Right Seat", price: 150 },
+  // frontLeft is the driver seat — NOT selectable by passengers
+  frontRight: { id: "frontRight", label: "Front Passenger Seat", price: 200 },
+  rearLeft:   { id: "rearLeft",   label: "Rear Left Seat",       price: 150 },
+  rearRight:  { id: "rearRight",  label: "Rear Right Seat",      price: 150 },
 };
 const BASE_FARE = 120;
 
-// ── Car top-view SVG ───────────────────────────────────────────────────────
+// ── Car top-view SVG ───────────────────────────────────────────────────────────
 function CarTopView({ selected, onSelect }) {
+  const frSel = selected === "frontRight";
   const rlSel = selected === "rearLeft";
   const rrSel = selected === "rearRight";
+
+  const renderSeat = (x, y, isSelected, seatId, isDriver = false) => (
+    <g key={seatId}>
+      <rect
+        x={x} y={y} width="68" height="55" rx="10"
+        fill={isDriver ? "#9ba0ab" : isSelected ? "#9ef0e0" : teal}
+        style={isDriver ? { cursor: "not-allowed" } : { cursor: "pointer" }}
+        onClick={() => !isDriver && onSelect(seatId)}
+      />
+      {isSelected && !isDriver && (
+        <>
+          <circle cx={x + 34} cy={y + 27} r="14" fill={teal} />
+          <text x={x + 34} y={y + 32} textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">✓</text>
+        </>
+      )}
+      {isDriver && (
+        <text x={x + 34} y={y + 32} textAnchor="middle" fill="white" fontSize="18">🎮</text>
+      )}
+    </g>
+  );
 
   return (
     <svg viewBox="0 0 320 480" width="240" height="360" xmlns="http://www.w3.org/2000/svg">
@@ -37,48 +60,31 @@ function CarTopView({ selected, onSelect }) {
       <rect x="75" y="85"  width="170" height="80" rx="20" fill="#1a2e4488" />
       <rect x="75" y="315" width="170" height="80" rx="20" fill="#1a2e4488" />
       <rect x="60" y="170" width="200" height="140" rx="8" fill="#1a2e44cc" />
-      {/* Front seats – occupied */}
-      <rect x="75"  y="180" width="68" height="55" rx="10" fill="#9ba0ab" />
-      <rect x="177" y="180" width="68" height="55" rx="10" fill="#9ba0ab" />
-      {/* Rear left */}
-      <rect
-        x="75" y="250" width="68" height="55" rx="10"
-        fill={rlSel ? "#9ef0e0" : teal}
-        style={{ cursor: "pointer" }}
-        onClick={() => onSelect("rearLeft")}
-      />
-      {rlSel && (
-        <>
-          <circle cx="109" cy="277" r="14" fill={teal} />
-          <text x="109" y="282" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">✓</text>
-        </>
-      )}
-      {/* Rear right */}
-      <rect
-        x="177" y="250" width="68" height="55" rx="10"
-        fill={rrSel ? "#9ef0e0" : teal}
-        style={{ cursor: "pointer" }}
-        onClick={() => onSelect("rearRight")}
-      />
-      {rrSel && (
-        <>
-          <circle cx="211" cy="277" r="14" fill={teal} />
-          <text x="211" y="282" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">✓</text>
-        </>
-      )}
+
+      {/* Driver seat (locked) */}
+      {renderSeat(75, 180, false, "frontLeft", true)}
+      {/* Front passenger seat */}
+      {renderSeat(177, 180, frSel, "frontRight")}
+      {/* Rear seats */}
+      {renderSeat(75, 250, rlSel, "rearLeft")}
+      {renderSeat(177, 250, rrSel, "rearRight")}
+
       {/* Steering wheel */}
       <circle cx="109" cy="210" r="14" fill="none" stroke="#ffffff80" strokeWidth="3" />
       <circle cx="109" cy="210" r="4"  fill="#ffffff80" />
+
       {/* Dash lines */}
       <line x1="75"  y1="277" x2="20"  y2="277" stroke={teal+"80"} strokeWidth="1.5" strokeDasharray="4,3" />
       <line x1="245" y1="277" x2="300" y2="277" stroke={teal+"80"} strokeWidth="1.5" strokeDasharray="4,3" />
       <line x1="75"  y1="207" x2="20"  y2="207" stroke="#88888840" strokeWidth="1.5" strokeDasharray="4,3" />
       <line x1="245" y1="207" x2="300" y2="207" stroke="#88888840" strokeWidth="1.5" strokeDasharray="4,3" />
+
       {/* Wheels */}
       <rect x="18"  y="100" width="22" height="50" rx="8" fill="#444" />
       <rect x="280" y="100" width="22" height="50" rx="8" fill="#444" />
       <rect x="18"  y="330" width="22" height="50" rx="8" fill="#444" />
       <rect x="280" y="330" width="22" height="50" rx="8" fill="#444" />
+
       {/* Lights */}
       <rect x="65"  y="62"  width="40" height="12" rx="4" fill="#fff7aa88" />
       <rect x="215" y="62"  width="40" height="12" rx="4" fill="#fff7aa88" />
@@ -88,7 +94,7 @@ function CarTopView({ selected, onSelect }) {
   );
 }
 
-// ── Seat card button ───────────────────────────────────────────────────────
+// ── Seat card button ───────────────────────────────────────────────────────────
 function SeatCard({ seat, isSelected, onClick }) {
   return (
     <button
@@ -110,7 +116,6 @@ function SeatCard({ seat, isSelected, onClick }) {
   );
 }
 
-// ── Legend dot ─────────────────────────────────────────────────────────────
 function LegendItem({ color, label }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -119,14 +124,39 @@ function LegendItem({ color, label }) {
     </div>
   );
 }
-// ── Main export ───────────────────────────────────────────
 
+// ── Main export ────────────────────────────────────────────────────────────────
 export default function SeatSelector() {
+  const navigate  = useNavigate();
+  const location  = useLocation();
+  const rideData  = location.state?.ride;
+
+  const defaultRide = {
+    from: "Noida Sector 62",
+    to: "Sharda University",
+    date: "24 May, 2024",
+    time: "08:30 AM",
+    distance: "32.4 km",
+    duration: "45 min",
+    farePerSeat: 230,
+  };
+
+  const ride      = rideData || defaultRide;
   const [selected, setSelected] = useState("rearLeft");
-  const navigate = useNavigate();
 
   const seatFare  = selected ? SEATS[selected].price : 0;
   const totalFare = BASE_FARE + seatFare;
+
+  const handleConfirmAndContinue = () => {
+    navigate("/booking-confirmation", {
+      state: {
+        ride,
+        selectedSeat: selected,
+        seatDetails:  SEATS[selected],
+        totalFare,
+      },
+    });
+  };
 
   return (
     <div style={{ flex: 1, overflowY: "auto", background: bgPage, minHeight: "100vh", padding: "28px 28px 40px" }}>
@@ -144,7 +174,7 @@ export default function SeatSelector() {
       {/* Two-column layout */}
       <div style={{ display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
 
-        {/* ── LEFT: Ride info ──────────────────────────────────────────── */}
+        {/* ── LEFT: Ride info ──────────────────────────────────────────────── */}
         <div style={{ width: 280, minWidth: 260, display: "flex", flexDirection: "column", gap: 16 }}>
 
           {/* Ride Card */}
@@ -153,16 +183,20 @@ export default function SeatSelector() {
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{ width: 10, height: 10, borderRadius: "50%", background: teal, border: `2px solid ${tealLight}`, flexShrink: 0 }} />
-                <span style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>Noida Sector 62</span>
+                <span style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>{ride.from}</span>
               </div>
-              <div style={{ width: 2, height: 16, background: borderColor, marginLeft: 4, marginLeft: 4 }} />
+              <div style={{ width: 2, height: 16, background: borderColor, marginLeft: 4 }} />
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{ width: 10, height: 10, borderRadius: "50%", background: red, border: "2px solid #FEE2E2", flexShrink: 0 }} />
-                <span style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>Sharda University</span>
+                <span style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>{ride.to}</span>
               </div>
             </div>
             <div style={{ display: "flex", gap: 16, marginTop: 14, flexWrap: "wrap" }}>
-              {[["Date", "24 May, 2024"], ["Time", "08:30 AM"], ["Vehicle", "4 Seater"]].map(([l, v]) => (
+              {[
+                ["Date",    ride.date],
+                ["Time",    ride.time],
+                ["Vehicle", "4 Seater"],
+              ].map(([l, v]) => (
                 <div key={l}>
                   <div style={{ fontSize: 10, color: textSecondary }}>{l}</div>
                   <div style={{ fontSize: 12, fontWeight: 600, color: textPrimary }}>{v}</div>
@@ -188,7 +222,10 @@ export default function SeatSelector() {
           {/* Fare info */}
           <div style={{ background: white, borderRadius: 16, padding: "18px 20px", border: `1px solid ${borderColor}` }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: textPrimary, marginBottom: 12 }}>Fare Information</div>
-            {[["Base Fare", `₹${BASE_FARE}`], ["Seat Fare", `₹${seatFare}`]].map(([l, v]) => (
+            {[
+              ["Base Fare", `₹${BASE_FARE}`],
+              ["Seat Fare", `₹${seatFare}`],
+            ].map(([l, v]) => (
               <div key={l} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: `1px solid ${borderColor}` }}>
                 <span style={{ fontSize: 13, color: textSecondary }}>{l}</span>
                 <span style={{ fontSize: 13, color: textPrimary }}>{v}</span>
@@ -212,17 +249,20 @@ export default function SeatSelector() {
             </div>
           </div>
 
-          <button style={{
-            alignSelf: "flex-start", background: "none",
-            border: `1.5px solid ${borderColor}`, borderRadius: 10,
-            padding: "8px 18px", fontSize: 13, fontWeight: 600,
-            color: textPrimary, cursor: "pointer",
-          }}>
+          <button
+            onClick={() => navigate(-1)}
+            style={{
+              alignSelf: "flex-start", background: "none",
+              border: `1.5px solid ${borderColor}`, borderRadius: 10,
+              padding: "8px 18px", fontSize: 13, fontWeight: 600,
+              color: textPrimary, cursor: "pointer",
+            }}
+          >
             ← Back
           </button>
         </div>
 
-        {/* ── RIGHT: Seat selector ─────────────────────────────────────── */}
+        {/* ── RIGHT: Seat selector ─────────────────────────────────────────── */}
         <div style={{ flex: 1, minWidth: 300, background: white, borderRadius: 16, padding: "22px 24px", border: `1px solid ${borderColor}` }}>
 
           {/* Header row */}
@@ -237,9 +277,9 @@ export default function SeatSelector() {
 
           {/* Legend */}
           <div style={{ display: "flex", gap: 18, marginBottom: 20 }}>
-            <LegendItem color={teal}     label="Available" />
-            <LegendItem color="#9ba0ab"  label="Occupied"  />
-            <LegendItem color="#9ef0e0"  label="Selected"  />
+            <LegendItem color={teal}    label="Available" />
+            <LegendItem color="#9ba0ab" label="Driver"    />
+            <LegendItem color="#9ef0e0" label="Selected"  />
           </div>
 
           {/* Front seat labels */}
@@ -256,7 +296,7 @@ export default function SeatSelector() {
                 <span style={{ fontSize: 12.5, fontWeight: 600, color: textPrimary }}>Front Passenger</span>
                 <span style={{ fontSize: 18 }}>👤</span>
               </div>
-              <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "#e8eaed", color: textSecondary, fontWeight: 500 }}>Occupied</span>
+              <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: tealLight, color: teal, fontWeight: 500 }}>Available</span>
             </div>
           </div>
 
@@ -265,22 +305,40 @@ export default function SeatSelector() {
             <CarTopView selected={selected} onSelect={setSelected} />
           </div>
 
-          {/* Rear seat cards */}
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, maxWidth: 460, marginBottom: 16, flexWrap: "wrap" }}>
-            <SeatCard seat={SEATS.rearLeft}  isSelected={selected === "rearLeft"}  onClick={() => setSelected("rearLeft")}  />
-            <SeatCard seat={SEATS.rearRight} isSelected={selected === "rearRight"} onClick={() => setSelected("rearRight")} />
+          {/* Seat cards — 3 selectable seats */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
+            {/* Front passenger */}
+            <div style={{ display: "flex", gap: 12 }}>
+              <SeatCard
+                seat={SEATS.frontRight}
+                isSelected={selected === "frontRight"}
+                onClick={() => setSelected("frontRight")}
+              />
+            </div>
+            {/* Rear seats */}
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+              <SeatCard
+                seat={SEATS.rearLeft}
+                isSelected={selected === "rearLeft"}
+                onClick={() => setSelected("rearLeft")}
+              />
+              <SeatCard
+                seat={SEATS.rearRight}
+                isSelected={selected === "rearRight"}
+                onClick={() => setSelected("rearRight")}
+              />
+            </div>
           </div>
 
-          {/* Tip */}
           <p style={{ fontSize: 12, color: textSecondary, textAlign: "center", marginBottom: 16 }}>
-            💺 Window seats have more legroom and a better view.
+            💺 Window seats (Rear Left/Right) have more legroom and a better view.
           </p>
 
           {/* Bottom confirm bar */}
           <div style={{
             display: "flex", alignItems: "center", gap: 16,
             background: bgPage, borderRadius: 14, padding: "14px 18px",
-            border: `1px solid ${borderColor}`, flexWrap: "wrap", gap: 12,
+            border: `1px solid ${borderColor}`, flexWrap: "wrap",
           }}>
             <div>
               <div style={{ fontSize: 11, color: textSecondary }}>Selected Seat</div>
@@ -293,25 +351,29 @@ export default function SeatSelector() {
               <div style={{ fontSize: 20, fontWeight: 800, color: textPrimary }}>₹{totalFare}</div>
             </div>
             <button
-  onClick={() => navigate("/booking-confirmation")}
-  style={{
-    marginLeft: "auto",
-    background: `linear-gradient(90deg, ${teal}, ${tealDark})`,
-    color: white,
-    border: "none",
-    borderRadius: 12,
-    padding: "13px 24px",
-    fontSize: 14,
-    fontWeight: 700,
-    cursor: "pointer",
-    letterSpacing: 0.2,
-    whiteSpace: "nowrap",
-  }}
->
-  Confirm & Continue →
-</button>
+              onClick={handleConfirmAndContinue}
+              disabled={!selected}
+              style={{
+                marginLeft: "auto",
+                background: selected
+                  ? `linear-gradient(90deg, ${teal}, ${tealDark})`
+                  : "#ccc",
+                color: white,
+                border: "none",
+                borderRadius: 12,
+                padding: "13px 24px",
+                fontSize: 14,
+                fontWeight: 700,
+                cursor: selected ? "pointer" : "not-allowed",
+                letterSpacing: 0.2,
+                whiteSpace: "nowrap",
+              }}
+            >
+              Confirm &amp; Continue →
+            </button>
           </div>
         </div>
       </div>
     </div>
-  );}
+  );
+}

@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-// ── Design tokens ──────────────────────────────────────────────────────────
-const teal = "#0B9E8E";
-const tealLight = "#E6F7F6";
-const tealDark = "#097A6D";
-const textPrimary = "#1A1A2E";
+// ── Design tokens ──────────────────────────────────────────────────────────────
+const teal          = "#0B9E8E";
+const tealLight     = "#E6F7F6";
+const tealDark      = "#097A6D";
+const textPrimary   = "#1A1A2E";
 const textSecondary = "#6B7280";
-const borderColor = "#E5E7EB";
-const bgPage = "#F8FAFA";
-const white = "#FFFFFF";
-const red = "#EF4444";
+const borderColor   = "#E5E7EB";
+const bgPage        = "#F8FAFA";
+const white         = "#FFFFFF";
+const red           = "#EF4444";
 
-// ── Inline SVG Icons ───────────────────────────────────────────────────────
+// ── Inline SVG Icons ───────────────────────────────────────────────────────────
 const IconSearch = () => (
   <svg width="18" height="18" fill="none" stroke="#9CA3AF" strokeWidth="1.8" viewBox="0 0 24 24">
     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -20,7 +20,8 @@ const IconSearch = () => (
 );
 const IconSun = () => (
   <svg width="20" height="20" fill="none" stroke={textSecondary} strokeWidth="1.8" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
     <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
     <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
     <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
@@ -53,7 +54,8 @@ const IconCheck = () => (
 );
 const IconCopy = () => (
   <svg width="16" height="16" fill="none" stroke={teal} strokeWidth="1.8" viewBox="0 0 24 24">
-    <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+    <rect x="9" y="9" width="13" height="13" rx="2"/>
+    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
   </svg>
 );
 const IconPhone = () => (
@@ -63,7 +65,8 @@ const IconPhone = () => (
 );
 const IconCalendar = () => (
   <svg width="18" height="18" fill="none" stroke={teal} strokeWidth="1.8" viewBox="0 0 24 24">
-    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    <rect x="3" y="4" width="18" height="18" rx="2"/>
+    <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
   </svg>
 );
 const IconClock = () => (
@@ -73,12 +76,14 @@ const IconClock = () => (
 );
 const IconSeat = () => (
   <svg width="18" height="18" fill="none" stroke={teal} strokeWidth="1.8" viewBox="0 0 24 24">
-    <path d="M4 11V6a2 2 0 012-2h12a2 2 0 012 2v5"/><path d="M4 11h16v6H4z"/><path d="M8 17v3M16 17v3"/>
+    <path d="M4 11V6a2 2 0 012-2h12a2 2 0 012 2v5"/>
+    <path d="M4 11h16v6H4z"/><path d="M8 17v3M16 17v3"/>
   </svg>
 );
 const IconDistance = () => (
   <svg width="18" height="18" fill="none" stroke={teal} strokeWidth="1.8" viewBox="0 0 24 24">
-    <circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><line x1="7" y1="12" x2="17" y2="12"/>
+    <circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>
+    <line x1="7" y1="12" x2="17" y2="12"/>
   </svg>
 );
 const IconShield = () => (
@@ -88,12 +93,14 @@ const IconShield = () => (
 );
 const IconHeadphones = () => (
   <svg width="18" height="18" fill="none" stroke={teal} strokeWidth="1.8" viewBox="0 0 24 24">
-    <path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/>
+    <path d="M3 18v-6a9 9 0 0118 0v6"/>
+    <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/>
   </svg>
 );
 const IconLock = () => (
   <svg width="14" height="14" fill="none" stroke={textSecondary} strokeWidth="1.8" viewBox="0 0 24 24">
-    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+    <rect x="3" y="11" width="18" height="11" rx="2"/>
+    <path d="M7 11V7a5 5 0 0110 0v4"/>
   </svg>
 );
 const IconArrow = () => (
@@ -107,12 +114,25 @@ const IconArrowLeft = () => (
   </svg>
 );
 
+// ── Shared icon button style ───────────────────────────────────────────────────
+const iconBtn = {
+  width: 36, height: 36, borderRadius: "50%", border: `1px solid ${borderColor}`,
+  background: white, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+};
+const topBadge = {
+  position: "absolute", top: -2, right: -2, background: teal, color: white,
+  borderRadius: 99, fontSize: 9, fontWeight: 700, minWidth: 16, height: 16,
+  display: "flex", alignItems: "center", justifyContent: "center",
+  padding: "0 4px", border: `1.5px solid ${white}`,
+};
+
+// ── Top bar ────────────────────────────────────────────────────────────────────
 function TopBar() {
   return (
     <div style={{
       display: "flex", alignItems: "center", gap: 16,
       padding: "12px 28px", borderBottom: `1px solid ${borderColor}`,
-      background: white, position: "sticky", top: 0, zIndex: 10,
+      background: white,
     }}>
       <div style={{
         flex: 1, display: "flex", alignItems: "center", gap: 10,
@@ -148,18 +168,13 @@ function TopBar() {
   );
 }
 
-const iconBtn = {
-  width: 36, height: 36, borderRadius: "50%", border: `1px solid ${borderColor}`,
-  background: white, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-};
-const topBadge = {
-  position: "absolute", top: -2, right: -2, background: teal, color: white,
-  borderRadius: 99, fontSize: 9, fontWeight: 700, minWidth: 16, height: 16,
-  display: "flex", alignItems: "center", justifyContent: "center",
-  padding: "0 4px", border: `1.5px solid ${white}`,
-};
-
+// ── Hero banner ────────────────────────────────────────────────────────────────
 function HeroBanner() {
+  // stable booking ID so it doesn't change on re-render
+  const [bookingId] = useState(
+    () => "HPN" + Math.random().toString(36).substr(2, 5).toUpperCase()
+  );
+
   return (
     <div style={{
       background: "linear-gradient(135deg, #E8F8F7 0%, #C5EEE9 60%, #B2E8E2 100%)",
@@ -188,10 +203,12 @@ function HeroBanner() {
           border: `1px solid ${borderColor}`, boxShadow: "0 1px 6px rgba(0,0,0,0.06)",
         }}>
           <span style={{ fontSize: 13, color: textSecondary }}>Booking ID:</span>
-          <span style={{ fontSize: 13.5, fontWeight: 700, color: textPrimary }}>HPN78291</span>
+          <span style={{ fontSize: 13.5, fontWeight: 700, color: textPrimary }}>{bookingId}</span>
           <button style={{ background: "none", border: "none", cursor: "pointer", display: "flex", padding: 0 }}><IconCopy /></button>
         </div>
       </div>
+
+      {/* Decorative right panel */}
       <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "42%", overflow: "hidden" }}>
         <svg viewBox="0 0 500 170" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} preserveAspectRatio="xMidYMid slice">
           <defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#C8EEE9"/><stop offset="100%" stopColor="#A5DDD7"/></linearGradient></defs>
@@ -209,7 +226,7 @@ function HeroBanner() {
           <rect x="55" y="34" width="48" height="28" rx="5" fill="#B2EBF2" opacity="0.85"/>
           <rect x="112" y="34" width="48" height="28" rx="5" fill="#B2EBF2" opacity="0.85"/>
           <rect x="168" y="34" width="35" height="28" rx="5" fill="#B2EBF2" opacity="0.7"/>
-          <circle cx="72" cy="96" r="18" fill="#37474F"/><circle cx="72" cy="96" r="10" fill="#607D8B"/><circle cx="72" cy="96" r="5" fill="#90A4AE"/>
+          <circle cx="72"  cy="96" r="18" fill="#37474F"/><circle cx="72"  cy="96" r="10" fill="#607D8B"/><circle cx="72"  cy="96" r="5" fill="#90A4AE"/>
           <circle cx="185" cy="96" r="18" fill="#37474F"/><circle cx="185" cy="96" r="10" fill="#607D8B"/><circle cx="185" cy="96" r="5" fill="#90A4AE"/>
           <rect x="230" y="62" width="14" height="8" rx="3" fill="#FFF9C4" opacity="0.9"/>
           <circle cx="190" cy="18" r="12" fill={teal}/><circle cx="190" cy="18" r="6" fill="white"/>
@@ -220,12 +237,13 @@ function HeroBanner() {
   );
 }
 
+// ── Progress steps ─────────────────────────────────────────────────────────────
 function ProgressSteps() {
   const steps = [
-    { icon: "✓", label: "Booking Confirmed", sub: "Just now", done: true },
-    { icon: "👤", label: "Driver Assigned", sub: "In 2 min", done: true },
-    { icon: "🚗", label: "Driver Arriving", sub: "In 8 min", done: false },
-    { icon: "🏁", label: "Ride Start", sub: "Soon", done: false },
+    { icon: "✓",  label: "Booking Confirmed", sub: "Just now", done: true  },
+    { icon: "👤", label: "Driver Assigned",   sub: "In 2 min", done: true  },
+    { icon: "🚗", label: "Driver Arriving",   sub: "In 8 min", done: false },
+    { icon: "🏁", label: "Ride Start",         sub: "Soon",     done: false },
   ];
   return (
     <div style={{
@@ -257,8 +275,60 @@ function ProgressSteps() {
   );
 }
 
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function getDriverInfo(ride) {
+  if (ride?.driver?.user) {
+    return {
+      name:    ride.driver.user.name || "Driver",
+      initials:(ride.driver.user.name || "D").split(" ").map(n => n[0]).join(""),
+      rating:  ride.driver.averageRating || 4.8,
+      rides:   ride.driver.totalRides || 120,
+    };
+  }
+  if (ride?.driverName) {
+    return {
+      name:    ride.driverName,
+      initials:(ride.driverName || "D").split(" ").map(n => n[0]).join(""),
+      rating:  ride.rating || 4.8,
+      rides:   ride.rides || 120,
+    };
+  }
+  return { name: "Driver", initials: "D", rating: 4.8, rides: 120 };
+}
+
+function getVehicleInfo(ride) {
+  if (ride?.vehicle?.name) return { name: ride.vehicle.name, plate: ride.vehicle.licensePlate || "UP16 AB 1234" };
+  if (ride?.vehicleName)   return { name: ride.vehicleName,  plate: ride.vehiclePlate || "UP16 AB 1234" };
+  return { name: "White Honda City", plate: "UP16 AB 1234" };
+}
+
+// ── Main export ────────────────────────────────────────────────────────────────
 export default function BookingConfirmation() {
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const location  = useLocation();
+  const { ride, selectedSeat, seatDetails, totalFare } = location.state || {};
+
+  const defaultRide = {
+    from: "Sharda University, Greater Noida",
+    to:   "Noida Sector 62",
+    date: "12 May 2025, Monday",
+    time: "09:30 AM",
+    distance:     "32.4 km",
+    duration:     "45 min",
+    farePerSeat:  230,
+    baseFare:     210,
+    platformFee:  20,
+    discount:     -23,
+    totalFare:    207,
+  };
+
+  const finalRide        = ride        || defaultRide;
+  const finalSeat        = selectedSeat || "rearLeft";
+  const finalSeatDetails = seatDetails  || { label: "Rear Left Seat", price: 150 };
+  const finalTotalFare   = totalFare    || finalRide.totalFare || 207;
+
+  const driver  = getDriverInfo(finalRide);
+  const vehicle = getVehicleInfo(finalRide);
 
   return (
     <>
@@ -269,20 +339,28 @@ export default function BookingConfirmation() {
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 4px; }
         @media (max-width: 768px) {
-          .bc-content { padding: 16px !important; }
+          .bc-content  { padding: 16px !important; }
           .bc-body-grid { flex-direction: column !important; }
         }
       `}</style>
 
-      <div style={{ display: "flex", flexDirection: "column", height: "100vh", fontFamily: "'Inter', sans-serif", background: bgPage, overflow: "hidden" }}>
+      {/*
+        KEY FIX: removed height:100vh + overflow:hidden from root.
+        The parent AppLayout's right column already handles scrolling
+        with overflowY:auto, so we just let this page flow naturally.
+      */}
+      <div style={{ display: "flex", flexDirection: "column", fontFamily: "'Inter', sans-serif", background: bgPage }}>
         <TopBar />
-        <div className="bc-content" style={{ flex: 1, overflowY: "auto", padding: "24px 28px 32px" }}>
+        <div className="bc-content" style={{ flex: 1, padding: "24px 28px 32px" }}>
+
           <HeroBanner />
           <ProgressSteps />
 
           <div className="bc-body-grid" style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-            {/* LEFT column */}
+
+            {/* ── LEFT column ──────────────────────────────────────────────── */}
             <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 20 }}>
+
               {/* Trip Details */}
               <div style={{ background: white, borderRadius: 16, padding: "22px 24px", border: `1px solid ${borderColor}` }}>
                 <h2 style={{ fontSize: 17, fontWeight: 700, color: textPrimary, marginBottom: 18 }}>Trip Details</h2>
@@ -297,14 +375,14 @@ export default function BookingConfirmation() {
                       <div>
                         <div style={{ marginBottom: 16 }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                            <span style={{ fontSize: 14.5, fontWeight: 600, color: textPrimary }}>Sharda University, Greater Noida</span>
+                            <span style={{ fontSize: 14.5, fontWeight: 600, color: textPrimary }}>{finalRide.source?.address || finalRide.from}</span>
                             <span style={{ fontSize: 11, fontWeight: 600, color: teal, background: tealLight, borderRadius: 6, padding: "2px 8px" }}>Pickup</span>
                           </div>
                           <div style={{ fontSize: 12, color: textSecondary, marginTop: 2 }}>Knowledge Park III, Greater Noida, UP</div>
                         </div>
                         <div>
                           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                            <span style={{ fontSize: 14.5, fontWeight: 600, color: textPrimary }}>Noida Sector 62</span>
+                            <span style={{ fontSize: 14.5, fontWeight: 600, color: textPrimary }}>{finalRide.destination?.address || finalRide.to}</span>
                             <span style={{ fontSize: 11, fontWeight: 600, color: red, background: "#FEE2E2", borderRadius: 6, padding: "2px 8px" }}>Drop</span>
                           </div>
                           <div style={{ fontSize: 12, color: textSecondary, marginTop: 2 }}>Noida, Uttar Pradesh</div>
@@ -313,15 +391,18 @@ export default function BookingConfirmation() {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, background: tealLight, borderRadius: 10, padding: "10px 14px" }}>
                       <IconClock />
-                      <span style={{ fontSize: 13, color: tealDark, fontWeight: 500 }}>Estimated travel time: 45 min (32.4 km)</span>
+                      <span style={{ fontSize: 13, color: tealDark, fontWeight: 500 }}>
+                        Estimated travel time: {finalRide.duration || "45 min"} ({finalRide.distance || "32.4 km"})
+                      </span>
                     </div>
                   </div>
+
                   <div style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: 170 }}>
                     {[
-                      { icon: <IconCalendar/>, label: "Date", value: "12 May 2025, Monday" },
-                      { icon: <IconClock/>, label: "Time", value: "09:30 AM" },
-                      { icon: <IconSeat/>, label: "Seats", value: "1 Seat" },
-                      { icon: <IconDistance/>, label: "Distance", value: "32.4 km" },
+                      { icon: <IconCalendar/>, label: "Date",     value: finalRide.date || "12 May 2025, Monday" },
+                      { icon: <IconClock/>,    label: "Time",     value: finalRide.time || "09:30 AM" },
+                      { icon: <IconSeat/>,     label: "Seat",     value: finalSeatDetails.label },
+                      { icon: <IconDistance/>, label: "Distance", value: finalRide.distance || "32.4 km" },
                     ].map(item => (
                       <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <div style={{ width: 32, height: 32, borderRadius: 8, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{item.icon}</div>
@@ -341,9 +422,10 @@ export default function BookingConfirmation() {
                 <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
                   <div style={{ flex: 1, minWidth: 180 }}>
                     {[
-                      { label: "Base Fare", value: "₹210.00", color: teal },
-                      { label: "Platform Fee", value: "₹20.00", color: teal },
-                      { label: "Discount Applied (HOPIN10)", value: "-₹23.00", color: red },
+                      { label: "Base Fare",                     value: `₹${finalRide.baseFare || 210}.00`,   color: teal },
+                      { label: "Seat Fare",                     value: `₹${finalSeatDetails.price || 150}.00`, color: teal },
+                      { label: "Platform Fee",                  value: `₹${finalRide.platformFee || 20}.00`, color: teal },
+                      { label: "Discount Applied (HOPIN10)",    value: `₹${finalRide.discount || -23}.00`,   color: red  },
                     ].map((row) => (
                       <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: `1px solid ${borderColor}` }}>
                         <span style={{ fontSize: 13.5, color: row.label.includes("Discount") ? red : textSecondary }}>{row.label}</span>
@@ -352,9 +434,10 @@ export default function BookingConfirmation() {
                     ))}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 12 }}>
                       <span style={{ fontSize: 15, fontWeight: 700, color: textPrimary }}>Total Payable</span>
-                      <span style={{ fontSize: 16, fontWeight: 800, color: textPrimary }}>₹207.00</span>
+                      <span style={{ fontSize: 16, fontWeight: 800, color: textPrimary }}>₹{finalTotalFare}.00</span>
                     </div>
                   </div>
+
                   <div style={{ background: tealLight, borderRadius: 14, padding: "16px 18px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10, minWidth: 160, textAlign: "center" }}>
                     <div style={{ width: 40, height: 40, borderRadius: "50%", background: white, display: "flex", alignItems: "center", justifyContent: "center" }}><IconShield /></div>
                     <div style={{ fontSize: 12.5, fontWeight: 600, color: tealDark, lineHeight: 1.4 }}>Your payment is secure and encrypted</div>
@@ -367,19 +450,20 @@ export default function BookingConfirmation() {
               </div>
             </div>
 
-            {/* RIGHT column */}
+            {/* ── RIGHT column ─────────────────────────────────────────────── */}
             <div style={{ width: 300, minWidth: 260, display: "flex", flexDirection: "column", gap: 16 }}>
+
               {/* Driver & Vehicle */}
               <div style={{ background: white, borderRadius: 16, padding: "20px", border: `1px solid ${borderColor}` }}>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: textPrimary, marginBottom: 14 }}>Driver &amp; Vehicle</h3>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                  <div style={{ width: 48, height: 48, borderRadius: "50%", background: "linear-gradient(135deg, #a8edea, #fed6e3)", border: `2px solid ${borderColor}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: tealDark, flexShrink: 0 }}>RK</div>
+                  <div style={{ width: 48, height: 48, borderRadius: "50%", background: "linear-gradient(135deg, #a8edea, #fed6e3)", border: `2px solid ${borderColor}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: tealDark, flexShrink: 0 }}>{driver.initials}</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14.5, fontWeight: 700, color: textPrimary }}>Rohit Kumar</div>
+                    <div style={{ fontSize: 14.5, fontWeight: 700, color: textPrimary }}>{driver.name}</div>
                     <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 3 }}>
                       <span style={{ fontSize: 14, color: "#F59E0B" }}>★</span>
-                      <span style={{ fontSize: 12.5, fontWeight: 600, color: textPrimary }}>4.8</span>
-                      <span style={{ fontSize: 12, color: textSecondary }}>(120 rides)</span>
+                      <span style={{ fontSize: 12.5, fontWeight: 600, color: textPrimary }}>{driver.rating}</span>
+                      <span style={{ fontSize: 12, color: textSecondary }}>({driver.rides} rides)</span>
                     </div>
                   </div>
                   <button style={{ width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${borderColor}`, background: white, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><IconPhone /></button>
@@ -393,8 +477,8 @@ export default function BookingConfirmation() {
                     </svg>
                   </div>
                   <div>
-                    <div style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>White Honda City</div>
-                    <div style={{ fontSize: 12, color: textSecondary, marginTop: 2, fontWeight: 500, letterSpacing: 0.5 }}>UP16 AB 1234</div>
+                    <div style={{ fontSize: 13.5, fontWeight: 600, color: textPrimary }}>{vehicle.name}</div>
+                    <div style={{ fontSize: 12, color: textSecondary, marginTop: 2, fontWeight: 500, letterSpacing: 0.5 }}>{vehicle.plate}</div>
                   </div>
                 </div>
               </div>
@@ -405,16 +489,16 @@ export default function BookingConfirmation() {
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <div style={{ width: 60, height: 60, borderRadius: 12, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
-                      <rect x="6" y="2" width="24" height="22" rx="6" fill="#80CBC4"/>
-                      <rect x="4" y="24" width="28" height="14" rx="5" fill="#4DB6AC"/>
-                      <rect x="2" y="35" width="8" height="9" rx="3" fill="#00897B"/>
+                      <rect x="6"  y="2" width="24" height="22" rx="6" fill="#80CBC4"/>
+                      <rect x="4"  y="24" width="28" height="14" rx="5" fill="#4DB6AC"/>
+                      <rect x="2"  y="35" width="8" height="9" rx="3" fill="#00897B"/>
                       <rect x="26" y="35" width="8" height="9" rx="3" fill="#00897B"/>
-                      <rect x="8" y="5" width="20" height="14" rx="4" fill="#B2DFDB"/>
+                      <rect x="8"  y="5" width="20" height="14" rx="4" fill="#B2DFDB"/>
                     </svg>
                   </div>
                   <div>
-                    <div style={{ fontSize: 14.5, fontWeight: 700, color: textPrimary }}>Front Seat</div>
-                    <div style={{ fontSize: 12.5, color: textSecondary, marginTop: 2 }}>Seat next to driver</div>
+                    <div style={{ fontSize: 14.5, fontWeight: 700, color: textPrimary }}>{finalSeatDetails.label}</div>
+                    <div style={{ fontSize: 12.5, color: textSecondary, marginTop: 2 }}>₹{finalSeatDetails.price}</div>
                     <span style={{ display: "inline-block", marginTop: 6, fontSize: 11, fontWeight: 700, color: teal, background: tealLight, borderRadius: 6, padding: "3px 10px", border: `1px solid ${teal}33` }}>Confirmed</span>
                   </div>
                 </div>
@@ -423,9 +507,9 @@ export default function BookingConfirmation() {
               {/* Policies */}
               <div style={{ background: white, borderRadius: 16, padding: "16px 20px", border: `1px solid ${borderColor}` }}>
                 {[
-                  { icon: <IconShield />, title: "Free Cancellation", desc: "Cancel up to 10 min before pickup" },
-                  { icon: <IconHeadphones />, title: "24x7 Support", desc: "We're here to help you anytime" },
-                  { icon: <IconShield />, title: "Ride Insurance", desc: "Your ride is insured for your safety" },
+                  { icon: <IconShield />,     title: "Free Cancellation", desc: "Cancel up to 10 min before pickup" },
+                  { icon: <IconHeadphones />, title: "24x7 Support",       desc: "We're here to help you anytime" },
+                  { icon: <IconShield />,     title: "Ride Insurance",     desc: "Your ride is insured for your safety" },
                 ].map((item, i, arr) => (
                   <div key={item.title} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 0", borderBottom: i < arr.length - 1 ? `1px solid ${borderColor}` : "none" }}>
                     <div style={{ width: 32, height: 32, borderRadius: 8, background: tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{item.icon}</div>
@@ -455,7 +539,7 @@ export default function BookingConfirmation() {
                 <IconArrowLeft /> Back
               </button>
               <button
-                onClick={() => navigate("/payment")}
+                onClick={() => navigate("/payment", { state: { ride: finalRide, selectedSeat: finalSeat, seatDetails: finalSeatDetails, totalFare: finalTotalFare } })}
                 style={{
                   flex: 2, padding: "18px 0", border: "none",
                   background: `linear-gradient(90deg, ${teal}, ${tealDark})`,
@@ -469,9 +553,10 @@ export default function BookingConfirmation() {
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "10px 0", background: "#FAFAFA", borderTop: `1px solid ${borderColor}` }}>
               <IconLock />
-              <span style={{ fontSize: 12, color: textSecondary }}>Secure checkout &bull; Multiple payment options</span>
+              <span style={{ fontSize: 12, color: textSecondary }}>Secure checkout · Multiple payment options</span>
             </div>
           </div>
+
         </div>
       </div>
     </>
