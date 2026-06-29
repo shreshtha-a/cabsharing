@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const teal = "#00897B";
 const tealLight = "#e6f4f2";
@@ -377,106 +378,21 @@ function NavItem({ icon, label, badge, active }) {
   );
 }
 
-function SettingsRow({ icon, title, desc, right, last }) {
-  return (
-    <div style={{ ...styles.settingsRow, borderBottom: last ? "none" : "1px solid #f3f4f6" }}>
-      <div style={styles.rowIcon}>{icon}</div>
-      <div style={styles.rowText}>
-        <div style={styles.rowTitle}>{title}</div>
-        <div style={styles.rowDesc}>{desc}</div>
-      </div>
-      <div style={styles.rowRight}>
-        {right}
-        <span style={styles.chevron}>›</span>
-      </div>
-    </div>
-  );
-}
-
-function SupportRow({ icon, title, desc, last }) {
-  return (
-    <div style={{ ...styles.supportRow, borderBottom: last ? "none" : "1px solid #f3f4f6" }}>
-      <div style={{ ...styles.rowIcon, background: "#f8fafb" }}>{icon}</div>
-      <div style={styles.rowText}>
-        <div style={styles.rowTitle}>{title}</div>
-        <div style={styles.rowDesc}>{desc}</div>
-      </div>
-      <span style={styles.chevron}>›</span>
-    </div>
-  );
-}
-
-// Landscape SVG for invite banner
-function RoadSVG() {
-  return (
-    <svg viewBox="0 0 180 90" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: 90, display: "block", borderRadius: "0 0 10px 10px" }}>
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#b2ebf2" />
-          <stop offset="100%" stopColor="#80deea" />
-        </linearGradient>
-        <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#a5d6a7" />
-          <stop offset="100%" stopColor="#66bb6a" />
-        </linearGradient>
-      </defs>
-      <rect width="180" height="60" fill="url(#sky)" />
-      <rect y="55" width="180" height="35" fill="url(#ground)" />
-      {/* Mountains */}
-      <polygon points="0,55 30,20 60,55" fill="#80cbc4" opacity="0.8" />
-      <polygon points="30,55 65,15 100,55" fill="#4db6ac" opacity="0.7" />
-      <polygon points="80,55 110,22 140,55" fill="#80cbc4" opacity="0.8" />
-      {/* Trees */}
-      {[10, 25, 150, 165].map((x, i) => (
-        <g key={i}>
-          <rect x={x + 3} y="50" width="3" height="8" fill="#5d4037" />
-          <polygon points={`${x},55 ${x + 4.5},42 ${x + 9},55`} fill="#388e3c" />
-        </g>
-      ))}
-      {/* Road */}
-      <path d="M65,90 Q90,55 115,90" fill="#607d8b" opacity="0.9" />
-      <path d="M73,90 Q90,58 107,90" fill="#546e7a" opacity="0.7" />
-      {/* Teal road glow */}
-      <path d="M88,90 Q90,60 92,90" stroke={teal} strokeWidth="1.5" fill="none" opacity="0.8" />
-      {/* Car */}
-      <g transform="translate(80,70)">
-        <rect x="0" y="0" width="20" height="9" rx="3" fill="#eceff1" />
-        <rect x="3" y="-4" width="14" height="6" rx="2" fill="#cfd8dc" />
-        <circle cx="4" cy="9" r="2.5" fill="#37474f" />
-        <circle cx="16" cy="9" r="2.5" fill="#37474f" />
-        <rect x="1" y="1" width="5" height="4" rx="1" fill="#80deea" opacity="0.8" />
-        <rect x="14" y="1" width="5" height="4" rx="1" fill="#80deea" opacity="0.8" />
-      </g>
-      {/* Pin */}
-      <g transform="translate(103,48)">
-        <circle cx="5" cy="5" r="5" fill={teal} />
-        <circle cx="5" cy="5" r="2.5" fill="#fff" />
-        <line x1="5" y1="10" x2="5" y2="15" stroke={teal} strokeWidth="2" />
-      </g>
-    </svg>
-  );
-}
-
 export default function HopinSettings() {
-  const [appearance, setAppearance] = useState("Light");
-  const [language, setLanguage] = useState("English");
+  const navigate = useNavigate();
   const [location, setLocation] = useState("Always Allow");
 
   return (
     <div style={styles.root}>
-      {/* Responsive CSS injected */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; }
-        
-       
-          .hopin-section-inner { flex-direction: column !important; }
-          .hopin-promo { display: none !important; }
-          .hopin-support-grid { grid-template-columns: 1fr !important; }
-          .hopin-footer { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
-          .hopin-topbar { margin-bottom: 18px !important; }
-        }
+        .hopin-section-inner { flex-direction: column !important; }
+        .hopin-promo { display: none !important; }
+        .hopin-support-grid { grid-template-columns: 1fr !important; }
+        .hopin-footer { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+        .hopin-topbar { margin-bottom: 18px !important; }
         @media (max-width: 480px) {
           .hopin-main { padding: 14px 8px 32px 8px !important; }
         }
@@ -486,25 +402,18 @@ export default function HopinSettings() {
         .invite-btn:hover { background: ${tealDark} !important; }
       `}</style>
 
-
-      
-
-
       {/* Main */}
       <div className="hopin-main" style={styles.main}>
         {/* Topbar */}
         <div className="hopin-topbar" style={styles.topbar}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            
             <div>
               <div style={styles.pageTitle}>Settings</div>
               <div style={styles.pageSubtitle}>Manage your preferences and account settings</div>
             </div>
           </div>
           <div style={styles.topIcons}>
-            <button style={styles.iconBtn}>
-              ☀️
-            </button>
+            <button style={styles.iconBtn}>☀️</button>
             <button style={{ ...styles.iconBtn, position: "relative" }}>
               💬
               <span style={styles.notifDot(teal)}>2</span>
@@ -521,7 +430,7 @@ export default function HopinSettings() {
           </div>
         </div>
 
-        {/* Security & Privacy */}
+        {/* Security & Privacy — Change Password + Manage Blocked Users only */}
         <div style={styles.section}>
           <div style={styles.sectionHeader}>
             <div style={styles.sectionIcon}>🛡️</div>
@@ -533,15 +442,13 @@ export default function HopinSettings() {
           <div className="hopin-section-inner" style={styles.sectionInner}>
             <div style={styles.settingsList}>
               {[
-                { icon: "🔒", title: "Change Password", desc: "Update your password regularly to keep your account safe.", right: null },
-                { icon: "📍", title: "Two-Factor Authentication", desc: "Add an extra layer of security to your account.", right: <span style={styles.enabledBadge}>Enabled</span> },
-                { icon: "🕐", title: "Login Activity", desc: "View your recent login activity and devices.", right: null },
-                { icon: "📱", title: "Manage Devices", desc: "View and manage devices connected to your account.", right: null },
-                { icon: "👥", title: "Manage Blocked Users", desc: "View and manage users you have blocked.", right: null, last: true },
+                { icon: "🔒", title: "Change Password", desc: "Update your password regularly to keep your account safe.", path: "/settings/change-password" },
+                { icon: "👥", title: "Manage Blocked Users", desc: "View and manage users you have blocked." },
               ].map((row, i, arr) => (
                 <div
                   key={row.title}
                   className="settings-row"
+                  onClick={() => row.path && navigate(row.path)}
                   style={{ ...styles.settingsRow, borderBottom: i === arr.length - 1 ? "none" : "1px solid #f3f4f6" }}
                 >
                   <div style={styles.rowIcon}>{row.icon}</div>
@@ -550,7 +457,6 @@ export default function HopinSettings() {
                     <div style={styles.rowDesc}>{row.desc}</div>
                   </div>
                   <div style={styles.rowRight}>
-                    {row.right}
                     <span style={styles.chevron}>›</span>
                   </div>
                 </div>
@@ -564,7 +470,7 @@ export default function HopinSettings() {
           </div>
         </div>
 
-        {/* App Preferences */}
+        {/* App Preferences — Location, Theme Color, Accessibility only */}
         <div style={styles.section}>
           <div style={styles.sectionHeader}>
             <div style={styles.sectionIcon}>📱</div>
@@ -575,45 +481,6 @@ export default function HopinSettings() {
           </div>
           <div className="hopin-section-inner" style={styles.sectionInner}>
             <div style={styles.settingsList}>
-              {/* Appearance */}
-              <div className="settings-row" style={styles.prefRow}>
-                <div style={styles.rowIcon}>☀️</div>
-                <div style={styles.rowText}>
-                  <div style={styles.rowTitle}>Appearance</div>
-                  <div style={styles.rowDesc}>Choose light or dark mode</div>
-                </div>
-                <div style={styles.toggleGroup}>
-                  {["Light", "Dark"].map((opt) => (
-                    <button
-                      key={opt}
-                      style={styles.toggleBtn(appearance === opt)}
-                      onClick={() => setAppearance(opt)}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              {/* Language */}
-              <div className="settings-row" style={styles.prefRow}>
-                <div style={styles.rowIcon}>🌐</div>
-                <div style={styles.rowText}>
-                  <div style={styles.rowTitle}>Language</div>
-                  <div style={styles.rowDesc}>Select your preferred language</div>
-                </div>
-                <div style={{ position: "relative" }}>
-                  <select
-                    style={styles.selectControl}
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                  >
-                    {["English", "Hindi", "Spanish", "French"].map((l) => (
-                      <option key={l}>{l}</option>
-                    ))}
-                  </select>
-                  <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "#6b7280", fontSize: 12 }}>▾</span>
-                </div>
-              </div>
               {/* Location */}
               <div className="settings-row" style={styles.prefRow}>
                 <div style={styles.rowIcon}>📍</div>
@@ -679,7 +546,7 @@ export default function HopinSettings() {
               {[
                 { icon: "❓", title: "Help Center", desc: "Find answers to common questions" },
                 { icon: "💬", title: "Contact Support", desc: "Chat or email our support team" },
-                { icon: "⚠️", title: "Report an Issue", desc: "Report a bug or provide feedback", last: true },
+                { icon: "⚠️", title: "Report an Issue", desc: "Report a bug or provide feedback" },
               ].map((row, i, arr) => (
                 <div
                   key={row.title}
@@ -700,7 +567,7 @@ export default function HopinSettings() {
               {[
                 { icon: "📄", title: "Terms & Conditions", desc: "Read our terms and conditions" },
                 { icon: "🔒", title: "Privacy Policy", desc: "Learn how we protect your data" },
-                { icon: "👥", title: "Community Guidelines", desc: "Our community rules and standards", last: true },
+                { icon: "👥", title: "Community Guidelines", desc: "Our community rules and standards" },
               ].map((row, i, arr) => (
                 <div
                   key={row.title}

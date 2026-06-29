@@ -17,6 +17,10 @@ import BookingConfirmation from "./pages/BookingConfirmation";
 import Payment             from "./pages/Payment";
 import VehicleDetails      from "./pages/VehicleDetails";
 import ReviewPublish       from "./pages/ReviewPublish";
+import ChangePassword from "./pages/ChangePassword";
+
+// Inside <AppLayout> Routes:
+<Route path="/settings/change-password" element={<ChangePassword />} />
 
 // ─── Auth guard ───────────────────────────────────────────
 function ProtectedRoute({ children }) {
@@ -58,6 +62,7 @@ function AppLayout() {
           <Route path="/payment"              element={<Payment />} />
           <Route path="/vehicle-details"      element={<VehicleDetails />} />
           <Route path="/review-publish"       element={<ReviewPublish />} />
+          <Route path="/settings/change-password" element={<ChangePassword />} />
         </Routes>
       </div>
     </div>
