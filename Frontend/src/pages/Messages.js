@@ -31,19 +31,33 @@ export default function Messages() {
 
   <div className="conversation-card active">
 
-    <div className="avatar">R</div>
+    <div className="avatar-wrapper">
 
-    <div className="conversation-info">
+        <div className="avatar">R</div>
 
-      <h4>Rahul Sharma</h4>
-
-      <p>Hey! I'll reach in 10 mins.</p>
+        <span className="online-dot"></span>
 
     </div>
 
-    <span>2m</span>
+    <div className="conversation-info">
 
-  </div>
+        <div className="conversation-top">
+
+            <h4>Rahul Sharma</h4>
+
+            <span>2m</span>
+
+        </div>
+
+        <p>Hey! I'll reach in 10 mins.</p>
+
+    </div>
+
+    <div className="unread-count">
+        2
+    </div>
+
+</div>
 
   <div className="conversation-card">
 

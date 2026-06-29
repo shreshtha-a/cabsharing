@@ -242,3 +242,75 @@
     font-size:13px;
 
 }
+.avatar-wrapper{
+
+    position:relative;
+
+}
+
+.online-dot{
+
+    position:absolute;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#22C55E;
+
+    border:2px solid white;
+
+    right:0;
+
+    bottom:2px;
+
+}
+
+.conversation-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.unread-count{
+
+    width:26px;
+
+    height:26px;
+
+    border-radius:50%;
+
+    background:#14B8A6;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+.conversation-card{
+
+    border-left:4px solid transparent;
+}
+
+.conversation-card.active{
+
+    border-left:4px solid #14B8A6;
+
+    box-shadow:0 8px 20px rgba(20,184,166,.12);
+
+}
