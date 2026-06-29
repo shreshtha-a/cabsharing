@@ -1,52 +1,40 @@
 import React from "react";
+import "./Messages.css";
 
 export default function Messages() {
   return (
-    <div
-      style={{
-        padding: "20px",
-        background: "#F7F8FA",
-        minHeight: "100vh",
-        boxSizing: "border-box",
-      }}
-    >
-      <h1
-        style={{
-          color: "#0F172A",
-          marginBottom: "8px",
-          fontSize: "34px",
-          fontWeight: "700",
-        }}
-      >
-        Messages
-      </h1>
+    <div className="messages-page">
 
-      <p
-        style={{
-          color: "#64748B",
-          marginBottom: "30px",
-          fontSize: "16px",
-        }}
-      >
-        Chat with your ride connections
-      </p>
+      <div className="messages-container">
 
-      <div
-        style={{
-          height: "78vh",
-          background: "#fff",
-          borderRadius: "24px",
-          border: "1px solid #E2E8F0",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          color: "#94A3B8",
-          fontSize: "22px",
-          fontWeight: "600",
-        }}
-      >
-        Messages UI Coming...
+        {/* LEFT PANEL */}
+        <div className="conversation-panel">
+
+          <div className="conversation-header">
+            <h2>Messages</h2>
+            <p>Your conversations</p>
+          </div>
+
+        </div>
+
+        {/* RIGHT PANEL */}
+
+        <div className="chat-panel">
+
+          <div className="chat-placeholder">
+
+            <h2>Select a Conversation</h2>
+
+            <p>
+              Choose a conversation from the left to start chatting.
+            </p>
+
+          </div>
+
+        </div>
+
       </div>
+
     </div>
   );
 }
