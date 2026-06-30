@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import HeroBanner from "../components/rides/HeroBanner";
 import RideTabs from "../components/rides/RideTabs";
 import RideList from "../components/rides/RideList";
+import QuickActions from "../components/rides/QuickActions";
 import StatsCards from "../components/rides/StatsCards";
 export default function MyRides() {
     const [stats] = useState({
@@ -32,12 +33,9 @@ const [activeTab, setActiveTab] = useState("upcoming");
 
   <div style={styles.dashboard}>
     <RideList />
+<div style={styles.rightColumn}>
 
-    <div style={styles.rightColumn}>
-
-  <div style={styles.smallCard}>
-    Quick Actions
-  </div>
+  <QuickActions />
 
   <div style={styles.smallCard}>
     Earnings Overview
