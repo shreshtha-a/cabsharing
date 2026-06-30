@@ -131,65 +131,105 @@
   flex: 1;
 }
 
-.conversation-card {
-  display: flex;
+.conversation-card{
 
-  align-items: center;
+    display:flex;
 
-  gap: 14px;
+    align-items:center;
 
-  padding: 22px 26px;
+    gap:18px;
 
-  cursor: pointer;
+    padding:18px 22px;
 
-  transition: 0.25s;
+    cursor:pointer;
+
+    border-left:4px solid transparent;
+
+    transition:
+        background .25s,
+        transform .2s,
+        box-shadow .2s;
+
 }
 
-.conversation-card:hover {
-  background: #f8fafc;
+.conversation-card:hover{
+
+    background:#F8FAFC;
+
+    transform:translateX(6px);
+
 }
 
-.conversation-card.active {
-  background: #ecfdf5;
+.conversation-card.active{
+
+    background:#ECFDF5;
+
+    border-left:4px solid #14B8A6;
+
+    box-shadow:
+        0 10px 20px rgba(20,184,166,.12);
+
 }
 
-.avatar {
-  width: 60px;
-  height: 60px;
+.avatar{
 
-  border-radius: 50%;
+    width:58px;
+    height:58px;
 
-  background: #14b8a6;
+    border-radius:50%;
 
-  color: white;
+    background:linear-gradient(
+        135deg,
+        #14B8A6,
+        #0EA5E9
+    );
 
-  display: flex;
+    color:white;
 
-  justify-content: center;
+    display:flex;
 
-  align-items: center;
+    justify-content:center;
 
-  font-weight: bold;
+    align-items:center;
 
-  font-size: 24px;
+    font-weight:700;
+
+    font-size:20px;
+
+    box-shadow:0 8px 18px rgba(20,184,166,.25);
+
 }
 
 .conversation-info {
   flex: 1;
 }
 
-.conversation-info h4 {
-  margin: 0;
+.conversation-info h4{
 
-  color: #0f172a;
+    margin:0;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
 }
 
-.conversation-info p {
-  margin-top: 6px;
+.conversation-info p{
 
-  color: #64748b;
+    margin-top:5px;
 
-  font-size: 14px;
+    font-size:13px;
+
+    color:#64748B;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
 }
 
 .conversation-card span {
@@ -227,26 +267,30 @@
   align-items: center;
 }
 
-.unread-count {
-  width: 26px;
+.unread-count{
 
-  height: 26px;
+    min-width:24px;
 
-  border-radius: 50%;
+    height:24px;
 
-  background: #14b8a6;
+    padding:0 7px;
 
-  color: white;
+    border-radius:999px;
 
-  display: flex;
+    background:#14B8A6;
 
-  justify-content: center;
+    color:white;
 
-  align-items: center;
+    display:flex;
 
-  font-size: 12px;
+    align-items:center;
 
-  font-weight: 700;
+    justify-content:center;
+
+    font-size:11px;
+
+    font-weight:700;
+
 }
 
 .conversation-card {
@@ -568,7 +612,6 @@ linear-gradient(
 }
 
 .message{
-
     display:flex;
 
     margin-bottom:24px;
