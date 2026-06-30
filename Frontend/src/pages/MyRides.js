@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import HeroBanner from "../components/rides/HeroBanner";
+import StatsCards from "../components/rides/StatsCards";
 export default function MyRides() {
+    const [stats] = useState({
+  upcoming: 3,
+  completed: 12,
+  cancelled: 2,
+  earnings: 2430,
+});
   return (
     <div style={styles.page}>
       <div style={styles.header}>
@@ -12,10 +19,9 @@ export default function MyRides() {
 
     <HeroBanner />
 
+<StatsCards stats={stats} />
+
 <div style={styles.content}>
-  <div style={styles.placeholder}>
-    🚗 Ride dashboard coming soon...
-  </div>
 </div>
     </div>
   );
