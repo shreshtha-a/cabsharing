@@ -9,7 +9,7 @@ const bgMain = "#F8FAFA";
 const white = "#FFFFFF";
 const unread = "#10B981";
 const borderColor = "#E5E7EB";
-//icons next onto
+//icons next onto it from
 
 // ── Icons ──────────────────────────────────────────────────────────────────
 const IconBell = ({ active }) => (
