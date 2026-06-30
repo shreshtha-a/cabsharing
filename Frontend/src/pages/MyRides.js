@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HeroBanner from "../components/rides/HeroBanner";
 import RideTabs from "../components/rides/RideTabs";
+import RideList from "../components/rides/RideList";
 import StatsCards from "../components/rides/StatsCards";
 export default function MyRides() {
     const [stats] = useState({
@@ -26,7 +27,25 @@ const [activeTab, setActiveTab] = useState("upcoming");
   setActiveTab={setActiveTab}
 />
 
-<StatsCards stats={stats} />
+<>
+  <StatsCards stats={stats} />
+
+  <div style={styles.dashboard}>
+    <RideList />
+
+    <div style={styles.rightColumn}>
+
+  <div style={styles.smallCard}>
+    Quick Actions
+  </div>
+
+  <div style={styles.smallCard}>
+    Earnings Overview
+  </div>
+
+</div>
+  </div>
+</>
     </div>
   );
 }
@@ -55,20 +74,41 @@ const styles = {
     color: "#64748B",
   },
 
-  content: {
+  dashboard: {
+    display: "grid",
+    gridTemplateColumns: "2.2fr 1fr",
+    gap: "24px",
+    marginTop: "28px",
+  },
+
+  rightPanel: {
     background: "#FFFFFF",
     borderRadius: "24px",
     border: "1px solid #E8EEF5",
-    minHeight: "500px",
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     boxShadow: "0 10px 30px rgba(15,36,84,0.05)",
+    color: "#94A3B8",
+    fontWeight: "600",
   },
 
-  placeholder: {
+  rightColumn: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+  },
+
+  smallCard: {
+    background: "#FFFFFF",
+    borderRadius: "24px",
+    minHeight: "220px",
+    border: "1px solid #E8EEF5",
+    boxShadow: "0 10px 30px rgba(15,36,84,0.05)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     color: "#94A3B8",
-    fontSize: "18px",
     fontWeight: "600",
   },
 };
