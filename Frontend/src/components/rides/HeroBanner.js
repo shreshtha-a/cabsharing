@@ -55,19 +55,20 @@ const styles = {
     position: "relative",
     overflow: "hidden",
     borderRadius: "30px",
-    padding: "20px 28px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    padding: "18px 24px",
+    display: "grid",
+gridTemplateColumns: "1.3fr 0.8fr",
+alignItems: "center",
+gap: "20px",
     background: "#FFFFFF",
     marginBottom: "28px",
-    minHeight: "170px",
+    minHeight: "90px",
     boxShadow: "0 12px 30px rgba(15,36,84,.08)",
   },
 
 
   left: {
-    width: "58%",
+    width: "100%",
     zIndex: 2,
   },
 
@@ -79,13 +80,13 @@ const styles = {
     backdropFilter: "blur(8px)",
     fontSize: "13px",
     fontWeight: "700",
-    marginBottom: "20px",
+    marginBottom: "14px",
     color:"#14B8A6",
   },
 
   heading: {
     margin: 0,
-    fontSize: "44px",
+    fontSize: "28px",
     lineHeight: 1.15,
     fontWeight: "800",
   },
@@ -96,15 +97,15 @@ const styles = {
 
   description: {
     marginTop: "18px",
-    fontSize: "17px",
-    lineHeight: 1.8,
-    maxWidth: "520px",
+    fontSize: "15px",
+    lineHeight: 1.6,
+    maxWidth: "420px",
     opacity: ".95",
      color: "#64748B",
   },
 
   button: {
-    marginTop: "28px",
+    marginTop: "22px",
     display: "inline-flex",
     alignItems: "center",
     gap: "10px",
@@ -119,18 +120,15 @@ const styles = {
     transition: ".3s",
   },
 
-  right: {
-  width: "42%",
-  display: "flex",
-  justifyContent: "flex-end",
-  alignItems: "flex-start",
-  overflow: "hidden",
+  right:{
+    width:"100%",
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
 },
 
-heroImage: {
-  width: "430px",
-  maxWidth: "100%",
-  objectFit: "contain",
-  transform: "translate(30px, -10px)",
-},
+heroImage:{
+    width:"540px",
+    height:"auto",
+}
 };
