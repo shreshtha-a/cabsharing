@@ -75,7 +75,7 @@ const { upload }   = require("../middleware/upload.middleware");
 uploadRouter.post("/", protect, upload.single("file"), combined.uploadFile);
 module.exports.uploadRouter = uploadRouter;
 
-// ── admin.routes.js ──────────────────────────────────────
+// ── admin.routes.js & the auth ──────────────────────────────────────
 const adminRouter = express.Router();
 adminRouter.use(protect, authorize("admin"));
 adminRouter.get ("/users",                      combined.getAllUsers);
