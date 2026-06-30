@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function RideCard({ ride }) {
+export default function RideCard({ ride, onViewDetails }) {
   return (
     <div style={styles.card}>
       {/* Left */}
@@ -28,9 +28,12 @@ export default function RideCard({ ride }) {
       <div style={styles.right}>
         <div style={styles.price}>₹{ride.price}</div>
 
-        <button style={styles.button}>
-          View Details
-        </button>
+        <button
+  style={styles.button}
+  onClick={onViewDetails}
+>
+  View Details
+</button>
       </div>
     </div>
   );

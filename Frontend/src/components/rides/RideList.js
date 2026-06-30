@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import RideDetailsModal from "./RideDetailsModal";
 import RideCard from "./RideCard";
 import rides from "../../data/rides";
 
 export default function RideList() {
+    const [selectedRide, setSelectedRide] = useState(null);
   return (
     <div>
       <h3
@@ -17,7 +19,11 @@ export default function RideList() {
       </h3>
 
       {rides.map((ride) => (
-        <RideCard key={ride.id} ride={ride} />
+        <RideCard
+  key={ride.id}
+  ride={ride}
+  onViewDetails={() => setSelectedRide(ride)}
+/>
       ))}
 
       <div
@@ -41,6 +47,10 @@ export default function RideList() {
           View All Rides →
         </button>
       </div>
+      <RideDetailsModal
+  ride={selectedRide}
+  onClose={() => setSelectedRide(null)}
+/>
     </div>
   );
 }
