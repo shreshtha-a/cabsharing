@@ -356,21 +356,23 @@ const styles = {
   },
 };
 
+// NOTE: paths added here drive navigation for both the sidebar nav items
+// and the Help & Support entry specifically (now routes to /help-center)
 const navItems = [
-  { icon: "🏠", label: "Home" },
-  { icon: "🗺️", label: "Find a Ride" },
-  { icon: "🚗", label: "My Rides" },
-  { icon: "💬", label: "Messages", badge: 2 },
-  { icon: "👛", label: "Wallet" },
-  { icon: "🎁", label: "Offers" },
-  { icon: "👤", label: "Profile" },
-  { icon: "⚙️", label: "Settings", active: true },
-  { icon: "❓", label: "Help & Support" },
+  { icon: "🏠", label: "Home", path: "/home" },
+  { icon: "🗺️", label: "Find a Ride", path: "/find-ride" },
+  { icon: "🚗", label: "My Rides", path: "/rides" },
+  { icon: "💬", label: "Messages", badge: 2, path: "/messages" },
+  { icon: "👛", label: "Wallet", path: "/wallet" },
+  { icon: "🎁", label: "Offers", path: "/offers" },
+  { icon: "👤", label: "Profile", path: "/profile" },
+  { icon: "⚙️", label: "Settings", active: true, path: "/settings" },
+  { icon: "❓", label: "Help & Support", path: "/help-center" },
 ];
 
-function NavItem({ icon, label, badge, active }) {
+function NavItem({ icon, label, badge, active, onClick }) {
   return (
-    <li style={styles.navItem(active)}>
+    <li className="nav-item-hover" style={styles.navItem(active)} onClick={onClick}>
       <span style={{ fontSize: 18 }}>{icon}</span>
       <span>{label}</span>
       {badge && <span style={styles.badge}>{badge}</span>}
@@ -513,7 +515,7 @@ export default function HopinSettings() {
                   <span style={{ color: "#9ca3af", fontSize: 13 }}>▾</span>
                 </div>
               </div>
-              {/* Accessibility - NOW NAVIGATES */}
+              {/* Accessibility */}
               <div className="settings-row" style={{ ...styles.prefRow, borderBottom: "none", cursor: "pointer" }} onClick={() => navigate("/settings/accessibility")}>
                 <div style={styles.rowIcon}>♿</div>
                 <div style={styles.rowText}>
@@ -531,7 +533,7 @@ export default function HopinSettings() {
           </div>
         </div>
 
-        {/* Support & Legal */}
+        {/* Support & Legal — now wired with navigation */}
         <div style={styles.section}>
           <div style={styles.sectionHeader}>
             <div style={styles.sectionIcon}>🎧</div>
@@ -544,13 +546,14 @@ export default function HopinSettings() {
             <div style={styles.supportCol}>
               <div style={styles.supportColTitle}>Support</div>
               {[
-                { icon: "❓", title: "Help Center", desc: "Find answers to common questions" },
-                { icon: "💬", title: "Contact Support", desc: "Chat or email our support team" },
-                { icon: "⚠️", title: "Report an Issue", desc: "Report a bug or provide feedback" },
+                { icon: "❓", title: "Help Center", desc: "Find answers to common questions", path: "/help-center" },
+                { icon: "💬", title: "Contact Support", desc: "Chat or email our support team", path: "/help-center" },
+                { icon: "⚠️", title: "Report an Issue", desc: "Report a bug or provide feedback", path: "/help-center" },
               ].map((row, i, arr) => (
                 <div
                   key={row.title}
                   className="settings-row"
+                  onClick={() => row.path && navigate(row.path)}
                   style={{ ...styles.supportRow, borderBottom: i === arr.length - 1 ? "none" : "1px solid #f3f4f6" }}
                 >
                   <div style={styles.rowIcon}>{row.icon}</div>
@@ -565,13 +568,14 @@ export default function HopinSettings() {
             <div style={styles.supportCol}>
               <div style={styles.supportColTitle}>Legal</div>
               {[
-                { icon: "📄", title: "Terms & Conditions", desc: "Read our terms and conditions" },
+                { icon: "📄", title: "Terms & Conditions", desc: "Read our terms and conditions", path: "/settings/terms-conditions" },
                 { icon: "🔒", title: "Privacy Policy", desc: "Learn how we protect your data" },
                 { icon: "👥", title: "Community Guidelines", desc: "Our community rules and standards" },
               ].map((row, i, arr) => (
                 <div
                   key={row.title}
                   className="settings-row"
+                  onClick={() => row.path && navigate(row.path)}
                   style={{ ...styles.supportRow, borderBottom: i === arr.length - 1 ? "none" : "1px solid #f3f4f6" }}
                 >
                   <div style={styles.rowIcon}>{row.icon}</div>
@@ -586,7 +590,7 @@ export default function HopinSettings() {
           </div>
         </div>
 
-        {/* Footer banner */}
+        {/* Footer banner — Learn More also routes to Help Center */}
         <div className="hopin-footer" style={styles.footer}>
           <div style={styles.footerLeft}>
             <div style={styles.footerIcon}>🛡️</div>
@@ -595,7 +599,7 @@ export default function HopinSettings() {
               <div style={styles.footerDesc}>Hopin is committed to providing a secure and trusted platform for all users.</div>
             </div>
           </div>
-          <button className="learn-more-btn" style={styles.learnMoreBtn}>
+          <button className="learn-more-btn" style={styles.learnMoreBtn} onClick={() => navigate("/help-center")}>
             Learn More &nbsp;→
           </button>
         </div>
