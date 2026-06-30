@@ -712,3 +712,9 @@
 .conversation-list::-webkit-scrollbar-track {
   background: transparent;
 }
+.no-results{
+    padding:40px;
+    text-align:center;
+    color:#64748b;
+    font-size:15px;
+}

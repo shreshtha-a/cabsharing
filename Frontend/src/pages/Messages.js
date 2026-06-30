@@ -19,6 +19,7 @@ export default function Messages() {
     status: "Online",
     initials: "RS",
   });
+  const [search, setSearch] = useState("");
   const chats = [
   {
     id: 1,
@@ -101,6 +102,9 @@ export default function Messages() {
     online: false,
   },
 ];
+const filteredChats = chats.filter((chat) =>
+  chat.name.toLowerCase().includes(search.toLowerCase())
+);
 
   return (
     <div className="messages-page">
@@ -119,10 +123,12 @@ export default function Messages() {
     <HiMagnifyingGlass className="search-icon" />
 
     <input
-        className="search-box"
-        type="text"
-        placeholder="Search messages, users or rides..."
-    />
+  className="search-box"
+  type="text"
+  placeholder="Search messages, users or rides..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
 
     <button className="filter-btn">
 
@@ -142,7 +148,7 @@ export default function Messages() {
 
 <div className="conversation-list">
 
-  {chats.map((chat) => (
+  {filteredChats.map((chat) => (
 
     <div
       key={chat.id}
@@ -191,7 +197,11 @@ export default function Messages() {
     </div>
 
   ))}
-
+{filteredChats.length === 0 && (
+  <div className="no-results">
+    No conversations found.
+  </div>
+)}
 </div>
 
 </div> 
