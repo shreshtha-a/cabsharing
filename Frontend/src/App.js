@@ -22,6 +22,7 @@ import VehicleDetails from "./pages/VehicleDetails";
 import ReviewPublish from "./pages/ReviewPublish";
 import ChangePassword from "./pages/ChangePassword";
 import Messages from "./pages/Messages";
+import MyRides from "./pages/MyRides";
 // Inside <AppLayout> Routes:
 <Route path="/settings/change-password" element={<ChangePassword />} />;
 
@@ -55,7 +56,7 @@ function AppLayout() {
           <Route path="/offer-ride" element={<HopinOfferRide />} />
           <Route path="/select-seat" element={<HopinSeatSelector />} />
           <Route path="/ride-preferences" element={<RidePreferences />} />
-          <Route path="/rides" element={<Placeholder title="My Rides" />} />
+          <Route path="/rides" element={<MyRides />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/recurring-rides" element={<RecurringRide />} />
           <Route path="/notifications" element={<Notifications />} />
