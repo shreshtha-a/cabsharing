@@ -1,15 +1,7 @@
-import {useState} from "react";
-import { useNavigate } from "react-router-dom";
-import { FaCarSide, FaCheckCircle } from "react-icons/fa";
+import { FaCarSide, FaCheckCircle } from "react-icons/fa"
 
-
-export default function DriverCard() {
-  const navigate = useNavigate();
-  const [showSignup, setShowSignup] = useState(false);
-
-
+export default function DriverCard({ onClick }) {
   return (
-    <>
     <div
       style={{
         width: "100%",
@@ -22,12 +14,10 @@ export default function DriverCard() {
         boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
         padding: "18px",
         boxSizing: "border-box",
-
         display: "flex",
         flexDirection: "column",
       }}
     >
-      {/* Icon */}
       <div
         style={{
           width: "72px",
@@ -45,7 +35,6 @@ export default function DriverCard() {
         <FaCarSide />
       </div>
 
-      {/* Title */}
       <p
         style={{
           textAlign: "center",
@@ -80,7 +69,6 @@ export default function DriverCard() {
         }}
       />
 
-      {/* Features */}
       <div
         style={{
           display: "flex",
@@ -89,49 +77,24 @@ export default function DriverCard() {
           flex: 1,
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            color: "#334155",
-            fontSize: "15px",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <FaCheckCircle color="#2563EB" />
           <span>Publish rides</span>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            color: "#334155",
-            fontSize: "15px",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <FaCheckCircle color="#2563EB" />
           <span>Earn from empty seats</span>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            color: "#334155",
-            fontSize: "15px",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <FaCheckCircle color="#2563EB" />
           <span>Build trust</span>
         </div>
       </div>
 
-      {/* Button */}
       <button
-        onClick={() => navigate("/driver-registration")}
+        onClick={onClick}
         style={{
           marginTop: "22px",
           height: "48px",
@@ -148,7 +111,5 @@ export default function DriverCard() {
         Offer a Ride
       </button>
     </div>
-  
-    </>
-  );
+  )
 }

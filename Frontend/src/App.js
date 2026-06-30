@@ -25,6 +25,7 @@ import ReviewPublish from "./pages/ReviewPublish";
 import ChangePassword from "./pages/ChangePassword";
 import Messages from "./pages/Messages";
 import MyRides from "./pages/MyRides";
+import SignupDriver from "./components/landing/SignupDriver";
 
 // ─── Auth guard ───────────────────────────────────────────────────────────────
 function ProtectedRoute({ children }) {
@@ -45,10 +46,10 @@ function AppLayout() {
           <Route path="/find-ride" element={<FindRide />} />
           <Route path="/search" element={<FindRide />} />
           <Route path="/offer-ride" element={<HopinOfferRide />} />
-          {/* Seat selector → passes state to booking-confirmation */}
           <Route path="/select-seat" element={<HopinSeatSelector />} />
           <Route path="/ride-preferences" element={<RidePreferences />} />
           <Route path="/rides" element={<MyRides />} />
+
           <Route
             path="/rides/edit/:id"
             element={
@@ -58,6 +59,7 @@ function AppLayout() {
               </div>
             }
           />
+
           <Route path="/messages" element={<Messages />} />
           <Route path="/recurring-rides" element={<RecurringRide />} />
           <Route path="/notifications" element={<Notifications />} />
@@ -65,9 +67,7 @@ function AppLayout() {
           <Route path="/settings" element={<HopinSettings />} />
           <Route path="/settings/accessibility" element={<Accessibility />} />
           <Route path="/driver-registration" element={<DriverRegistration />} />
-          {/* Booking confirmation → receives state from select-seat */}
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
-          {/* Payment → receives state from booking-confirmation */}
           <Route path="/payment" element={<Payment />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/vehicle-details" element={<VehicleDetails />} />
@@ -85,6 +85,7 @@ export default function App() {
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Landing />} />
+        <Route path="/signup-driver" element={<SignupDriver />} />
         <Route path="/auth/forgot" element={<ForgotPassword />} />
         <Route path="/auth/reset" element={<ResetPassword />} />
         <Route path="/auth/success" element={<AuthSuccess />} />
