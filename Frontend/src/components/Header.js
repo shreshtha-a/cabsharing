@@ -6,6 +6,7 @@ import { HiOutlineBell, HiOutlineSearch, HiOutlineChatAlt2 } from "react-icons/h
 export default function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  // export 
 
   useEffect(() => {
     try {
