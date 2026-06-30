@@ -1,5 +1,6 @@
 import Toast from "./Toast";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   HiDotsVertical,
   HiEye,
@@ -9,7 +10,14 @@ import {
 } from "react-icons/hi";
 export default function RideCard({ ride, onViewDetails }) {
     const [showMenu, setShowMenu] = useState(false);
+    const navigate = useNavigate();
 const [toast, setToast] = useState("");
+
+const handleEditRide = () => {
+  navigate(`/rides/edit/${ride.id}`);
+  setShowMenu(false);
+};
+
 const handleShare = async () => {
   const rideLink = `${window.location.origin}/rides/${ride.id}`;
 
@@ -71,10 +79,16 @@ const handleShare = async () => {
         View Details
       </div>
 
-      <div style={styles.menuItem}>
-        <HiPencil />
-        Edit Ride
-      </div>
+      <div
+  style={styles.menuItem}
+
+
+
+  onClick={handleEditRide}
+>
+  <HiPencil />
+  Edit Ride
+</div>
 
       <div
   style={styles.menuItem}
