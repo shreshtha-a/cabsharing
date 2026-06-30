@@ -57,6 +57,15 @@ function AppLayout() {
           <Route path="/select-seat" element={<HopinSeatSelector />} />
           <Route path="/ride-preferences" element={<RidePreferences />} />
           <Route path="/rides" element={<MyRides />} />
+          <Route
+            path="/rides/edit/:id"
+            element={
+              <div style={{ padding: "40px" }}>
+                <h2>Edit Ride</h2>
+                <p>Edit Ride page coming soon.</p>
+              </div>
+            }
+          />
           <Route path="/messages" element={<Messages />} />
           <Route path="/recurring-rides" element={<RecurringRide />} />
           <Route path="/notifications" element={<Notifications />} />
