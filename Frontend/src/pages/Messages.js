@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import backdrop from "../assets/hopin-backdrop.png";
 import {
   HiMagnifyingGlass,
@@ -12,6 +13,95 @@ import {
 import "./Messages.css";
 
 export default function Messages() {
+
+  const [activeChat, setActiveChat] = useState({
+    name: "Rahul Sharma",
+    status: "Online",
+    initials: "RS",
+  });
+  const chats = [
+  {
+    id: 1,
+    name: "Rahul Sharma",
+    initials: "RS",
+    status: "Online",
+    message: "Hey! I'll reach in 10 mins.",
+    time: "2m",
+    unread: 2,
+    online: true,
+  },
+  {
+    id: 2,
+    name: "Priya Singh",
+    initials: "PS",
+    status: "Offline",
+    message: "See you at the pickup point.",
+    time: "5m",
+    unread: 0,
+    online: false,
+  },
+  {
+    id: 3,
+    name: "Aman Verma",
+    initials: "AV",
+    status: "Offline",
+    message: "Thanks for the ride!",
+    time: "Yesterday",
+    unread: 0,
+    online: false,
+  },
+  {
+    id: 4,
+    name: "Neha Kapoor",
+    initials: "NK",
+    status: "Online",
+    message: "I'll be there in 5 minutes.",
+    time: "11m",
+    unread: 1,
+    online: true,
+  },
+  {
+    id: 5,
+    name: "Sneha Gupta",
+    initials: "SG",
+    status: "Offline",
+    message: "Thanks for today's ride 😊",
+    time: "1h",
+    unread: 0,
+    online: false,
+  },
+  {
+    id: 6,
+    name: "Aditya Mehra",
+    initials: "AM",
+    status: "Online",
+    message: "Can you pick me up near Gate 2?",
+    time: "Yesterday",
+    unread: 0,
+    online: true,
+  },
+  {
+    id: 7,
+    name: "Muskan Jain",
+    initials: "MJ",
+    status: "Away",
+    message: "Ride confirmed 👍",
+    time: "Yesterday",
+    unread: 4,
+    online: false,
+  },
+  {
+    id: 8,
+    name: "Karan Singh",
+    initials: "KS",
+    status: "Offline",
+    message: "Let's meet near the metro station.",
+    time: "Mon",
+    unread: 0,
+    online: false,
+  },
+];
+
   return (
     <div className="messages-page">
 
@@ -52,158 +142,58 @@ export default function Messages() {
 
 <div className="conversation-list">
 
-  <div className="conversation-card active">
+  {chats.map((chat) => (
 
-    <div className="avatar-wrapper">
+    <div
+      key={chat.id}
+      className={`conversation-card ${
+        activeChat.name === chat.name ? "active" : ""
+      }`}
+      onClick={() =>
+        setActiveChat({
+          name: chat.name,
+          status: chat.status,
+          initials: chat.initials,
+        })
+      }
+    >
 
-        <div className="avatar">R</div>
+      <div className="avatar-wrapper">
 
-        <span className="online-dot"></span>
+        <div className="avatar">
+          {chat.initials}
+        </div>
 
-    </div>
+        {chat.online && <span className="online-dot"></span>}
 
-    <div className="conversation-info">
+      </div>
+
+      <div className="conversation-info">
 
         <div className="conversation-top">
 
-            <h4>Rahul Sharma</h4>
+          <h4>{chat.name}</h4>
 
-            <span>2m</span>
+          <span>{chat.time}</span>
 
         </div>
 
-        <p>Hey! I'll reach in 10 mins.</p>
+        <p>{chat.message}</p>
 
-    </div>
+      </div>
 
-    <div className="unread-count">
-        2
-    </div>
-
-</div>
-
-  <div className="conversation-card">
-
-    <div className="avatar">P</div>
-
-    <div className="conversation-info">
-
-      <h4>Priya Singh</h4>
-
-      <p>See you at the pickup point.</p>
-
-    </div>
-
-    <span>5m</span>
-
-  </div>
-
-  <div className="conversation-card">
-
-    <div className="avatar">A</div>
-
-    <div className="conversation-info">
-
-      <h4>Aman Verma</h4>
-
-      <p>Thanks for the ride!</p>
-
-    </div>
-
-    <span>Yesterday</span>
-
-  </div>
-  <div className="conversation-card">
-
-    <div className="avatar-wrapper">
-        <div className="avatar">N</div>
-        <span className="online-dot"></span>
-    </div>
-
-    <div className="conversation-info">
-        <div className="conversation-top">
-            <h4>Neha Kapoor</h4>
-            <span>11m</span>
+      {chat.unread > 0 && (
+        <div className="unread-count">
+          {chat.unread}
         </div>
+      )}
 
-        <p>I'll be there in 5 minutes.</p>
     </div>
 
-    <div className="unread-count">1</div>
+  ))}
 
 </div>
 
-<div className="conversation-card">
-
-    <div className="avatar-wrapper">
-        <div className="avatar">S</div>
-    </div>
-
-    <div className="conversation-info">
-        <div className="conversation-top">
-            <h4>Sneha Gupta</h4>
-            <span>1h</span>
-        </div>
-
-        <p>Thanks for today's ride 😊</p>
-    </div>
-
-</div>
-
-<div className="conversation-card">
-
-    <div className="avatar-wrapper">
-        <div className="avatar">A</div>
-        <span className="online-dot"></span>
-    </div>
-
-    <div className="conversation-info">
-        <div className="conversation-top">
-            <h4>Aditya Mehra</h4>
-            <span>Yesterday</span>
-        </div>
-
-        <p>Can you pick me up near Gate 2?</p>
-    </div>
-</div>
-
-<div className="conversation-card">
-
-    <div className="avatar-wrapper">
-        <div className="avatar">M</div>
-    </div>
-
-    <div className="conversation-info">
-        <div className="conversation-top">
-            <h4>Muskan Jain</h4>
-            <span>Yesterday</span>
-        </div>
-
-        <p>Ride confirmed 👍</p>
-    </div>
-
-    <div className="unread-count">4</div>
-
-</div>
-
-<div className="conversation-card">
-
-    <div className="avatar-wrapper">
-        <div className="avatar">K</div>
-    </div>
-
-    <div className="conversation-info">
-        <div className="conversation-top">
-            <h4>Karan Singh</h4>
-            <span>Mon</span>
-        </div>
-
-        <p>Let's meet near the metro station.</p>
-    </div>
-
-</div>
-
-</div>
 </div> 
         {/* RIGHT PANEL */}
 
@@ -221,17 +211,17 @@ export default function Messages() {
 
             <div className="chat-avatar">
 
-                RS
+                {activeChat.initials}
 
             </div>
          
             <div className="chat-user-info">
 
-                <h3>Rahul Sharma</h3>
+                <h3>{activeChat.name}</h3>
 
                 <p>
                     <span className="status-dot"></span>
-                    Online
+                    {activeChat.status}
                 </p>
 
             </div>
