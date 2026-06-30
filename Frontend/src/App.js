@@ -25,6 +25,8 @@ import ReviewPublish from "./pages/ReviewPublish";
 import ChangePassword from "./pages/ChangePassword";
 import Messages from "./pages/Messages";
 import MyRides from "./pages/MyRides";
+import HelpCenter from "./pages/HelpCenter";
+import TermsConditions from "./pages/TermsConditions";
 
 // ─── Auth guard ───────────────────────────────────────────────────────────────
 function ProtectedRoute({ children }) {
@@ -72,6 +74,8 @@ function AppLayout() {
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/vehicle-details" element={<VehicleDetails />} />
           <Route path="/review-publish" element={<ReviewPublish />} />
+          <Route path="/help-center" element={<HelpCenter />} />
+          <Route path="/settings/terms-conditions" element={<TermsConditions />} />
         </Routes>
       </div>
     </div>
