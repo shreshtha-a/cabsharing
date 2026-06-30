@@ -162,7 +162,8 @@ export default function Home() {
         const res = await rideService.getRides({ seats: 1 });
         setApiRides((res.data.rides || []).slice(0, 6));
       } catch (err) {
-        setError("Could not load rides from server.");
+        setError("Could not load rides from server");
+        //SETERROR NOT DEFINED
       } finally {
         setLoading(false);
       }
