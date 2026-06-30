@@ -1,3 +1,4 @@
+import Toast from "./Toast";
 import React, { useState } from "react";
 import {
   HiDotsVertical,
@@ -8,6 +9,24 @@ import {
 } from "react-icons/hi";
 export default function RideCard({ ride, onViewDetails }) {
     const [showMenu, setShowMenu] = useState(false);
+const [toast, setToast] = useState("");
+const handleShare = async () => {
+  const rideLink = `${window.location.origin}/rides/${ride.id}`;
+
+  try {
+    await navigator.clipboard.writeText(rideLink);
+
+    setToast("Ride link copied!");
+
+    setTimeout(() => {
+      setToast("");
+    }, 2000);
+  } catch (err) {
+    setToast("Unable to copy link");
+  }
+
+  setShowMenu(false);
+};
   return (
     <div style={styles.card}>
       {/* Left */}
@@ -57,10 +76,13 @@ export default function RideCard({ ride, onViewDetails }) {
         Edit Ride
       </div>
 
-      <div style={styles.menuItem}>
-        <HiShare />
-        Share Ride
-      </div>
+      <div
+  style={styles.menuItem}
+  onClick={handleShare}
+>
+  <HiShare />
+  Share Ride
+</div>
 
       <div
         style={{
@@ -87,6 +109,8 @@ export default function RideCard({ ride, onViewDetails }) {
   </button>
 
 </div>
+
+<Toast message={toast} />
     </div>
   );
 }
