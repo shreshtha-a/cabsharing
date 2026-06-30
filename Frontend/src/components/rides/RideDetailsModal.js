@@ -6,32 +6,53 @@ export default function RideDetailsModal({ ride, onClose }) {
   return (
     <div style={styles.overlay} onClick={onClose}>
       <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <h2 style={styles.title}>Ride Details</h2>
+        <h2 style={styles.title}>
+  🚗 Ride Details
+</h2>
 
-        <div style={styles.row}>
-          <strong>Date</strong>
-          <span>{ride.date}</span>
-        </div>
+       <div style={styles.statusContainer}>
+  <span style={styles.statusBadge}>Upcoming</span>
+</div>
 
-        <div style={styles.row}>
-          <strong>Time</strong>
-          <span>{ride.time}</span>
-        </div>
+<div style={styles.row}>
+  <strong>📅 Date</strong>
+  <span>{ride.date}</span>
+</div>
 
-        <div style={styles.row}>
-          <strong>From</strong>
-          <span>{ride.from}</span>
-        </div>
+<div style={styles.row}>
+  <strong>🕒 Time</strong>
+  <span>{ride.time}</span>
+</div>
 
-        <div style={styles.row}>
-          <strong>To</strong>
-          <span>{ride.to}</span>
-        </div>
+<div style={styles.row}>
+  <strong>📍 Pickup</strong>
+  <span>{ride.from}</span>
+</div>
 
-        <div style={styles.row}>
-          <strong>Fare</strong>
-          <span>₹{ride.price}</span>
-        </div>
+<div style={styles.row}>
+  <strong>🏁 Destination</strong>
+  <span>{ride.to}</span>
+</div>
+
+<div style={styles.row}>
+  <strong>💺 Seats</strong>
+  <span>2 Available</span>
+</div>
+
+<div style={styles.row}>
+  <strong>🚘 Vehicle</strong>
+  <span>Maruti Baleno</span>
+</div>
+
+<div style={styles.row}>
+  <strong>💰 Fare</strong>
+  <span>₹{ride.price}</span>
+</div>
+
+<div style={styles.row}>
+  <strong>👤 Driver</strong>
+  <span>You</span>
+</div> 
 
         <button style={styles.button} onClick={onClose}>
           Close
@@ -53,11 +74,11 @@ const styles = {
   },
 
   modal: {
-    width: "420px",
+    width: "520px",
     background: "#fff",
-    borderRadius: "20px",
+    borderRadius: "28px",
     padding: "30px",
-    boxShadow: "0 20px 50px rgba(0,0,0,.15)",
+    boxShadow: "0 24px 60px rgba(15,36,84,.18)",
   },
 
   title: {
@@ -84,4 +105,19 @@ const styles = {
     fontWeight: "700",
     cursor: "pointer",
   },
+
+  statusContainer: {
+  display: "flex",
+  justifyContent: "flex-end",
+  marginBottom: "18px",
+},
+
+statusBadge: {
+  background: "#DCFCE7",
+  color: "#16A34A",
+  padding: "6px 14px",
+  borderRadius: "999px",
+  fontWeight: "700",
+  fontSize: "13px",
+},
 };
