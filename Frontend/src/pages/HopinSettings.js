@@ -513,8 +513,8 @@ export default function HopinSettings() {
                   <span style={{ color: "#9ca3af", fontSize: 13 }}>▾</span>
                 </div>
               </div>
-              {/* Accessibility */}
-              <div className="settings-row" style={{ ...styles.prefRow, borderBottom: "none" }}>
+              {/* Accessibility - NOW NAVIGATES */}
+              <div className="settings-row" style={{ ...styles.prefRow, borderBottom: "none", cursor: "pointer" }} onClick={() => navigate("/settings/accessibility")}>
                 <div style={styles.rowIcon}>♿</div>
                 <div style={styles.rowText}>
                   <div style={styles.rowTitle}>Accessibility</div>

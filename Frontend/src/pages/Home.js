@@ -33,9 +33,15 @@ function RealDriverCard({ ride }) {
   const rating      = ride?.driver?.averageRating || 0;
   const tags        = getRidePreferenceTags(ride);
 
+  const handleBookClick = () => {
+    // Pass ride data to seat selector page
+    navigate("/select-seat", { 
+      state: { ride } 
+    });
+  };
+
   return (
     <div
-      onClick={() => navigate("/find-ride")}
       style={{ background: "#fff", borderRadius: "20px", overflow: "hidden", border: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(15,45,82,0.08)", cursor: "pointer", transition: "transform 0.2s, box-shadow 0.2s" }}
       onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(15,45,82,0.12)"; }}
       onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 16px rgba(15,45,82,0.08)"; }}
@@ -54,7 +60,11 @@ function RealDriverCard({ ride }) {
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div><span style={{ fontSize: "18px", fontWeight: "800", color: "#0F2D52" }}>₹{ride.farePerSeat}</span><span style={{ fontSize: "11px", color: "#64748B", marginLeft: "4px" }}>/ seat</span></div>
-          <div style={{ background: "linear-gradient(135deg,#14B8A6,#2DD4BF)", color: "#fff", borderRadius: "10px", padding: "6px 14px", fontSize: "12px", fontWeight: "600" }}>Book →</div>
+          <div 
+            onClick={handleBookClick}
+            style={{ background: "linear-gradient(135deg,#14B8A6,#2DD4BF)", color: "#fff", borderRadius: "10px", padding: "6px 14px", fontSize: "12px", fontWeight: "600", cursor: "pointer" }}>
+            Book →
+          </div>
         </div>
       </div>
     </div>
@@ -70,9 +80,15 @@ function LocalRideCard({ ride }) {
   if (!p.smokingAllowed) tags.push("Non Smoker");
   if (p.musicAllowed)    tags.push("Music Lover");
 
+  const handleBookClick = () => {
+    // Pass ride data to seat selector page
+    navigate("/select-seat", { 
+      state: { ride } 
+    });
+  };
+
   return (
     <div
-      onClick={() => navigate("/find-ride")}
       style={{ background: "#fff", borderRadius: "20px", overflow: "hidden", border: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(15,45,82,0.08)", cursor: "pointer", transition: "transform 0.2s, box-shadow 0.2s" }}
       onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(15,45,82,0.12)"; }}
       onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 16px rgba(15,45,82,0.08)"; }}
@@ -95,7 +111,11 @@ function LocalRideCard({ ride }) {
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div><span style={{ fontSize: "18px", fontWeight: "800", color: "#0F2D52" }}>₹{ride.price}</span><span style={{ fontSize: "11px", color: "#64748B", marginLeft: "4px" }}>/ seat</span></div>
-          <div style={{ background: "linear-gradient(135deg,#14B8A6,#2DD4BF)", color: "#fff", borderRadius: "10px", padding: "6px 14px", fontSize: "12px", fontWeight: "600" }}>Book →</div>
+          <div 
+            onClick={handleBookClick}
+            style={{ background: "linear-gradient(135deg,#14B8A6,#2DD4BF)", color: "#fff", borderRadius: "10px", padding: "6px 14px", fontSize: "12px", fontWeight: "600", cursor: "pointer" }}>
+            Book →
+          </div>
         </div>
       </div>
     </div>
