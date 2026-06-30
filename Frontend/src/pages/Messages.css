@@ -629,3 +629,92 @@
     align-self:flex-end;
 
 }
+/* ---------------- CHAT INPUT ---------------- */
+
+.chat-input{
+
+    height:78px;
+
+    background:white;
+
+    border-top:1px solid #E5E7EB;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:0 22px;
+
+    flex-shrink:0;
+
+}
+
+.chat-input input{
+
+    flex:1;
+
+    height:46px;
+
+    border:none;
+
+    outline:none;
+
+    background:#F8FAFC;
+
+    border-radius:24px;
+
+    padding:0 18px;
+
+    font-size:15px;
+
+}
+
+.attach-btn{
+
+    width:44px;
+
+    height:44px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#F1F5F9;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+}
+
+.send-btn{
+
+    width:48px;
+
+    height:48px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#14B8A6;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    transition:.25s;
+
+}
+
+.send-btn:hover{
+
+    transform:scale(1.05);
+
+    background:#0F9E90;
+
+}

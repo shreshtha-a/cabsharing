@@ -6,6 +6,8 @@ import {
   HiVideoCamera,
   HiEllipsisVertical,
   HiArrowLeft,
+  HiPaperAirplane,
+  HiPaperClip,
 } from "react-icons/hi2";
 import "./Messages.css";
 
@@ -245,11 +247,28 @@ export default function Messages() {
     </div>
 
 </div>
+<div className="chat-input">
 
+    <button className="attach-btn">
+        <HiPaperClip />
+    </button>
+
+    <input
+        type="text"
+        placeholder="Type a message..."
+    />
+
+    <button className="send-btn">
+        <HiPaperAirplane />
+    </button>
+
+</div>
+
+</div>   {/* chat-panel ends here */}
     </div>
 </div>
 
-      </div>
+    
 
   );
 }
