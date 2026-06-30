@@ -1,6 +1,13 @@
-import React from "react";
-
+import React, { useState } from "react";
+import {
+  HiDotsVertical,
+  HiEye,
+  HiPencil,
+  HiShare,
+  HiXCircle,
+} from "react-icons/hi";
 export default function RideCard({ ride, onViewDetails }) {
+    const [showMenu, setShowMenu] = useState(false);
   return (
     <div style={styles.card}>
       {/* Left */}
@@ -26,15 +33,60 @@ export default function RideCard({ ride, onViewDetails }) {
 
       {/* Right */}
       <div style={styles.right}>
-        <div style={styles.price}>₹{ride.price}</div>
 
-        <button
-  style={styles.button}
-  onClick={onViewDetails}
->
-  View Details
-</button>
+  <button
+    style={styles.menuButton}
+    onClick={() => setShowMenu(!showMenu)}
+  >
+    <HiDotsVertical />
+  </button>
+
+  {showMenu && (
+    <div style={styles.menu}>
+
+      <div
+        style={styles.menuItem}
+        onClick={onViewDetails}
+      >
+        <HiEye />
+        View Details
       </div>
+
+      <div style={styles.menuItem}>
+        <HiPencil />
+        Edit Ride
+      </div>
+
+      <div style={styles.menuItem}>
+        <HiShare />
+        Share Ride
+      </div>
+
+      <div
+        style={{
+          ...styles.menuItem,
+          color: "#DC2626",
+        }}
+      >
+        <HiXCircle />
+        Cancel Ride
+      </div>
+
+    </div>
+  )}
+
+  <div style={styles.price}>
+    ₹{ride.price}
+  </div>
+
+  <button
+    style={styles.button}
+    onClick={onViewDetails}
+  >
+    View Details
+  </button>
+
+</div>
     </div>
   );
 }
@@ -94,11 +146,12 @@ color:"#64748B",
 marginTop:"4px"
 },
 
-right:{
-display:"flex",
-flexDirection:"column",
-alignItems:"flex-end",
-gap:"16px"
+right: {
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-end",
+  gap: "14px",
 },
 
 price:{
@@ -115,6 +168,34 @@ background:"#fff",
 color:"#14B8A6",
 fontWeight:"700",
 cursor:"pointer"
-}
+},
 
+  menuButton: {
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
+    fontSize: "22px",
+    alignSelf: "flex-end",
+  },
+
+  menu: {
+    position: "absolute",
+    background: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "14px",
+    boxShadow: "0 12px 30px rgba(0,0,0,.12)",
+    marginTop: "34px",
+    width: "180px",
+    right: 0,
+    zIndex: 20,
+  },
+
+  menuItem: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    padding: "12px 16px",
+    cursor: "pointer",
+    fontSize: "14px",
+  },
 };
