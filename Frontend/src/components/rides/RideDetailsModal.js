@@ -11,7 +11,26 @@ export default function RideDetailsModal({ ride, onClose }) {
 </h2>
 
        <div style={styles.statusContainer}>
-  <span style={styles.statusBadge}>Upcoming</span>
+  <span
+  style={{
+    ...styles.statusBadge,
+    background:
+      ride.status === "completed"
+        ? "#DBEAFE"
+        : ride.status === "cancelled"
+        ? "#FEE2E2"
+        : "#DCFCE7",
+
+    color:
+      ride.status === "completed"
+        ? "#2563EB"
+        : ride.status === "cancelled"
+        ? "#DC2626"
+        : "#16A34A",
+  }}
+>
+  {ride.status.charAt(0).toUpperCase() + ride.status.slice(1)}
+</span>
 </div>
 
 <div style={styles.row}>

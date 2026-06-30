@@ -33,7 +33,7 @@ const [activeTab, setActiveTab] = useState("upcoming");
   <StatsCards stats={stats} />
 
   <div style={styles.dashboard}>
-    <RideList />
+    <RideList activeTab={activeTab} />
 <div style={styles.rightColumn}>
 
   <QuickActions />
