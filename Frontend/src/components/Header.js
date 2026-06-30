@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineBell, HiOutlineSearch, HiOutlineChatAlt2 } from "react-icons/hi";
+//header 
 
 export default function Header() {
   const navigate = useNavigate();
