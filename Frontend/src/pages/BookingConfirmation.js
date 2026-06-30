@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { bookingService } from "../services/bookingService"; // ← NEW
+import { bookingService } from "../services/bookingService"; // ← NEW FORM
 
 // ── Design tokens ──────────────────────────────────────────────────────────────
 const teal          = "#0B9E8E";
