@@ -113,6 +113,95 @@ export default function Messages() {
     <span>Yesterday</span>
 
   </div>
+  <div className="conversation-card">
+
+    <div className="avatar-wrapper">
+        <div className="avatar">N</div>
+        <span className="online-dot"></span>
+    </div>
+
+    <div className="conversation-info">
+        <div className="conversation-top">
+            <h4>Neha Kapoor</h4>
+            <span>11m</span>
+        </div>
+
+        <p>I'll be there in 5 minutes.</p>
+    </div>
+
+    <div className="unread-count">1</div>
+
+</div>
+
+<div className="conversation-card">
+
+    <div className="avatar-wrapper">
+        <div className="avatar">S</div>
+    </div>
+
+    <div className="conversation-info">
+        <div className="conversation-top">
+            <h4>Sneha Gupta</h4>
+            <span>1h</span>
+        </div>
+
+        <p>Thanks for today's ride 😊</p>
+    </div>
+
+</div>
+
+<div className="conversation-card">
+
+    <div className="avatar-wrapper">
+        <div className="avatar">A</div>
+        <span className="online-dot"></span>
+    </div>
+
+    <div className="conversation-info">
+        <div className="conversation-top">
+            <h4>Aditya Mehra</h4>
+            <span>Yesterday</span>
+        </div>
+
+        <p>Can you pick me up near Gate 2?</p>
+    </div>
+</div>
+
+<div className="conversation-card">
+
+    <div className="avatar-wrapper">
+        <div className="avatar">M</div>
+    </div>
+
+    <div className="conversation-info">
+        <div className="conversation-top">
+            <h4>Muskan Jain</h4>
+            <span>Yesterday</span>
+        </div>
+
+        <p>Ride confirmed 👍</p>
+    </div>
+
+    <div className="unread-count">4</div>
+
+</div>
+
+<div className="conversation-card">
+
+    <div className="avatar-wrapper">
+        <div className="avatar">K</div>
+    </div>
+
+    <div className="conversation-info">
+        <div className="conversation-top">
+            <h4>Karan Singh</h4>
+            <span>Mon</span>
+        </div>
+
+        <p>Let's meet near the metro station.</p>
+    </div>
+
+</div>
 
 </div>
 </div> 
