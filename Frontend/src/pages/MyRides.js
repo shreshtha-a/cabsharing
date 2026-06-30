@@ -1,5 +1,5 @@
 import React from "react";
-
+import HeroBanner from "../components/rides/HeroBanner";
 export default function MyRides() {
   return (
     <div style={styles.page}>
@@ -10,11 +10,13 @@ export default function MyRides() {
         </p>
       </div>
 
-      <div style={styles.content}>
-        <div style={styles.placeholder}>
-          🚗 Your ride dashboard is coming soon.
-        </div>
-      </div>
+    <HeroBanner />
+
+<div style={styles.content}>
+  <div style={styles.placeholder}>
+    🚗 Ride dashboard coming soon...
+  </div>
+</div>
     </div>
   );
 }
