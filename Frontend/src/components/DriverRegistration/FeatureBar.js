@@ -4,6 +4,7 @@ import {
   FaWallet,
   FaHeadset,
 } from "react-icons/fa";
+// in addition>>>
 
 export default function FeatureBar() {
   return (
