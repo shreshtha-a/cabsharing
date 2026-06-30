@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCarSide, FaPlusCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import heroRoad from "../../assets/hero-road.png";
 export default function HeroBanner() {
   const navigate = useNavigate();
 
@@ -14,7 +14,6 @@ export default function HeroBanner() {
 
   return (
     <div style={styles.banner}>
-      <div style={styles.overlay} />
 
       <div style={styles.left}>
         <span style={styles.badge}>🚗 Hopin Ride Dashboard</span>
@@ -41,20 +40,12 @@ export default function HeroBanner() {
       </div>
 
       <div style={styles.right}>
-        <div style={styles.circle}>
-          <FaCarSide size={95} color="white" />
-        </div>
-
-        <div style={styles.stat}>
-          <h3>24</h3>
-          <span>Total Rides</span>
-        </div>
-
-        <div style={styles.stat}>
-          <h3>4.9 ★</h3>
-          <span>Your Rating</span>
-        </div>
-      </div>
+  <img
+    src={heroRoad}
+    alt="Hero Road"
+    style={styles.heroImage}
+  />
+</div>
     </div>
   );
 }
@@ -64,24 +55,16 @@ const styles = {
     position: "relative",
     overflow: "hidden",
     borderRadius: "30px",
-    padding: "45px",
+    padding: "20px 28px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    background:
-      "linear-gradient(135deg,#0F766E,#14B8A6,#22D3EE)",
-    color: "#fff",
-    marginBottom: "35px",
-    minHeight: "270px",
-    boxShadow: "0 20px 40px rgba(20,184,166,.25)",
+    background: "#FFFFFF",
+    marginBottom: "28px",
+    minHeight: "170px",
+    boxShadow: "0 12px 30px rgba(15,36,84,.08)",
   },
 
-  overlay: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 45%)",
-  },
 
   left: {
     width: "58%",
@@ -92,11 +75,12 @@ const styles = {
     display: "inline-block",
     padding: "8px 16px",
     borderRadius: "999px",
-    background: "rgba(255,255,255,.15)",
+    background:"#EDFDFB",
     backdropFilter: "blur(8px)",
     fontSize: "13px",
     fontWeight: "700",
     marginBottom: "20px",
+    color:"#14B8A6",
   },
 
   heading: {
@@ -107,7 +91,7 @@ const styles = {
   },
 
   name: {
-    color: "#DDFCF8",
+    color:"#14B8A6",
   },
 
   description: {
@@ -116,6 +100,7 @@ const styles = {
     lineHeight: 1.8,
     maxWidth: "520px",
     opacity: ".95",
+     color: "#64748B",
   },
 
   button: {
@@ -135,30 +120,17 @@ const styles = {
   },
 
   right: {
-    zIndex: 2,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "18px",
-  },
+  width: "42%",
+  display: "flex",
+  justifyContent: "flex-end",
+  alignItems: "flex-start",
+  overflow: "hidden",
+},
 
-  circle: {
-    width: "170px",
-    height: "170px",
-    borderRadius: "50%",
-    background: "rgba(255,255,255,.15)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backdropFilter: "blur(10px)",
-  },
-
-  stat: {
-    width: "170px",
-    background: "rgba(255,255,255,.15)",
-    borderRadius: "18px",
-    padding: "16px",
-    textAlign: "center",
-    backdropFilter: "blur(10px)",
-  },
+heroImage: {
+  width: "430px",
+  maxWidth: "100%",
+  objectFit: "contain",
+  transform: "translate(30px, -10px)",
+},
 };
