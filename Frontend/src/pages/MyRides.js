@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import HeroBanner from "../components/rides/HeroBanner";
+import RideTabs from "../components/rides/RideTabs";
 import StatsCards from "../components/rides/StatsCards";
 export default function MyRides() {
     const [stats] = useState({
@@ -8,6 +9,7 @@ export default function MyRides() {
   cancelled: 2,
   earnings: 2430,
 });
+const [activeTab, setActiveTab] = useState("upcoming");
   return (
     <div style={styles.page}>
       <div style={styles.header}>
@@ -19,10 +21,12 @@ export default function MyRides() {
 
     <HeroBanner />
 
-<StatsCards stats={stats} />
+<RideTabs
+  activeTab={activeTab}
+  setActiveTab={setActiveTab}
+/>
 
-<div style={styles.content}>
-</div>
+<StatsCards stats={stats} />
     </div>
   );
 }
