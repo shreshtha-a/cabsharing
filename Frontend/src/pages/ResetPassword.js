@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../services/rideService";
+import { authService } from "../services/rideServices";
 import Modal from "../components/Modal";
 
 export default function ResetPassword() {

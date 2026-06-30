@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { rideService } from "../services/rideService";
+import { rideService } from "../services/rideServices";
 import { getLocalRides } from "../utils/localRides";
 
 import HeroSection from "../components/HeroSection";
@@ -141,7 +141,7 @@ export default function Home() {
   const [apiRides,   setApiRides]   = useState([]);
   const [localRides, setLocalRides] = useState([]);
   const [loading,    setLoading]    = useState(true);
-  const [error,      setError]      = useState(null);
+
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
