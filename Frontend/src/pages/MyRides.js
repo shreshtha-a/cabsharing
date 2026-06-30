@@ -3,6 +3,7 @@ import HeroBanner from "../components/rides/HeroBanner";
 import RideTabs from "../components/rides/RideTabs";
 import RideList from "../components/rides/RideList";
 import QuickActions from "../components/rides/QuickActions";
+import EarningsCard from "../components/rides/EarningsCard";
 import StatsCards from "../components/rides/StatsCards";
 export default function MyRides() {
     const [stats] = useState({
@@ -37,9 +38,7 @@ const [activeTab, setActiveTab] = useState("upcoming");
 
   <QuickActions />
 
-  <div style={styles.smallCard}>
-    Earnings Overview
-  </div>
+  <EarningsCard />
 
 </div>
   </div>
