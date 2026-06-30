@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { bookingService } from "../services/bookingService"; // ← NEW
 
 // ── Design tokens ──────────────────────────────────────────────────────────────
 const teal          = "#0B9E8E";
@@ -114,7 +115,7 @@ const IconArrowLeft = () => (
   </svg>
 );
 
-// ── Shared icon button style ───────────────────────────────────────────────────
+// ── Shared styles ──────────────────────────────────────────────────────────────
 const iconBtn = {
   width: 36, height: 36, borderRadius: "50%", border: `1px solid ${borderColor}`,
   background: white, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
@@ -170,7 +171,6 @@ function TopBar() {
 
 // ── Hero banner ────────────────────────────────────────────────────────────────
 function HeroBanner() {
-  // stable booking ID so it doesn't change on re-render
   const [bookingId] = useState(
     () => "HPN" + Math.random().toString(36).substr(2, 5).toUpperCase()
   );
@@ -208,7 +208,6 @@ function HeroBanner() {
         </div>
       </div>
 
-      {/* Decorative right panel */}
       <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "42%", overflow: "hidden" }}>
         <svg viewBox="0 0 500 170" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} preserveAspectRatio="xMidYMid slice">
           <defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#C8EEE9"/><stop offset="100%" stopColor="#A5DDD7"/></linearGradient></defs>
@@ -279,18 +278,18 @@ function ProgressSteps() {
 function getDriverInfo(ride) {
   if (ride?.driver?.user) {
     return {
-      name:    ride.driver.user.name || "Driver",
-      initials:(ride.driver.user.name || "D").split(" ").map(n => n[0]).join(""),
-      rating:  ride.driver.averageRating || 4.8,
-      rides:   ride.driver.totalRides || 120,
+      name:     ride.driver.user.name || "Driver",
+      initials: (ride.driver.user.name || "D").split(" ").map(n => n[0]).join(""),
+      rating:   ride.driver.averageRating || 4.8,
+      rides:    ride.driver.totalRides || 120,
     };
   }
   if (ride?.driverName) {
     return {
-      name:    ride.driverName,
-      initials:(ride.driverName || "D").split(" ").map(n => n[0]).join(""),
-      rating:  ride.rating || 4.8,
-      rides:   ride.rides || 120,
+      name:     ride.driverName,
+      initials: (ride.driverName || "D").split(" ").map(n => n[0]).join(""),
+      rating:   ride.rating || 4.8,
+      rides:    ride.rides || 120,
     };
   }
   return { name: "Driver", initials: "D", rating: 4.8, rides: 120 };
@@ -304,22 +303,26 @@ function getVehicleInfo(ride) {
 
 // ── Main export ────────────────────────────────────────────────────────────────
 export default function BookingConfirmation() {
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { ride, selectedSeat, seatDetails, totalFare } = location.state || {};
+
+  // ── NEW: state for the backend booking call ──────────────────────────────────
+  const [creating,    setCreating]    = useState(false);
+  const [createError, setCreateError] = useState("");
 
   const defaultRide = {
     from: "Sharda University, Greater Noida",
     to:   "Noida Sector 62",
     date: "12 May 2025, Monday",
     time: "09:30 AM",
-    distance:     "32.4 km",
-    duration:     "45 min",
-    farePerSeat:  230,
-    baseFare:     210,
-    platformFee:  20,
-    discount:     -23,
-    totalFare:    207,
+    distance:    "32.4 km",
+    duration:    "45 min",
+    farePerSeat: 230,
+    baseFare:    210,
+    platformFee: 20,
+    discount:    -23,
+    totalFare:   207,
   };
 
   const finalRide        = ride        || defaultRide;
@@ -329,6 +332,45 @@ export default function BookingConfirmation() {
 
   const driver  = getDriverInfo(finalRide);
   const vehicle = getVehicleInfo(finalRide);
+
+  // ── NEW: async handler — creates booking on backend, then navigates ──────────
+  const handleProceedToPayment = async () => {
+    setCreating(true);
+    setCreateError("");
+    try {
+      let bookingDbId = null;
+
+      // Only hit the backend if the ride has a real MongoDB _id
+      if (finalRide?._id) {
+        const data = await bookingService.create({
+          rideId:      finalRide._id,
+          seatId:      finalSeat,
+          seatLabel:   finalSeatDetails.label,
+          seatPrice:   finalSeatDetails.price || 0,
+          baseFare:    finalRide.baseFare    || finalRide.farePerSeat || 210,
+          platformFee: finalRide.platformFee || 20,
+          discount:    Math.abs(finalRide.discount || 0),
+          promoCode:   "HOPIN10",
+          totalFare:   finalTotalFare,
+        });
+        bookingDbId = data.booking._id;
+      }
+
+      navigate("/payment", {
+        state: {
+          ride:         finalRide,
+          selectedSeat: finalSeat,
+          seatDetails:  finalSeatDetails,
+          totalFare:    finalTotalFare,
+          bookingDbId,          // Payment page uses this so it doesn't create a duplicate
+        },
+      });
+    } catch (err) {
+      setCreateError(err.message || "Could not create booking. Please try again.");
+    } finally {
+      setCreating(false);
+    }
+  };
 
   return (
     <>
@@ -344,11 +386,6 @@ export default function BookingConfirmation() {
         }
       `}</style>
 
-      {/*
-        KEY FIX: removed height:100vh + overflow:hidden from root.
-        The parent AppLayout's right column already handles scrolling
-        with overflowY:auto, so we just let this page flow naturally.
-      */}
       <div style={{ display: "flex", flexDirection: "column", fontFamily: "'Inter', sans-serif", background: bgPage }}>
         <TopBar />
         <div className="bc-content" style={{ flex: 1, padding: "24px 28px 32px" }}>
@@ -422,10 +459,10 @@ export default function BookingConfirmation() {
                 <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
                   <div style={{ flex: 1, minWidth: 180 }}>
                     {[
-                      { label: "Base Fare",                     value: `₹${finalRide.baseFare || 210}.00`,   color: teal },
+                      { label: "Base Fare",                     value: `₹${finalRide.baseFare || 210}.00`,     color: teal },
                       { label: "Seat Fare",                     value: `₹${finalSeatDetails.price || 150}.00`, color: teal },
-                      { label: "Platform Fee",                  value: `₹${finalRide.platformFee || 20}.00`, color: teal },
-                      { label: "Discount Applied (HOPIN10)",    value: `₹${finalRide.discount || -23}.00`,   color: red  },
+                      { label: "Platform Fee",                  value: `₹${finalRide.platformFee || 20}.00`,   color: teal },
+                      { label: "Discount Applied (HOPIN10)",    value: `₹${finalRide.discount || -23}.00`,     color: red  },
                     ].map((row) => (
                       <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: `1px solid ${borderColor}` }}>
                         <span style={{ fontSize: 13.5, color: row.label.includes("Discount") ? red : textSecondary }}>{row.label}</span>
@@ -526,6 +563,14 @@ export default function BookingConfirmation() {
 
           {/* ── Bottom action bar ── */}
           <div style={{ background: white, borderRadius: 16, marginTop: 24, border: `1px solid ${borderColor}`, overflow: "hidden" }}>
+
+            {/* NEW: error message above buttons */}
+            {createError && (
+              <div style={{ background: "#FEF2F2", border: "1px solid #FECACA", padding: "12px 20px", fontSize: 13, color: red }}>
+                {createError}
+              </div>
+            )}
+
             <div style={{ display: "flex" }}>
               <button
                 onClick={() => navigate(-1)}
@@ -538,19 +583,26 @@ export default function BookingConfirmation() {
               >
                 <IconArrowLeft /> Back
               </button>
+
+              {/* CHANGED: now calls handleProceedToPayment */}
               <button
-                onClick={() => navigate("/payment", { state: { ride: finalRide, selectedSeat: finalSeat, seatDetails: finalSeatDetails, totalFare: finalTotalFare } })}
+                onClick={handleProceedToPayment}
+                disabled={creating}
                 style={{
                   flex: 2, padding: "18px 0", border: "none",
-                  background: `linear-gradient(90deg, ${teal}, ${tealDark})`,
-                  fontSize: 15, fontWeight: 700, color: white, cursor: "pointer",
+                  background: creating
+                    ? "#94A3B8"
+                    : `linear-gradient(90deg, ${teal}, ${tealDark})`,
+                  fontSize: 15, fontWeight: 700, color: white,
+                  cursor: creating ? "not-allowed" : "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
                   letterSpacing: 0.2,
                 }}
               >
-                Proceed to Payment <IconArrow />
+                {creating ? "Preparing..." : "Proceed to Payment"} {!creating && <IconArrow />}
               </button>
             </div>
+
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "10px 0", background: "#FAFAFA", borderTop: `1px solid ${borderColor}` }}>
               <IconLock />
               <span style={{ fontSize: 12, color: textSecondary }}>Secure checkout · Multiple payment options</span>
