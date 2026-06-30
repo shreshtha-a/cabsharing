@@ -1,24 +1,27 @@
 import React from "react";
+import RideCard from "./RideCard";
+
+const ride = {
+  date: "28 Jun, 2025",
+  time: "06:00 PM",
+  from: "Noida Sector 62",
+  fromAddress: "Sector 62, Noida",
+  to: "Connaught Place",
+  toAddress: "New Delhi",
+  price: 250
+};
 
 export default function RideList() {
   return (
-    <div style={styles.container}>
-      Ride List Area
+    <div>
+      <h3 style={{
+        color:"#122B58",
+        marginBottom:"18px"
+      }}>
+        Upcoming Rides
+      </h3>
+
+      <RideCard ride={ride}/>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    background: "#FFFFFF",
-    borderRadius: "24px",
-    border: "1px solid #E8EEF5",
-    minHeight: "450px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    boxShadow: "0 10px 30px rgba(15,36,84,0.05)",
-    color: "#94A3B8",
-    fontWeight: "600",
-  },
-};
