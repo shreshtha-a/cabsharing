@@ -20,7 +20,7 @@ import {
   FiShield,
 } from "react-icons/fi";
 import { GiCarSeat, GiSteeringWheel, GiWallet } from "react-icons/gi";
-import LandingNav from "../components/LandingNav";
+import LandingNav from "../components/landing/LandingNav";
 
 // ---------- Static content ----------
 
