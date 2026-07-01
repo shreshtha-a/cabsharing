@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { bookingService } from "../services/bookingService"; // ← NEW
+import { bookingService } from "../services/bookingService"; // ← NEW FORM
 
 // ── Design tokens ──────────────────────────────────────────────────────────────
 const teal          = "#0B9E8E";
@@ -13,7 +13,7 @@ const bgPage        = "#F8FAFA";
 const white         = "#FFFFFF";
 const red           = "#EF4444";
 
-// ── Inline SVG Icons ───────────────────────────────────────────────────────────
+// ── Inline SVG Icon───────────────────────────────────────────────────────────
 const IconSearch = () => (
   <svg width="18" height="18" fill="none" stroke="#9CA3AF" strokeWidth="1.8" viewBox="0 0 24 24">
     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>

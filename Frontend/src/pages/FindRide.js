@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { rideService, bookingService } from "../services/rideService";
+import { rideService, bookingService } from "../services/rideServices";
 import { getLocalRides } from "../utils/localRides";
 // steps on it
 const CITIES = ["Agra", "Delhi", "Jaipur", "Mathura", "Noida", "Gurgaon", "Lucknow", "Mumbai", "Pune", "Bangalore"];

@@ -13,3 +13,4 @@ router.delete("/emergency-contacts/:contactId", protect, ctrl.removeEmergencyCon
 router.put   ("/deactivate",                 protect, ctrl.deactivateAccount);
 
 module.exports = router;
+//exports router

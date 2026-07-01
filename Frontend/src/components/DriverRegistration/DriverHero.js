@@ -3,6 +3,7 @@ import hopinLogo from "../../assets/HopinLogo.png";
 import RegistrationForm from "./RegistrationForm";
 import FeatureBar from "./FeatureBar";
 /// driver hero section with background video, logo, heading, features, and registration form
+//import 
 import {
   FaWallet,
   FaShieldAlt,

@@ -7,7 +7,6 @@ import AboutUs from "./pages/AboutUs";
 import HowItWorks from "./pages/HowItWorks";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Header from "./components/Header";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import RecurringRide from "./pages/RecurringRide";
