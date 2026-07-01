@@ -4,7 +4,6 @@ import { rideService } from "../services/rideServices";
 import { getLocalRides } from "../utils/localRides";
 
 import HeroSection from "../components/HeroSection";
-import SafetyCard from "../components/SafetyCard";
 import SOSCard from "../components/SOSCard";
 
 // ─── Helpers ──────────────────────────────────────────────
@@ -34,7 +33,6 @@ function RealDriverCard({ ride }) {
   const tags        = getRidePreferenceTags(ride);
 
   const handleBookClick = () => {
-    // Pass ride data to seat selector page
     navigate("/select-seat", { 
       state: { ride } 
     });
@@ -81,7 +79,6 @@ function LocalRideCard({ ride }) {
   if (p.musicAllowed)    tags.push("Music Lover");
 
   const handleBookClick = () => {
-    // Pass ride data to seat selector page
     navigate("/select-seat", { 
       state: { ride } 
     });
@@ -141,6 +138,7 @@ export default function Home() {
   const [apiRides,   setApiRides]   = useState([]);
   const [localRides, setLocalRides] = useState([]);
   const [loading,    setLoading]    = useState(true);
+  const [error,      setError]      = useState(null);
 
 
   useEffect(() => {
@@ -159,11 +157,12 @@ export default function Home() {
     (async () => {
       try {
         setLoading(true);
+        setError(null);
         const res = await rideService.getRides({ seats: 1 });
         setApiRides((res.data.rides || []).slice(0, 6));
       } catch (err) {
         setError("Could not load rides from server");
-        //SETERROR NOT DEFINED
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -219,6 +218,9 @@ export default function Home() {
             <div>
               <h2 style={{ margin: 0, fontSize: "18px", fontWeight: "700", color: "#0F2D52" }}>Available Rides</h2>
               <p style={{ margin: "2px 0 0", fontSize: "12px", color: "#64748B" }}>Live from our platform</p>
+              {error && (
+                <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#DC2626" }}>{error}</p>
+              )}
             </div>
             <button onClick={() => navigate("/find-ride")} style={{ background: "none", border: "1px solid #14B8A6", color: "#14B8A6", borderRadius: "10px", padding: "6px 14px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}>See All →</button>
           </div>
@@ -244,7 +246,6 @@ export default function Home() {
         </div>
 
         <div style={styles.rightPanel}>
-          <SafetyCard />
           <SOSCard />
         </div>
       </div>
