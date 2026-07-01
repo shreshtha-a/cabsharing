@@ -23,6 +23,7 @@ const adminRoutes        = require("./routes/admin.routes");
 const searchRoutes       = require("./routes/search.routes");
 const analyticsRoutes    = require("./routes/analytics.routes");
 const uploadRoutes       = require("./routes/upload.routes");
+const messageRoutes      = require("./routes/message.routes");
 
 require("./config/passport")();
 
@@ -35,13 +36,42 @@ const io = new Server(server, {
 
 app.set("io", io);
 
+// Tracks how many open sockets each user currently has (multiple tabs/devices)
+const onlineUsers = new Map();
+
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id);
+
   socket.on("join_ride", (rideId) => socket.join(`ride_${rideId}`));
+
+  // Join this user's personal room so events like io.to(`user_${id}`) reach them
+  // (used by booking notifications and now by messages)
+  socket.on("join_user", (userId) => {
+    if (!userId) return;
+    socket.join(`user_${userId}`);
+    socket.userId = userId;
+
+    const count = (onlineUsers.get(userId) || 0) + 1;
+    onlineUsers.set(userId, count);
+    io.emit("user_status", { userId, online: true });
+  });
+
   socket.on("driver_location", ({ rideId, lat, lng }) => {
     io.to(`ride_${rideId}`).emit("location_update", { lat, lng });
   });
-  socket.on("disconnect", () => console.log("Socket disconnected:", socket.id));
+
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected:", socket.id);
+    if (socket.userId) {
+      const remaining = (onlineUsers.get(socket.userId) || 1) - 1;
+      if (remaining <= 0) {
+        onlineUsers.delete(socket.userId);
+        io.emit("user_status", { userId: socket.userId, online: false });
+      } else {
+        onlineUsers.set(socket.userId, remaining);
+      }
+    }
+  });
 });
 
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
@@ -65,6 +95,7 @@ app.use("/api/admin",         adminRoutes);
 app.use("/api/search",        searchRoutes);
 app.use("/api/analytics",     analyticsRoutes);
 app.use("/api/upload",        uploadRoutes);
+app.use("/api/messages",      messageRoutes);
 
 app.get("/api/health", (req, res) =>
   res.json({ status: "OK", message: "Hopin Backend Running" })
