@@ -1,21 +1,47 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
 import LoginModal from "./LoginModal";
+
+const navItems = [
+  { label: "Offer a Ride", to: "/offer-ride" },
+  { label: "Find a Ride", to: "/search" },
+  { label: "Safety", to: "/safety" },
+  { label: "How It Works", to: "/how-it-works" },
+  { label: "About Us", to: "/about" },
+  { label: "Blog", to: "/blog" },
+];
 
 export default function LandingNav() {
   const [mobile, setMobile] = useState(window.innerWidth <= 900);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const handleResize = () => {
-      setMobile(window.innerWidth <= 900);
-    };
-
+    const handleResize = () => setMobile(window.innerWidth <= 900);
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const getLinkStyle = (to) => ({
+    textDecoration: "none",
+    color: location.pathname === to ? "#14B8A6" : "#061B4D",
+    fontSize: "16px",
+    fontWeight: "600",
+    cursor: "pointer",
+    borderBottom: location.pathname === to ? "2px solid #14B8A6" : "none",
+    paddingBottom: location.pathname === to ? "2px" : "0",
+    background: "none",
+    border: location.pathname === to ? "none" : "none",
+    borderBottomColor: location.pathname === to ? "#14B8A6" : "transparent",
+    borderBottomWidth: "2px",
+    borderBottomStyle: "solid",
+    padding: "0",
+    paddingBottom: location.pathname === to ? "2px" : "0",
+    transition: "color 0.2s",
+  });
 
   const styles = {
     nav: {
@@ -23,10 +49,10 @@ export default function LandingNav() {
       top: 0,
       left: 0,
       right: 0,
-      zIndex: 100,
+      zIndex: 999,
       width: "100%",
+      pointerEvents: "auto",
     },
-
     container: {
       maxWidth: "1500px",
       margin: "0 auto",
@@ -35,48 +61,31 @@ export default function LandingNav() {
       alignItems: "flex-start",
       justifyContent: "space-between",
     },
-
     logoWrapper: {
       display: "flex",
       flexDirection: "column",
+      cursor: "pointer",
     },
-
     logo: {
       fontSize: "3rem",
       fontWeight: "800",
       color: "#061B4D",
-      textDecoration: "none",
       lineHeight: 1,
       letterSpacing: "-2px",
-      cursor: "pointer",
     },
-
-    logoAccent: {
-      color: "#14B8A6",
-    },
-
+    logoAccent: { color: "#14B8A6" },
     tagline: {
       marginTop: "6px",
       fontSize: "14px",
       color: "#42526E",
       fontWeight: "500",
     },
-
     navLinks: {
       display: mobile ? "none" : "flex",
       gap: "50px",
       marginTop: "10px",
+      alignItems: "center",
     },
-
-    link: {
-      textDecoration: "none",
-      color: "#061B4D",
-      fontSize: "16px",
-      fontWeight: "600",
-      cursor: "pointer",
-      transition: "0.3s ease",
-    },
-
     login: {
       display: mobile ? "none" : "block",
       background: "transparent",
@@ -87,7 +96,6 @@ export default function LandingNav() {
       cursor: "pointer",
       marginTop: "10px",
     },
-
     menuButton: {
       display: mobile ? "block" : "none",
       border: "none",
@@ -96,13 +104,12 @@ export default function LandingNav() {
       cursor: "pointer",
       color: "#061B4D",
     },
-
     mobileMenu: {
       display: "flex",
       flexDirection: "column",
       gap: "20px",
       padding: "25px 35px",
-      background: "rgba(255,255,255,0.95)",
+      background: "rgba(255,255,255,0.97)",
       backdropFilter: "blur(15px)",
       borderRadius: "20px",
       margin: "10px 20px",
@@ -115,24 +122,24 @@ export default function LandingNav() {
       <nav style={styles.nav}>
         <div style={styles.container}>
           {/* Logo */}
-          <div style={styles.logoWrapper}>
+          <div style={styles.logoWrapper} onClick={() => navigate("/")}>
             <div style={styles.logo}>
               Hop<span style={styles.logoAccent}>in</span>
             </div>
-
-            <div style={styles.tagline}>
-              Going your way anyway.
-            </div>
+            <div style={styles.tagline}>Going your way anyway.</div>
           </div>
 
           {/* Desktop Links */}
           <div style={styles.navLinks}>
-            <span style={styles.link}>Offer a Ride</span>
-            <span style={styles.link}>Find a Ride</span>
-            <span style={styles.link}>Safety</span>
-            <span style={styles.link}>How It Works</span>
-            <span style={styles.link}>About Us</span>
-            <span style={styles.link}>Blog</span>
+            {navItems.map(({ label, to }) => (
+              <span
+                key={to}
+                style={getLinkStyle(to)}
+                onClick={() => navigate(to)}
+              >
+                {label}
+              </span>
+            ))}
           </div>
 
           {/* Right Side */}
@@ -144,10 +151,7 @@ export default function LandingNav() {
               {menuOpen ? <HiX /> : <HiMenu />}
             </button>
           ) : (
-            <button
-              style={styles.login}
-              onClick={() => setShowLogin(true)}
-            >
+            <button style={styles.login} onClick={() => setShowLogin(true)}>
               Log In
             </button>
           )}
@@ -156,15 +160,20 @@ export default function LandingNav() {
         {/* Mobile Menu */}
         {mobile && menuOpen && (
           <div style={styles.mobileMenu}>
-            <span style={styles.link}>Offer a Ride</span>
-            <span style={styles.link}>Find a Ride</span>
-            <span style={styles.link}>Safety</span>
-            <span style={styles.link}>How It Works</span>
-            <span style={styles.link}>About Us</span>
-            <span style={styles.link}>Blog</span>
-
+            {navItems.map(({ label, to }) => (
+              <span
+                key={to}
+                style={getLinkStyle(to)}
+                onClick={() => {
+                  setMenuOpen(false);
+                  navigate(to);
+                }}
+              >
+                {label}
+              </span>
+            ))}
             <span
-              style={styles.link}
+              style={getLinkStyle("")}
               onClick={() => {
                 setMenuOpen(false);
                 setShowLogin(true);
@@ -176,10 +185,7 @@ export default function LandingNav() {
         )}
       </nav>
 
-      <LoginModal
-        isOpen={showLogin}
-        onClose={() => setShowLogin(false)}
-      />
+      <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </>
   );
 }

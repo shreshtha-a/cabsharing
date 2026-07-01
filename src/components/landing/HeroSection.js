@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import heroVideo from "../../assets/videos/hero-video.mp4";
 import PassengerCard from "./PassengerCard";
 import DriverCard from "./DriverCard";
 
 export default function HeroSection() {
   const mobile = window.innerWidth < 768;
+  const navigate = useNavigate();
 
   return (
     <section
@@ -53,7 +55,6 @@ export default function HeroSection() {
           paddingTop: mobile ? "150px" : "180px",
           paddingLeft: mobile ? "24px" : "50px",
           paddingRight: mobile ? "24px" : "50px",
-
           display: "flex",
           flexDirection: mobile ? "column" : "row",
           justifyContent: "space-between",
@@ -148,7 +149,10 @@ export default function HeroSection() {
             }}
           >
             <PassengerCard />
-            <DriverCard />
+
+            <DriverCard
+              onClick={() => navigate("/signup-driver")}
+            />
           </div>
         </div>
       </div>
