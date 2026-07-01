@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar";
 import Landing from "./pages/Landing";
 import Safety from "./pages/Safety";
 import AboutUs from "./pages/AboutUs";
+import HowItWorks from "./pages/HowItWorks";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Header from "./components/Header";
@@ -88,6 +89,7 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/safety" element={<Safety />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/signup-driver" element={<SignupDriver />} />
         <Route path="/auth/forgot" element={<ForgotPassword />} />
         <Route path="/auth/reset" element={<ResetPassword />} />
