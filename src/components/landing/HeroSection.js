@@ -1,18 +1,47 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import heroVideo from "../../assets/videos/hero-video.mp4";
 import PassengerCard from "./PassengerCard";
 import DriverCard from "./DriverCard";
 
+// Reactive window width hook — updates on resize/orientation change
+function useViewport() {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+
+  useEffect(() => {
+    let frame;
+    const handleResize = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setWidth(window.innerWidth));
+    };
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return width;
+}
+
 export default function HeroSection() {
-  const mobile = window.innerWidth < 768;
+  const width = useViewport();
   const navigate = useNavigate();
+
+  const isMobile = width < 768;   // phones
+  const isTablet = width >= 768 && width < 1024; // tablets
+  const stackLayout = width < 1024; // stack left/right below 1024px
 
   return (
     <section
       style={{
         position: "relative",
         width: "100%",
-        minHeight: mobile ? "1150px" : "720px",
+        minHeight: stackLayout ? "auto" : "720px",
         overflow: "hidden",
       }}
     >
@@ -52,20 +81,23 @@ export default function HeroSection() {
           zIndex: 2,
           maxWidth: "1450px",
           margin: "0 auto",
-          paddingTop: mobile ? "150px" : "180px",
-          paddingLeft: mobile ? "24px" : "50px",
-          paddingRight: mobile ? "24px" : "50px",
+          paddingTop: "clamp(100px, 14vw, 180px)",
+          paddingBottom: stackLayout ? "50px" : "60px",
+          paddingLeft: "clamp(16px, 4vw, 50px)",
+          paddingRight: "clamp(16px, 4vw, 50px)",
           display: "flex",
-          flexDirection: mobile ? "column" : "row",
+          flexDirection: stackLayout ? "column" : "row",
           justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: mobile ? "50px" : "40px",
+          alignItems: stackLayout ? "center" : "flex-start",
+          gap: stackLayout ? "40px" : "40px",
+          textAlign: stackLayout ? "center" : "left",
         }}
       >
         {/* LEFT SIDE */}
         <div
           style={{
-            maxWidth: mobile ? "100%" : "430px",
+            maxWidth: stackLayout ? "100%" : "430px",
+            width: "100%",
           }}
         >
           <h1
@@ -73,21 +105,15 @@ export default function HeroSection() {
               margin: 0,
               color: "#061B4D",
               fontWeight: "800",
-              lineHeight: "1.03",
-              letterSpacing: "-2px",
-              fontSize: mobile ? "46px" : "56px",
+              lineHeight: "1.05",
+              letterSpacing: "-1.5px",
+              fontSize: "clamp(34px, 7vw, 56px)",
             }}
           >
             Better Rides
             <br />
             When{" "}
-            <span
-              style={{
-                color: "#14B8A6",
-              }}
-            >
-              Shared
-            </span>
+            <span style={{ color: "#14B8A6" }}>Shared</span>
           </h1>
 
           <p
@@ -96,7 +122,7 @@ export default function HeroSection() {
               color: "#475569",
               lineHeight: "1.7",
               fontWeight: "500",
-              fontSize: "16px",
+              fontSize: "clamp(14px, 2.2vw, 16px)",
             }}
           >
             Share rides, save money,
@@ -111,14 +137,14 @@ export default function HeroSection() {
             width: "100%",
             maxWidth: "620px",
             textAlign: "center",
-            marginTop: mobile ? "0" : "25px",
+            marginTop: stackLayout ? "0" : "25px",
           }}
         >
           <h2
             style={{
               margin: 0,
               color: "#FFFFFF",
-              fontSize: mobile ? "24px" : "20px",
+              fontSize: "clamp(18px, 3.5vw, 24px)",
               fontWeight: "700",
               textShadow: "0 3px 12px rgba(0,0,0,0.45)",
             }}
@@ -130,7 +156,7 @@ export default function HeroSection() {
             style={{
               marginTop: "10px",
               color: "#F8FAFC",
-              fontSize: "14px",
+              fontSize: "clamp(12px, 2vw, 14px)",
               textShadow: "0 2px 8px rgba(0,0,0,0.4)",
             }}
           >
@@ -145,14 +171,12 @@ export default function HeroSection() {
               alignItems: "stretch",
               gap: "18px",
               marginTop: "24px",
-              flexDirection: mobile ? "column" : "row",
+              flexDirection: isMobile ? "column" : "row",
+              flexWrap: "wrap",
             }}
           >
             <PassengerCard />
-
-            <DriverCard
-              onClick={() => navigate("/signup-driver")}
-            />
+            <DriverCard onClick={() => navigate("/signup-driver")} />
           </div>
         </div>
       </div>
