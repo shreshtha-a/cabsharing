@@ -61,6 +61,7 @@ function AppLayout() {
               </div>
             }
           />
+          
           <Route path="/messages" element={<Messages />} />
           <Route path="/recurring-rides" element={<RecurringRide />} />
           <Route path="/notifications" element={<Notifications />} />
