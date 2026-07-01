@@ -2,7 +2,7 @@ import heroVideo from "../../assets/videos/hero-video.mp4";
 import hopinLogo from "../../assets/HopinLogo.png";
 import RegistrationForm from "./RegistrationForm";
 import FeatureBar from "./FeatureBar";
-
+/// driver heroc
 import {
   FaWallet,
   FaShieldAlt,
