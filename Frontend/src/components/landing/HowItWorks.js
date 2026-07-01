@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   FaSearch,
   FaUsers,
@@ -8,7 +9,13 @@ import {
 } from "react-icons/fa";
 
 export default function HowItWorks() {
-  const mobile = window.innerWidth < 768;
+  const [mobile, setMobile] = useState(window.innerWidth <= 900);
+
+  useEffect(() => {
+    const handleResize = () => setMobile(window.innerWidth <= 900);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <section
@@ -55,12 +62,7 @@ export default function HowItWorks() {
             }}
           >
             {/* STEP 1 */}
-            <div
-              style={{
-                textAlign: "center",
-                maxWidth: "180px",
-              }}
-            >
+            <div style={{ textAlign: "center", maxWidth: "180px" }}>
               <div
                 style={{
                   width: "56px",
@@ -78,45 +80,21 @@ export default function HowItWorks() {
                 <FaSearch />
               </div>
 
-              <h4
-                style={{
-                  margin: 0,
-                  color: "#061B4D",
-                  fontSize: "15px",
-                  fontWeight: "600",
-                }}
-              >
+              <h4 style={{ margin: 0, color: "#061B4D", fontSize: "15px", fontWeight: "600" }}>
                 Search Route
               </h4>
 
-              <p
-                style={{
-                  marginTop: "8px",
-                  fontSize: "12px",
-                  color: "#64748B",
-                  lineHeight: "1.6",
-                }}
-              >
+              <p style={{ marginTop: "8px", fontSize: "12px", color: "#64748B", lineHeight: "1.6" }}>
                 Enter your pickup point and destination
               </p>
             </div>
 
             {!mobile && (
-              <div
-                style={{
-                  width: "70px",
-                  borderTop: "2px dashed #8d9299",
-                }}
-              />
+              <div style={{ width: "70px", borderTop: "2px dashed #8d9299" }} />
             )}
 
             {/* STEP 2 */}
-            <div
-              style={{
-                textAlign: "center",
-                maxWidth: "180px",
-              }}
-            >
+            <div style={{ textAlign: "center", maxWidth: "180px" }}>
               <div
                 style={{
                   width: "56px",
@@ -134,45 +112,21 @@ export default function HowItWorks() {
                 <FaUsers />
               </div>
 
-              <h4
-                style={{
-                  margin: 0,
-                  color: "#061B4D",
-                  fontSize: "15px",
-                  fontWeight: "600",
-                }}
-              >
+              <h4 style={{ margin: 0, color: "#061B4D", fontSize: "15px", fontWeight: "600" }}>
                 Match & Connect
               </h4>
 
-              <p
-                style={{
-                  marginTop: "8px",
-                  fontSize: "12px",
-                  color: "#64748B",
-                  lineHeight: "1.6",
-                }}
-              >
+              <p style={{ marginTop: "8px", fontSize: "12px", color: "#64748B", lineHeight: "1.6" }}>
                 Find or offer a ride that matches you
               </p>
             </div>
 
             {!mobile && (
-              <div
-                style={{
-                  width: "70px",
-                  borderTop: "2px dashed  #8d9299",
-                }}
-              />
+              <div style={{ width: "70px", borderTop: "2px dashed  #8d9299" }} />
             )}
 
             {/* STEP 3 */}
-            <div
-              style={{
-                textAlign: "center",
-                maxWidth: "180px",
-              }}
-            >
+            <div style={{ textAlign: "center", maxWidth: "180px" }}>
               <div
                 style={{
                   width: "56px",
@@ -190,25 +144,11 @@ export default function HowItWorks() {
                 <FaCarSide />
               </div>
 
-              <h4
-                style={{
-                  margin: 0,
-                  color: "#061B4D",
-                  fontSize: "15px",
-                  fontWeight: "600",
-                }}
-              >
+              <h4 style={{ margin: 0, color: "#061B4D", fontSize: "15px", fontWeight: "600" }}>
                 Travel Together
               </h4>
 
-              <p
-                style={{
-                  marginTop: "8px",
-                  fontSize: "12px",
-                  color: "#64748B",
-                  lineHeight: "1.6",
-                }}
-              >
+              <p style={{ marginTop: "8px", fontSize: "12px", color: "#64748B", lineHeight: "1.6" }}>
                 Enjoy the ride and save money
               </p>
             </div>
@@ -232,29 +172,13 @@ export default function HowItWorks() {
                 minHeight: "105px",
               }}
             >
-              <FaShieldAlt
-                size={24}
-                color="#14B8A6"
-              />
+              <FaShieldAlt size={24} color="#14B8A6" />
 
-              <h4
-                style={{
-                  margin: "12px 0 8px",
-                  color: "#061B4D",
-                  fontSize: "15px",
-                }}
-              >
+              <h4 style={{ margin: "12px 0 8px", color: "#061B4D", fontSize: "15px" }}>
                 Verified & Safe
               </h4>
 
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: "12px",
-                  color: "#64748B",
-                  lineHeight: "1.5",
-                }}
-              >
+              <p style={{ margin: 0, fontSize: "12px", color: "#64748B", lineHeight: "1.5" }}>
                 ID verification for your safety.
               </p>
             </div>
@@ -269,29 +193,13 @@ export default function HowItWorks() {
                 minHeight: "105px",
               }}
             >
-              <FaMapMarkerAlt
-                size={24}
-                color="#8B5CF6"
-              />
+              <FaMapMarkerAlt size={24} color="#8B5CF6" />
 
-              <h4
-                style={{
-                  margin: "12px 0 8px",
-                  color: "#061B4D",
-                  fontSize: "15px",
-                }}
-              >
+              <h4 style={{ margin: "12px 0 8px", color: "#061B4D", fontSize: "15px" }}>
                 Live Tracking
               </h4>
 
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: "12px",
-                  color: "#64748B",
-                  lineHeight: "1.5",
-                }}
-              >
+              <p style={{ margin: 0, fontSize: "12px", color: "#64748B", lineHeight: "1.5" }}>
                 Share your trip in real time.
               </p>
             </div>
@@ -306,29 +214,13 @@ export default function HowItWorks() {
                 minHeight: "105px",
               }}
             >
-              <FaHeadset
-                size={24}
-                color="#F59E0B"
-              />
+              <FaHeadset size={24} color="#F59E0B" />
 
-              <h4
-                style={{
-                  margin: "12px 0 8px",
-                  color: "#061B4D",
-                  fontSize: "15px",
-                }}
-              >
+              <h4 style={{ margin: "12px 0 8px", color: "#061B4D", fontSize: "15px" }}>
                 24/7 Support
               </h4>
 
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: "12px",
-                  color: "#64748B",
-                  lineHeight: "1.5",
-                }}
-              >
+              <p style={{ margin: 0, fontSize: "12px", color: "#64748B", lineHeight: "1.5" }}>
                 Our support team is always available.
               </p>
             </div>
