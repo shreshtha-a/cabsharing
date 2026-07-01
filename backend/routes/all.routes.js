@@ -87,3 +87,17 @@ adminRouter.get ("/tickets",                    combined.getSupportTickets);
 adminRouter.post("/tickets/:ticketId/reply",    combined.replyToTicket);
 adminRouter.get ("/analytics",                  combined.getAdminAnalytics);
 module.exports.adminRouter = adminRouter;
+
+// ─────────────────────────────────────────────────────────
+// ADD THIS BLOCK TO THE END OF YOUR EXISTING all.routes.js
+// (right before or after the admin.routes block — order doesn't matter)
+// ─────────────────────────────────────────────────────────
+
+// ── message.routes.js ────────────────────────────────────
+const messageRouter = express.Router();
+const messageCtrl   = require("../controllers/message.controller");
+messageRouter.get ("/conversations",         protect, messageCtrl.getConversations);
+messageRouter.get ("/conversations/:userId", protect, messageCtrl.getOrCreateConversation);
+messageRouter.get ("/:conversationId",       protect, messageCtrl.getMessages);
+messageRouter.post("/:userId",               protect, messageCtrl.sendMessage);
+module.exports.messageRouter = messageRouter;
