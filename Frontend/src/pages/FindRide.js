@@ -105,7 +105,7 @@ function LocalRideRow({ ride, isMobile }) {
           onClick={() => navigate("/offer-ride")}
           style={{ background: "#fff", color: "#14B8A6", border: "1.5px solid #14B8A6", borderRadius: "10px", padding: "8px 18px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}
         >
-          Contact
+          Book
         </button>
       </div>
     </div>
