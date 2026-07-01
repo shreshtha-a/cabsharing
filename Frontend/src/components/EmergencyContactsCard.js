@@ -283,8 +283,9 @@ export default function EmergencyContactsCard() {
           </div>
         </div>
       ))}
+      
 
-      {/* Bottom Note */}
+      {/* Bottom Note  & emergency */}
       <div
         style={{
           marginTop: "10px",
