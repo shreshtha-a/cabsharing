@@ -11,6 +11,7 @@ export default function EarningsCard() {
           <HiCurrencyRupee size={22} />
         </div>
       </div>
+      
 
       <h1 style={styles.amount}>₹2,430</h1>
 
@@ -50,7 +51,7 @@ padding:"24px",
 border:"1px solid #E8EEF5",
 boxShadow:"0 10px 30px rgba(15,36,84,.05)"
 },
-
+// card 
 header:{
 display:"flex",
 justifyContent:"space-between",
