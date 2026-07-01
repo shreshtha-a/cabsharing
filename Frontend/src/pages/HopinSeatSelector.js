@@ -2,24 +2,47 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 // ── Design tokens ──────────────────────────────────────────────────────────────
-const teal        = "#0B9E8E";
-const tealLight   = "#E6F7F6";
-const tealDark    = "#097A6D";
-const textPrimary = "#1A1A2E";
+const teal          = "#0B9E8E";
+const tealLight     = "#E6F7F6";
+const tealDark      = "#097A6D";
+const textPrimary   = "#1A1A2E";
 const textSecondary = "#6B7280";
-const borderColor = "#E5E7EB";
-const bgPage      = "#F8FAFA";
-const white       = "#FFFFFF";
-const red         = "#EF4444";
+const borderColor   = "#E5E7EB";
+const bgPage        = "#F8FAFA";
+const white         = "#FFFFFF";
+const red           = "#EF4444";
 
-// ── Seat data ──────────────────────────────────────────────────────────────────
-const SEATS = {
-  // frontLeft is the driver seat — NOT selectable by passengers
-  frontRight: { id: "frontRight", label: "Front Passenger Seat", price: 200 },
-  rearLeft:   { id: "rearLeft",   label: "Rear Left Seat",       price: 150 },
-  rearRight:  { id: "rearRight",  label: "Rear Right Seat",      price: 150 },
+// ── Normalize ride: handles both API rides and local rides ─────────────────────
+// API ride:   { source: { address }, destination: { address }, farePerSeat, date (ISO), time, driver, vehicle }
+// Local ride: { from, to, price, date, time, driverName, vehicle: { name } }
+function normalizeRide(raw) {
+  if (!raw) return null;
+  return {
+    _id:         raw._id || null,                                          // present on API rides
+    from:        raw.source?.address  || raw.from  || "Pickup",
+    to:          raw.destination?.address || raw.to || "Drop",
+    date:        raw.date
+                   ? (typeof raw.date === "string" && raw.date.includes("T")
+                       ? new Date(raw.date).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" })
+                       : raw.date)
+                   : "",
+    time:        raw.time || "",
+    farePerSeat: raw.farePerSeat || raw.price || 0,   // actual ride fare from DB
+    distance:    raw.estimatedDistance ? `${raw.estimatedDistance} km` : (raw.distance || ""),
+    duration:    raw.estimatedDuration ? `${raw.estimatedDuration} min` : (raw.duration || ""),
+    availableSeats: raw.availableSeats ?? raw.seats ?? 0,
+    // Keep the original for passing downstream
+    _raw: raw,
+  };
+}
+
+// ── Seat definitions — price is EXTRA on top of farePerSeat ───────────────────
+// frontRight costs +₹50 extra (premium front seat), rear seats are base price
+const SEAT_EXTRA = {
+  frontRight: { id: "frontRight", label: "Front Passenger Seat", extra: 50 },
+  rearLeft:   { id: "rearLeft",   label: "Rear Left Seat",       extra: 0  },
+  rearRight:  { id: "rearRight",  label: "Rear Right Seat",      extra: 0  },
 };
-const BASE_FARE = 120;
 
 // ── Car top-view SVG ───────────────────────────────────────────────────────────
 function CarTopView({ selected, onSelect }) {
@@ -60,32 +83,20 @@ function CarTopView({ selected, onSelect }) {
       <rect x="75" y="85"  width="170" height="80" rx="20" fill="#1a2e4488" />
       <rect x="75" y="315" width="170" height="80" rx="20" fill="#1a2e4488" />
       <rect x="60" y="170" width="200" height="140" rx="8" fill="#1a2e44cc" />
-
-      {/* Driver seat (locked) */}
-      {renderSeat(75, 180, false, "frontLeft", true)}
-      {/* Front passenger seat */}
+      {renderSeat(75,  180, false, "frontLeft", true)}
       {renderSeat(177, 180, frSel, "frontRight")}
-      {/* Rear seats */}
-      {renderSeat(75, 250, rlSel, "rearLeft")}
+      {renderSeat(75,  250, rlSel, "rearLeft")}
       {renderSeat(177, 250, rrSel, "rearRight")}
-
-      {/* Steering wheel */}
       <circle cx="109" cy="210" r="14" fill="none" stroke="#ffffff80" strokeWidth="3" />
       <circle cx="109" cy="210" r="4"  fill="#ffffff80" />
-
-      {/* Dash lines */}
       <line x1="75"  y1="277" x2="20"  y2="277" stroke={teal+"80"} strokeWidth="1.5" strokeDasharray="4,3" />
       <line x1="245" y1="277" x2="300" y2="277" stroke={teal+"80"} strokeWidth="1.5" strokeDasharray="4,3" />
       <line x1="75"  y1="207" x2="20"  y2="207" stroke="#88888840" strokeWidth="1.5" strokeDasharray="4,3" />
       <line x1="245" y1="207" x2="300" y2="207" stroke="#88888840" strokeWidth="1.5" strokeDasharray="4,3" />
-
-      {/* Wheels */}
       <rect x="18"  y="100" width="22" height="50" rx="8" fill="#444" />
       <rect x="280" y="100" width="22" height="50" rx="8" fill="#444" />
       <rect x="18"  y="330" width="22" height="50" rx="8" fill="#444" />
       <rect x="280" y="330" width="22" height="50" rx="8" fill="#444" />
-
-      {/* Lights */}
       <rect x="65"  y="62"  width="40" height="12" rx="4" fill="#fff7aa88" />
       <rect x="215" y="62"  width="40" height="12" rx="4" fill="#fff7aa88" />
       <rect x="65"  y="406" width="40" height="12" rx="4" fill="#ff444488" />
@@ -94,7 +105,6 @@ function CarTopView({ selected, onSelect }) {
   );
 }
 
-// ── Seat card button ───────────────────────────────────────────────────────────
 function SeatCard({ seat, isSelected, onClick }) {
   return (
     <button
@@ -127,36 +137,44 @@ function LegendItem({ color, label }) {
 
 // ── Main export ────────────────────────────────────────────────────────────────
 export default function SeatSelector() {
-  const navigate  = useNavigate();
-  const location  = useLocation();
-  const rideData  = location.state?.ride;
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const defaultRide = {
-    from: "Noida Sector 62",
-    to: "Sharda University",
-    date: "24 May, 2024",
-    time: "08:30 AM",
-    distance: "32.4 km",
-    duration: "45 min",
-    farePerSeat: 230,
-  };
+  // Normalize whichever ride shape arrives (API or local)
+  const ride = normalizeRide(location.state?.ride);
 
-  const ride      = rideData || defaultRide;
   const [selected, setSelected] = useState("rearLeft");
 
-  const seatFare  = selected ? SEATS[selected].price : 0;
-  const totalFare = BASE_FARE + seatFare;
+  // Seat price = ride's actual farePerSeat + any seat-type extra
+  const seatExtra = selected ? SEAT_EXTRA[selected].extra : 0;
+  const seatPrice = (ride?.farePerSeat || 0) + seatExtra;
+  const totalFare = seatPrice; // farePerSeat already IS the base; platform fee added at payment
+
+  // Build seat objects with real prices for display and passing downstream
+  const SEATS = {
+    frontRight: { ...SEAT_EXTRA.frontRight, price: (ride?.farePerSeat || 0) + SEAT_EXTRA.frontRight.extra },
+    rearLeft:   { ...SEAT_EXTRA.rearLeft,   price: (ride?.farePerSeat || 0) + SEAT_EXTRA.rearLeft.extra   },
+    rearRight:  { ...SEAT_EXTRA.rearRight,  price: (ride?.farePerSeat || 0) + SEAT_EXTRA.rearRight.extra  },
+  };
 
   const handleConfirmAndContinue = () => {
     navigate("/booking-confirmation", {
       state: {
-        ride,
+        ride:         ride?._raw || ride,  // pass original ride object downstream
         selectedSeat: selected,
         seatDetails:  SEATS[selected],
         totalFare,
       },
     });
   };
+
+  if (!ride) {
+    return (
+      <div style={{ padding: 40, textAlign: "center", color: textSecondary }}>
+        No ride selected. <button onClick={() => navigate("/home")} style={{ color: teal, background: "none", border: "none", cursor: "pointer", fontWeight: 600 }}>Go back home</button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ flex: 1, overflowY: "auto", background: bgPage, minHeight: "100vh", padding: "28px 28px 40px" }}>
@@ -193,9 +211,9 @@ export default function SeatSelector() {
             </div>
             <div style={{ display: "flex", gap: 16, marginTop: 14, flexWrap: "wrap" }}>
               {[
-                ["Date",    ride.date],
-                ["Time",    ride.time],
-                ["Vehicle", "4 Seater"],
+                ["Date",    ride.date || "—"],
+                ["Time",    ride.time || "—"],
+                ["Vehicle", ride.availableSeats ? `${ride.availableSeats + 1} Seater` : "4 Seater"],
               ].map(([l, v]) => (
                 <div key={l}>
                   <div style={{ fontSize: 10, color: textSecondary }}>{l}</div>
@@ -223,8 +241,8 @@ export default function SeatSelector() {
           <div style={{ background: white, borderRadius: 16, padding: "18px 20px", border: `1px solid ${borderColor}` }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: textPrimary, marginBottom: 12 }}>Fare Information</div>
             {[
-              ["Base Fare", `₹${BASE_FARE}`],
-              ["Seat Fare", `₹${seatFare}`],
+              ["Base Fare",  `₹${ride.farePerSeat}`],
+              ["Seat Extra", `₹${seatExtra}`],
             ].map(([l, v]) => (
               <div key={l} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: `1px solid ${borderColor}` }}>
                 <span style={{ fontSize: 13, color: textSecondary }}>{l}</span>
@@ -265,7 +283,6 @@ export default function SeatSelector() {
         {/* ── RIGHT: Seat selector ─────────────────────────────────────────── */}
         <div style={{ flex: 1, minWidth: 300, background: white, borderRadius: 16, padding: "22px 24px", border: `1px solid ${borderColor}` }}>
 
-          {/* Header row */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: textSecondary }}>Seat Map</div>
             <div style={{
@@ -275,14 +292,12 @@ export default function SeatSelector() {
             }}>🛡️ Secure &amp; Safe</div>
           </div>
 
-          {/* Legend */}
           <div style={{ display: "flex", gap: 18, marginBottom: 20 }}>
             <LegendItem color={teal}    label="Available" />
             <LegendItem color="#9ba0ab" label="Driver"    />
             <LegendItem color="#9ef0e0" label="Selected"  />
           </div>
 
-          {/* Front seat labels */}
           <div style={{ display: "flex", justifyContent: "space-between", maxWidth: 460, marginBottom: 6 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -300,14 +315,11 @@ export default function SeatSelector() {
             </div>
           </div>
 
-          {/* Car diagram */}
           <div style={{ display: "flex", justifyContent: "center", margin: "8px 0" }}>
             <CarTopView selected={selected} onSelect={setSelected} />
           </div>
 
-          {/* Seat cards — 3 selectable seats */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
-            {/* Front passenger */}
             <div style={{ display: "flex", gap: 12 }}>
               <SeatCard
                 seat={SEATS.frontRight}
@@ -315,7 +327,6 @@ export default function SeatSelector() {
                 onClick={() => setSelected("frontRight")}
               />
             </div>
-            {/* Rear seats */}
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
               <SeatCard
                 seat={SEATS.rearLeft}
@@ -355,18 +366,11 @@ export default function SeatSelector() {
               disabled={!selected}
               style={{
                 marginLeft: "auto",
-                background: selected
-                  ? `linear-gradient(90deg, ${teal}, ${tealDark})`
-                  : "#ccc",
-                color: white,
-                border: "none",
-                borderRadius: 12,
-                padding: "13px 24px",
-                fontSize: 14,
-                fontWeight: 700,
+                background: selected ? `linear-gradient(90deg, ${teal}, ${tealDark})` : "#ccc",
+                color: white, border: "none", borderRadius: 12,
+                padding: "13px 24px", fontSize: 14, fontWeight: 700,
                 cursor: selected ? "pointer" : "not-allowed",
-                letterSpacing: 0.2,
-                whiteSpace: "nowrap",
+                letterSpacing: 0.2, whiteSpace: "nowrap",
               }}
             >
               Confirm &amp; Continue →

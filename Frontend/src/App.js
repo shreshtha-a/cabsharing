@@ -27,6 +27,7 @@ import ReviewPublish from "./pages/ReviewPublish";
 import ChangePassword from "./pages/ChangePassword";
 import Messages from "./pages/Messages";
 import MyRides from "./pages/MyRides";
+import SignupDriver from "./components/landing/SignupDriver";
 import HelpCenter from "./pages/HelpCenter";
 import TermsConditions from "./pages/TermsConditions";
 
@@ -50,7 +51,15 @@ function AppLayout() {
           <Route path="/select-seat" element={<HopinSeatSelector />} />
           <Route path="/ride-preferences" element={<RidePreferences />} />
           <Route path="/rides" element={<MyRides />} />
-          <Route path="/rides/edit/:id" element={<div style={{ padding: "40px" }}><h2>Edit Ride</h2></div>} />
+          <Route
+            path="/rides/edit/:id"
+            element={
+              <div style={{ padding: "40px" }}>
+                <h2>Edit Ride</h2>
+                <p>Edit Ride page coming soon.</p>
+              </div>
+            }
+          />
           <Route path="/messages" element={<Messages />} />
           <Route path="/recurring-rides" element={<RecurringRide />} />
           <Route path="/notifications" element={<Notifications />} />
@@ -65,7 +74,6 @@ function AppLayout() {
           <Route path="/review-publish" element={<ReviewPublish />} />
           <Route path="/help-center" element={<HelpCenter />} />
           <Route path="/settings/terms-conditions" element={<TermsConditions />} />
-          {/* ❌ /safety was here — behind ProtectedRoute, wrong place */}
         </Routes>
       </div>
     </div>
@@ -76,15 +84,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* ✅ PUBLIC routes — no login needed */}
+        {/* PUBLIC routes — no login needed */}
         <Route path="/" element={<Landing />} />
-        <Route path="/safety" element={<Safety />} />  {/* ← moved here */}
+        <Route path="/safety" element={<Safety />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/signup-driver" element={<SignupDriver />} />
         <Route path="/auth/forgot" element={<ForgotPassword />} />
         <Route path="/auth/reset" element={<ResetPassword />} />
         <Route path="/auth/success" element={<AuthSuccess />} />
 
-        {/* ✅ PROTECTED routes — login required */}
+        {/* PROTECTED routes — login required */}
         <Route
           path="/*"
           element={
