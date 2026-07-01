@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import scenicRoadImg from "./scenic-road.png";
 
@@ -59,16 +59,54 @@ const gray  = "#6B7280";
 const white = "#FFFFFF";
 const border = "#E5E7EB";
 
-// ── StepBar (defined at module level, NOT inside JSX) ────────────────────────
+// ── Reactive viewport hook ────────────────────────────────────────────────────
 
-function StepBar({ current }) {
+function useViewport() {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+
+  useEffect(() => {
+    let frame;
+    const handleResize = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setWidth(window.innerWidth));
+    };
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return width;
+}
+
+// ── StepBar (responsive: scrolls horizontally on small screens) ──────────────
+
+function StepBar({ current, isMobile }) {
   const steps = ["Trip Details", "Ride Preferences", "Vehicle Details", "Review & Publish"];
   return (
-    <div style={{ display: "flex", alignItems: "center", marginBottom: 28 }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        marginBottom: 28,
+        overflowX: isMobile ? "auto" : "visible",
+        WebkitOverflowScrolling: "touch",
+        paddingBottom: isMobile ? 6 : 0,
+      }}
+    >
       {steps.map((label, i) => (
         <div
           key={label}
-          style={{ display: "flex", alignItems: "center", flex: i < steps.length - 1 ? 1 : 0 }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flex: i < steps.length - 1 ? (isMobile ? "0 0 auto" : 1) : 0,
+          }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
             <div
@@ -78,27 +116,32 @@ function StepBar({ current }) {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 background: i <= current ? teal : "#E5E7EB",
                 color: i <= current ? white : gray,
+                flexShrink: 0,
               }}
             >
               {i < current ? "✓" : i + 1}
             </div>
-            <span
-              style={{
-                fontSize: 13,
-                fontWeight: i === current ? 700 : 500,
-                color: i === current ? navy : gray,
-                whiteSpace: "nowrap",
-              }}
-            >
-              {label}
-            </span>
+            {(!isMobile || i === current) && (
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: i === current ? 700 : 500,
+                  color: i === current ? navy : gray,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {label}
+              </span>
+            )}
           </div>
           {i < steps.length - 1 && (
             <div
               style={{
-                flex: 1, height: 2,
+                flex: isMobile ? "0 0 24px" : 1,
+                height: 2,
                 background: i < current ? teal : "#E5E7EB",
-                margin: "0 10px", minWidth: 16,
+                margin: "0 10px",
+                minWidth: 16,
               }}
             />
           )}
@@ -113,6 +156,12 @@ function StepBar({ current }) {
 export default function HopinOfferRide() {
   const navigate = useNavigate();
   const saved = JSON.parse(localStorage.getItem("hopin_trip") || "{}");
+  const width = useViewport();
+
+  const isMobile = width < 640;
+  const isTablet = width >= 640 && width < 1024;
+  const stackFields = width < 640; // From/To, Date/Time/Seats, RideType/Price stack fully
+  const twoCol = width >= 640 && width < 900; // Date/Time/Seats becomes 2 cols on small tablets
 
   const [from,     setFrom]     = useState(saved.from     || "");
   const [to,       setTo]       = useState(saved.to       || "");
@@ -157,27 +206,73 @@ export default function HopinOfferRide() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F5F7FA", fontFamily: "'Inter', sans-serif", padding: "32px 24px" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#F5F7FA",
+        fontFamily: "'Inter', sans-serif",
+        padding: isMobile ? "20px 14px" : "32px 24px",
+        boxSizing: "border-box",
+      }}
+    >
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: 36, fontWeight: 800, color: navy, margin: 0 }}>
+        <div style={{ marginBottom: isMobile ? 18 : 24 }}>
+          <h1
+            style={{
+              fontSize: "clamp(24px, 6vw, 36px)",
+              fontWeight: 800,
+              color: navy,
+              margin: 0,
+            }}
+          >
             Offer a <span style={{ color: teal }}>Ride</span>
           </h1>
-          <p style={{ fontSize: 14, color: gray, marginTop: 6 }}>
+          <p style={{ fontSize: "clamp(12px, 2.5vw, 14px)", color: gray, marginTop: 6 }}>
             Share your journey and help others travel together.
           </p>
         </div>
 
         {/* Card */}
-        <div style={{ background: white, borderRadius: 20, padding: 32, boxShadow: "0 2px 20px rgba(0,0,0,0.07)" }}>
-          <StepBar current={0} />
+        <div
+          style={{
+            background: white,
+            borderRadius: isMobile ? 14 : 20,
+            padding: isMobile ? 18 : isTablet ? 24 : 32,
+            boxShadow: "0 2px 20px rgba(0,0,0,0.07)",
+            boxSizing: "border-box",
+          }}
+        >
+          <StepBar current={0} isMobile={isMobile} />
 
           {/* Section header */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: navy, margin: 0 }}>Trip Details</h2>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#F0FFFE", border: "1px solid #B2EDEA", borderRadius: 10, padding: "10px 14px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              marginBottom: 24,
+              flexWrap: "wrap",
+              gap: 12,
+            }}
+          >
+            <h2 style={{ fontSize: "clamp(17px, 3.5vw, 20px)", fontWeight: 700, color: navy, margin: 0 }}>
+              Trip Details
+            </h2>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                background: "#F0FFFE",
+                border: "1px solid #B2EDEA",
+                borderRadius: 10,
+                padding: "10px 14px",
+                width: isMobile ? "100%" : "auto",
+                boxSizing: "border-box",
+              }}
+            >
               <ShieldIcon />
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: navy }}>Verified & Safe</div>
@@ -187,7 +282,14 @@ export default function HopinOfferRide() {
           </div>
 
           {/* From / To */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: stackFields ? "1fr" : "1fr 1fr",
+              gap: 16,
+              marginBottom: 20,
+            }}
+          >
             <div>
               <label style={lStyle}>From</label>
               <div style={wrap}>
@@ -221,7 +323,14 @@ export default function HopinOfferRide() {
           </div>
 
           {/* Date / Time / Seats */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: stackFields ? "1fr" : twoCol ? "1fr 1fr" : "1fr 1fr 1fr",
+              gap: 16,
+              marginBottom: 20,
+            }}
+          >
             <div>
               <label style={lStyle}>Date of Travel</label>
               <div style={wrap}>
@@ -262,7 +371,14 @@ export default function HopinOfferRide() {
           </div>
 
           {/* Ride Type / Price */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 28 }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: stackFields ? "1fr" : "1fr 1fr",
+              gap: 20,
+              marginBottom: 28,
+            }}
+          >
             <div>
               <label style={lStyle}>Ride Type</label>
               <div style={{ display: "flex", background: "#F3F4F6", borderRadius: 10, padding: 4 }}>
@@ -287,10 +403,17 @@ export default function HopinOfferRide() {
             <div>
               <label style={lStyle}>Price per Seat (₹)</label>
               <div style={{ display: "flex", border: `1.5px solid ${border}`, borderRadius: 10, overflow: "hidden" }}>
-                <span style={{ padding: "11px 14px", fontSize: 16, fontWeight: 600, color: "#374151", borderRight: `1px solid ${border}`, background: "#FAFAFA" }}>₹</span>
+                <span
+                  style={{
+                    padding: "11px 14px", fontSize: 16, fontWeight: 600, color: "#374151",
+                    borderRight: `1px solid ${border}`, background: "#FAFAFA", flexShrink: 0,
+                  }}
+                >
+                  ₹
+                </span>
                 <input
                   type="number"
-                  style={{ flex: 1, padding: "11px 14px", border: "none", fontSize: 14, color: navy, outline: "none", background: white }}
+                  style={{ flex: 1, minWidth: 0, padding: "11px 14px", border: "none", fontSize: 14, color: navy, outline: "none", background: white }}
                   placeholder="e.g. 299"
                   value={price}
                   onChange={e => setPrice(e.target.value)}
@@ -308,18 +431,25 @@ export default function HopinOfferRide() {
           )}
 
           {/* CTA */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: isMobile ? "stretch" : "flex-end",
+            }}
+          >
             <button
               onClick={handleContinue}
               disabled={!canProceed}
               style={{
-                display: "flex", alignItems: "center", gap: 8,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                 background: canProceed ? teal : "#E5E7EB",
                 color: canProceed ? white : gray,
                 border: "none", borderRadius: 10,
                 padding: "13px 28px", fontSize: 15, fontWeight: 700,
                 cursor: canProceed ? "pointer" : "not-allowed",
                 transition: "all 0.2s",
+                width: isMobile ? "100%" : "auto",
               }}
             >
               Continue to Ride Preferences →
