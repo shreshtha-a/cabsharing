@@ -4,7 +4,6 @@ import { rideService } from "../services/rideServices";
 import { getLocalRides } from "../utils/localRides";
 
 import HeroSection from "../components/HeroSection";
-import SafetyCard from "../components/SafetyCard";
 import SOSCard from "../components/SOSCard";
 
 // ─── Helpers ──────────────────────────────────────────────
@@ -34,7 +33,6 @@ function RealDriverCard({ ride }) {
   const tags        = getRidePreferenceTags(ride);
 
   const handleBookClick = () => {
-    // Pass ride data to seat selector page
     navigate("/select-seat", { 
       state: { ride } 
     });
@@ -81,7 +79,6 @@ function LocalRideCard({ ride }) {
   if (p.musicAllowed)    tags.push("Music Lover");
 
   const handleBookClick = () => {
-    // Pass ride data to seat selector page
     navigate("/select-seat", { 
       state: { ride } 
     });
@@ -244,7 +241,6 @@ export default function Home() {
         </div>
 
         <div style={styles.rightPanel}>
-          <SafetyCard />
           <SOSCard />
         </div>
       </div>
