@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar";
 import Landing from "./pages/Landing";
+import Safety from "./pages/Safety";
+import AboutUs from "./pages/AboutUs";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Header from "./components/Header";
@@ -28,14 +30,12 @@ import MyRides from "./pages/MyRides";
 import HelpCenter from "./pages/HelpCenter";
 import TermsConditions from "./pages/TermsConditions";
 
-// ─── Auth guard ───────────────────────────────────────────────────────────────
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
   if (!token) return <Navigate to="/" replace />;
   return children;
 }
 
-// ─── Main layout (sidebar + page content) ─────────────────────────────────────
 function AppLayout() {
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F8FAFC" }}>
@@ -47,19 +47,10 @@ function AppLayout() {
           <Route path="/find-ride" element={<FindRide />} />
           <Route path="/search" element={<FindRide />} />
           <Route path="/offer-ride" element={<HopinOfferRide />} />
-          {/* Seat selector → passes state to booking-confirmation */}
           <Route path="/select-seat" element={<HopinSeatSelector />} />
           <Route path="/ride-preferences" element={<RidePreferences />} />
           <Route path="/rides" element={<MyRides />} />
-          <Route
-            path="/rides/edit/:id"
-            element={
-              <div style={{ padding: "40px" }}>
-                <h2>Edit Ride</h2>
-                <p>Edit Ride page coming soon.</p>
-              </div>
-            }
-          />
+          <Route path="/rides/edit/:id" element={<div style={{ padding: "40px" }}><h2>Edit Ride</h2></div>} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/recurring-rides" element={<RecurringRide />} />
           <Route path="/notifications" element={<Notifications />} />
@@ -67,33 +58,33 @@ function AppLayout() {
           <Route path="/settings" element={<HopinSettings />} />
           <Route path="/settings/accessibility" element={<Accessibility />} />
           <Route path="/driver-registration" element={<DriverRegistration />} />
-          {/* Booking confirmation → receives state from select-seat */}
           <Route path="/booking-confirmation" element={<BookingConfirmation />} />
-          {/* Payment → receives state from booking-confirmation */}
           <Route path="/payment" element={<Payment />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/vehicle-details" element={<VehicleDetails />} />
           <Route path="/review-publish" element={<ReviewPublish />} />
           <Route path="/help-center" element={<HelpCenter />} />
           <Route path="/settings/terms-conditions" element={<TermsConditions />} />
+          {/* ❌ /safety was here — behind ProtectedRoute, wrong place */}
         </Routes>
       </div>
     </div>
   );
 }
 
-// ─── Root ─────────────────────────────────────────────────────────────────────
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
+        {/* ✅ PUBLIC routes — no login needed */}
         <Route path="/" element={<Landing />} />
+        <Route path="/safety" element={<Safety />} />  {/* ← moved here */}
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/auth/forgot" element={<ForgotPassword />} />
         <Route path="/auth/reset" element={<ResetPassword />} />
         <Route path="/auth/success" element={<AuthSuccess />} />
 
-        {/* Protected app (all routes with sidebar) */}
+        {/* ✅ PROTECTED routes — login required */}
         <Route
           path="/*"
           element={
