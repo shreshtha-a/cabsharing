@@ -30,6 +30,7 @@ import MyRides from "./pages/MyRides";
 import SignupDriver from "./components/landing/SignupDriver";
 import HelpCenter from "./pages/HelpCenter";
 import TermsConditions from "./pages/TermsConditions";
+import Blog from "./pages/Blog";
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -93,6 +94,7 @@ export default function App() {
         <Route path="/auth/forgot" element={<ForgotPassword />} />
         <Route path="/auth/reset" element={<ResetPassword />} />
         <Route path="/auth/success" element={<AuthSuccess />} />
+        <Route path="/blog" element={<Blog />} />
 
         {/* PROTECTED routes — login required */}
         <Route

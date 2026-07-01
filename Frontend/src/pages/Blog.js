@@ -20,7 +20,7 @@ import {
   BsShieldCheck,
   BsClockHistory,
 } from "react-icons/bs";
-import LandingNav from "./LandingNav";
+import LandingNav from "../components/landing/LandingNav";
 
 const NAVY = "#061B4D";
 const TEAL = "#14B8A6";
