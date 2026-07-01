@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar";
 import Landing from "./pages/Landing";
+import Safety from "./pages/Safety";
+import AboutUs from "./pages/AboutUs";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
@@ -28,14 +30,12 @@ import SignupDriver from "./components/landing/SignupDriver";
 import HelpCenter from "./pages/HelpCenter";
 import TermsConditions from "./pages/TermsConditions";
 
-// ─── Auth guard ───────────────────────────────────────────────────────────────
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
   if (!token) return <Navigate to="/" replace />;
   return children;
 }
 
-// ─── Main layout (sidebar + page content) ─────────────────────────────────────
 function AppLayout() {
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F8FAFC" }}>
@@ -50,7 +50,6 @@ function AppLayout() {
           <Route path="/select-seat" element={<HopinSeatSelector />} />
           <Route path="/ride-preferences" element={<RidePreferences />} />
           <Route path="/rides" element={<MyRides />} />
-
           <Route
             path="/rides/edit/:id"
             element={
@@ -60,7 +59,6 @@ function AppLayout() {
               </div>
             }
           />
-
           <Route path="/messages" element={<Messages />} />
           <Route path="/recurring-rides" element={<RecurringRide />} />
           <Route path="/notifications" element={<Notifications />} />
@@ -81,19 +79,20 @@ function AppLayout() {
   );
 }
 
-// ─── Root ─────────────────────────────────────────────────────────────────────
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
+        {/* PUBLIC routes — no login needed */}
         <Route path="/" element={<Landing />} />
+        <Route path="/safety" element={<Safety />} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/signup-driver" element={<SignupDriver />} />
         <Route path="/auth/forgot" element={<ForgotPassword />} />
         <Route path="/auth/reset" element={<ResetPassword />} />
         <Route path="/auth/success" element={<AuthSuccess />} />
 
-        {/* Protected app (all routes with sidebar) */}
+        {/* PROTECTED routes — login required */}
         <Route
           path="/*"
           element={
